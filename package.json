@@ -1,19 +1,15 @@
 {
-  "name": "demo",
+  "name": "ye",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
+  "dependencies": {
+    "cheerio": "^0.22.0"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/WolverineX1990/h5Convert.git"
-  },
   "author": "zcj",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/WolverineX1990/h5Convert/issues"
-  },
-  "homepage": "https://github.com/WolverineX1990/h5Convert#readme"
+  "license": "MIT"
 }

@@ -18,6 +18,9 @@ class Rabbitpre {
 	}
 
 	toScene(scene) {
+		scene.propertys = {
+			name: this.data.name
+		};
 		var page = this.pages.shift();
 		// var page = this.pages[0];
 		// this.pages = [];
@@ -25,7 +28,7 @@ class Rabbitpre {
 		if(page) {
 			return insertScenePage(scene, page).then(res=> this.toScene(scene));	
 		} else {
-			return this;
+			return scene.publish();
 		}
 	}
 
@@ -44,8 +47,8 @@ class Rabbitpre {
 	    } else {
 	    	var dataReg = /var[\s|\w]*pageData[\s|\w]*=[\s|\w]*{([\s|\w|\W]+)/;
 	        return utils.getPageData(res, dataReg).then(res => {
-	        	this.data = res;
-	        	this.pages = JSON.parse(res).pages;
+	        	this.data = JSON.parse(res);
+	        	this.pages = this.data.pages;
 	        	return res;
 	        }, error=>console.log(error));
 	    }

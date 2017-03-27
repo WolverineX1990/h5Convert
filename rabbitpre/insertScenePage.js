@@ -27,7 +27,6 @@ function convertPage(scene, pageJson) {
 	} catch(err) {
 		console.log(err);
 	}
-	
 }
 
 function perfectJson(pageJson) {
@@ -38,18 +37,30 @@ function perfectJson(pageJson) {
 				var eleJson = elements[i];
 				if(compTypes[eleJson.cmpType]) {
 					var newJson = {
-						id: randomId(),
-						type: compTypes[eleJson.cmpType]
+						id: eleJson.tid,
+						// name: eleJson. tid,
+						type: compTypes[eleJson.cmpType],
 					};
 					newJson.css = eleJson.style;
+					newJson.css.zIndex = i + 1
 					newJson.css.position = undefined;
 					if(eleJson.cmpType == 'image') {
 						newJson.properties = {
 							src: eleJson.file.key
 						};
 					} else if(eleJson.cmpType == 'text') {
-						newJson.content = eleJson.text;
-						newJson.css.height = 'auto';
+						newJson.css.height = newJson.css['line-height'];
+						var fontSizeReg = /font-size:([\d|\s]*)px/;
+						if(fontSizeReg.test(eleJson.text)) {
+							var base = 23.4375 / 20;
+							newJson.css.lineHeight = eleJson.text.match(fontSizeReg)[1] * base + 'px';
+							newJson.css.height = newJson.css.lineHeight;
+							newJson.content = eleJson.text.replace(fontSizeReg, 'font-size:' + newJson.css.lineHeight);
+						} else {
+							newJson.css.lineHeight = '24px';
+							newJson.content = eleJson.text;
+						}
+						newJson.css['line-height'] = undefined;
 					}
 					extendComJson(newJson, eleJson);
 					elements[i] = newJson;

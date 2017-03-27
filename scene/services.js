@@ -7,7 +7,8 @@ module.exports = {
 	getViewData: getViewData,
 	setHeaders: setHeaders,
 	getSceneDetail: getSceneDetail,
-	getUpToken: getUpToken
+	getUpToken: getUpToken,
+	saveSetting: saveSetting
 };
 
 var http = require('http');
@@ -96,13 +97,32 @@ function getPages(sceneId) {
  * [publish 发布]
  * @return {[type]} [description]
  */
-function publish() {
-	
+function publish(sceneId, checkType) {
+	var url = serverHost + 'm/scene/publish?id=' + sceneId;
+    if (checkType) {
+        url += (/\?/.test(url) ? '&' : '?') + 'checkType=' + checkType;
+    }
+    url += '&?time='+Date.now();
+    return request.get({
+		url: url,
+		headers: _headers
+	});
 }
 
-function getViewData(sceneId) {
-	var url = s1Host + 'eqs/page/'+sceneId+'?time='+Date.now();
-	return request.get({url: url});
+/**
+ * [saveSetting 场景设置]
+ * @param  {[type]} meta [description]
+ * @return {[type]}      [description]
+ */
+function saveSetting(meta) {
+	var url = serverHost + 'm/scene/saveSettings';
+	var data = {
+		data: JSON.stringify(meta),
+		url: url,
+		headers: _headers
+	};
+	// data.headers['Content-Type'] = 'text/plain; charset=UTF-8';
+	return request.post(data);
 }
 
 /**
@@ -111,8 +131,13 @@ function getViewData(sceneId) {
  */
 function getUpToken() {
     return request.post({
-        url: config.eqxSeverHost + 'm/base/file/uptokens?type=image',
+        url: serverHost + 'm/base/file/uptokens?type=image',
         data: '',
         headers: _headers
     });
+}
+
+function getViewData(sceneId) {
+	var url = s1Host + 'eqs/page/'+sceneId+'?time='+Date.now();
+	return request.get({url: url});
 }

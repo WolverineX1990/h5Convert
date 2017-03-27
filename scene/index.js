@@ -21,6 +21,12 @@ class Scene {
 	get user() {
 		return this._user;
 	}
+
+	set propertys(pro) {
+		for(var key in pro) {
+			this.data[key] = pro[key];
+		}
+	}
 	
 	toRabbitpre() {
 		console.log(1);	
@@ -75,6 +81,10 @@ class Scene {
 				return this.uploadImg(url);
 			});
 		}
+	}
+
+	publish() {
+		return services.saveSetting(this.data).then(res=>services.publish(this.data.id));
 	}
 }
 

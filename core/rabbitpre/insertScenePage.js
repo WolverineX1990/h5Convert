@@ -1,5 +1,5 @@
 var aniTypes = require('./aniTypes');
-//bg 是自己加的类型
+//bg 是自己加的类型  兔展对应易企秀组件类型
 var compTypes = {
 	'image': 4,
 	'text': 2,
@@ -7,7 +7,6 @@ var compTypes = {
 	'map': 'm',
 	'bg': 3
 };
-
 
 function insertScenePage(scene, pageJson) {
 	if(pageJson.bgimage) {

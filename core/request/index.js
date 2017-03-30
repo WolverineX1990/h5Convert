@@ -7,6 +7,11 @@ var http = require('http');
 var URL = require('url');
 var header = require('./header');
 
+/**
+ * [get promise封装get接口]
+ * @param  {[type]} params [description]
+ * @return {[type]}        [description]
+ */
 function get(params) {
 	try {
 		var param = URL.parse(params.url);
@@ -42,6 +47,12 @@ function get(params) {
 	return promise;
 }
 
+/**
+ * [post promise封装post接口]
+ * @param  {[type]} params [description]
+ * @param  {[type]} config [description]
+ * @return {[type]}        [description]
+ */
 function post(params, config) {
 	try {
 		var param = URL.parse(params.url);

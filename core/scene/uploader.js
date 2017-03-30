@@ -8,8 +8,13 @@ var URL = require('url');
 var http = require('http');
 var config = require('./../config');
 
-function getBase64(imgUrl) {
-    var param = URL.parse(imgUrl);
+/**
+ * [getBase64 获取文件的base64数据]
+ * @param  {[type]} url [description]
+ * @return {[type]}        [description]
+ */
+function getBase64(url) {
+    var param = URL.parse(url);
     var promise = new Promise(function func(resolve, reject){
         var options = {
             host: param.host,
@@ -35,6 +40,12 @@ function getBase64(imgUrl) {
     return promise;
 }
 
+/**
+ * [upload 上传base64数据]
+ * @param  {[type]} data  [description]
+ * @param  {[type]} token [description]
+ * @return {[type]}       [description]
+ */
 function upload(data, token) {
     return request.post({
         url: 'http://up.qiniu.com/putb64/-1',

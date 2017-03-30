@@ -6,7 +6,7 @@ var compTypes = {
 	'text': 2
 };
 /**
- * 兔展场景
+ * 兔展场景对象
  */
 class Rabbitpre {
 	constructor(data) {
@@ -17,6 +17,11 @@ class Rabbitpre {
 		}
 	}
 
+	/**
+	 * [toScene 转易企秀]
+	 * @param  {[type]} scene [description]
+	 * @return {[type]}       [description]
+	 */
 	toScene(scene) {
 		scene.propertys = {
 			name: this.data.name,
@@ -29,7 +34,7 @@ class Rabbitpre {
 		if(page) {
 			return insertScenePage(scene, page).then(res=> this.toScene(scene));	
 		} else {
-			return setSceneMeta(this.data, scene);
+			return setEqxMeta(this.data, scene);
 		}
 	}
 
@@ -37,10 +42,19 @@ class Rabbitpre {
 
 	}
 
+	/**
+	 * [loadData 加载url中数据]
+	 * @return {[type]} [description]
+	 */
 	loadData() {
 		return utils.getHtml(this.dataUrl).then(res=>this.loadSuc(res));
 	}
 
+	/**
+	 * [loadSuc loadData的回调处理]
+	 * @param  {[type]} res [description]
+	 * @return {[type]}     [description]
+	 */
 	loadSuc(res) {
 		if(res.indexOf('Moved Temporarily') > -1) {
 	        var reg = /Moved Temporarily. Redirecting to[\s]*([\w|\s|\W]+)/;
@@ -58,19 +72,20 @@ class Rabbitpre {
 
 module.exports = Rabbitpre;
 
-function setSceneMeta(data, scene) {
-	console.log(1);
+/**
+ * [setEqxMeta 设置易企秀场景属性]
+ * @param {[type]} data  [description]
+ * @param {[type]} scene [description]
+ */
+function setEqxMeta(data, scene) {
 	if(data.imgurl){
-		console.log(2);
 		return scene.uploadImg(data.imgPath).then(res=> {
-			console.log(3);
 			var key = JSON.parse(res).key;
 			scene.propertys = {
 				cover: key
 			};
 			if(data.musicPath) {
 				return scene.uploadAudio(data.musicPath).then(res1=>{
-					console.log(4);
 					var key = JSON.parse(res1).key;
 					scene.propertys = {
 						bgAudio: JSON.stringify({

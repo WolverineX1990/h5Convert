@@ -14,14 +14,28 @@ class Scene {
 		}
 	}
 
+	/**
+	 * [user 设置用户]
+	 * @param  {[type]} user [description]
+	 * @return {[type]}      [description]
+	 */
 	set user(user) {
 		this._user = user;
 	}
 
+	/**
+	 * [user 获取用户]
+	 * @return {[type]} [description]
+	 */
 	get user() {
 		return this._user;
 	}
 
+	/**
+	 * [propertys 设置属性信息]
+	 * @param  {[type]} pro [description]
+	 * @return {[type]}     [description]
+	 */
 	set propertys(pro) {
 		for(var key in pro) {
 			this.data[key] = pro[key];
@@ -52,6 +66,10 @@ class Scene {
 	    }
 	}
 
+	/**
+	 * [loadPages 加载场景的所有页面数据]
+	 * @return {[type]} [description]
+	 */
 	loadPages() {
 		return services.getPages(this.data.id).then(res => {
 			this.pages = JSON.parse(res).list;
@@ -60,10 +78,19 @@ class Scene {
 		});
 	}
 
+	/**
+	 * [savePage 保存一页]
+	 * @param  {[type]} json [description]
+	 * @return {[type]}      [description]
+	 */
 	savePage(json) {
 		return services.savePage(json);
 	}
 
+	/**
+	 * [insertPage 插入一页]
+	 * @return {[type]} [description]
+	 */
 	insertPage() {
 		return services.createPage(this.currentPage.id).then(res => {
 			this.currentPage = JSON.parse(res).obj;
@@ -72,6 +99,11 @@ class Scene {
 		});
 	}
 
+	/**
+	 * [uploadImg 上传图片]
+	 * @param  {[type]} url [description]
+	 * @return {[type]}     [description]
+	 */
 	uploadImg(url) {
 		if(this.imageToken) {
 			return uploader.getBase64(url).then(res=> uploader.upload(res, this.imageToken));
@@ -82,7 +114,11 @@ class Scene {
 			});
 		}
 	}
-
+	/**
+	 * [uploadAudio 上传音乐]
+	 * @param  {[type]} url [description]
+	 * @return {[type]}     [description]
+	 */
 	uploadAudio(url) {
 		if(this.audioToken) {
 			return uploader.getBase64(url).then(res=> uploader.upload(res, this.audioToken));;
@@ -93,11 +129,12 @@ class Scene {
 			});
 		}
 	}
-
+	/**
+	 * [publish 保存设置并发布]
+	 * @return {[type]} [description]
+	 */
 	publish() {
-		console.log(this.data);
 		return services.saveSetting(this.data).then(res=>{
-			console.log(res);
 			return services.publish(this.data.id);
 		});
 	}

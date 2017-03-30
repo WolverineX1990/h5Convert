@@ -20,6 +20,10 @@ var vserverHost = config.eqxVSeverHost;
 var s1Host = config.eqxS1Host;
 var _headers;
 
+/**
+ * [setHeaders 设置http header]
+ * @param {[type]} headers [description]
+ */
 function setHeaders(headers) {
 	_headers = headers;
 }
@@ -81,19 +85,6 @@ function savePage(page) {
 }
 
 /**
- * [getPages 获取页面数据]
- * @param  {[type]} sceneId [description]
- * @return {[type]}         [description]
- */
-function getPages(sceneId) {
-	var url = serverHost + 'm/scene/pages/' + sceneId;
-	return request.get({
-		url: url,
-		headers: _headers
-	});
-}
-
-/**
  * [publish 发布]
  * @return {[type]} [description]
  */
@@ -135,6 +126,19 @@ function getUpToken(type) {
         data: '',
         headers: _headers
     });
+}
+
+/**
+ * [getPages 获取页面数据]
+ * @param  {[type]} sceneId [description]
+ * @return {[type]}         [description]
+ */
+function getPages(sceneId) {
+	var url = serverHost + 'm/scene/pages/' + sceneId;
+	return request.get({
+		url: url,
+		headers: _headers
+	});
 }
 
 function getViewData(sceneId) {

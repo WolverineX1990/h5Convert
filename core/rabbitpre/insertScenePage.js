@@ -1,12 +1,25 @@
 var aniTypes = require('./aniTypes');
+//bg 是自己加的类型
 var compTypes = {
 	'image': 4,
 	'text': 2,
 	'onecall': 8,
-	'map': 'm'
+	'map': 'm',
+	'bg': 3
 };
 
+
 function insertScenePage(scene, pageJson) {
+	if(pageJson.bgimage) {
+		pageJson.cmps.push({
+				id: randomId(),
+				cmpType: 'bg',
+				style: {},
+				properties: {
+					imgSrc: pageJson.bgimage
+				}
+			});
+	}
 	try {
 		if(scene.currentPage) {
 			return scene.insertPage().then(res1=>convertPage(scene, pageJson));
@@ -53,24 +66,16 @@ function perfectJson(pageJson) {
 						newJson.properties = {
 							src: eleJson.file.url || eleJson.file.key
 						};
-						// newJson.css.height = newJson.css.height * base;
-						// newJson.css.width = newJson.css.width * base;
 					} else if(eleJson.cmpType == 'text') {
-						
 						var fontSizeReg = /font-size:([\d|\s]*)px/;
 						var fontFamilyReg = /font-family: 微软雅黑/;
 						newJson.css.height = newJson.css['line-height'] + 14;
 						var text = eleJson.text.replace(fontFamilyReg, '');
-						// var arr = text.split('style="');
-						// var str = 'position: absolute;top: 0;left: 0;width: 100%;';
 						newJson.content = text;
 						if(fontSizeReg.test(eleJson.text)) {
 							newJson.css.lineHeight = eleJson.text.match(fontSizeReg)[1] + 'px';
-							// newJson.css.height = newJson.css.lineHeight;
-							// newJson.content = eleJson.text.replace(fontSizeReg, 'font-size:' + newJson.css.lineHeight);
 						} else {
 							newJson.css.lineHeight = '24px';
-							// newJson.content = eleJson.text;
 						}
 						newJson.css.width = newJson.css.width + 30;
 						newJson.css.left = newJson.css.left - 15;
@@ -162,8 +167,11 @@ function uploadRes(scene, pageJson) {
 	for(var i = 0;i<elements.length;i++) {
 		if(elements[i].type == 4 && elements[i].properties.src.indexOf('rabbitpre') > -1) {
 			if(imgList.indexOf(elements[i].properties.src) == -1) {
-				imgList.push(elements[i].properties.src);	
+				imgList.push(elements[i].properties.src);
 			}
+			list.push(elements[i]);
+		} else if(elements[i].type == 3) {
+			imgList.push(elements[i].properties.imgSrc);
 			list.push(elements[i]);
 		}
 	}
@@ -188,8 +196,14 @@ function uploadImgs(scene, imgList, cmps) {
 	return scene.uploadImg(url).then(res => {
 		var key = JSON.parse(res).key;
 		for(var i = 0;i < cmps.length;i++) {
-			if(cmps[i].properties.src == url) {
-				cmps[i].properties.src = key;
+			if(cmps[i].type == 4) {
+				if(cmps[i].properties.src == url) {
+					cmps[i].properties.src = key;
+				}
+			} else if(cmps[i].type == 3) {
+				if(cmps[i].properties.imgSrc == url) {
+					cmps[i].properties.imgSrc = key;
+				}
 			}
 		}
 		return uploadImgs(scene, imgList, cmps);

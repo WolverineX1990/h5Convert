@@ -9,11 +9,28 @@ module.exports = {
 	},
 	'fadeInDown': {
 		type: 1,
-		direction: 1
+		direction: 1,
+		name: '从上到下'
+	},
+	'rotateInUpRight': {
+		type: 31,
+		direction: 0,
+		name: '旋转进入'
+	},
+	'rotateInDownRight': {
+		type: 31,
+		direction: 0,
+		name: '旋转进入'
+	},
+	'rotateInDownLeft': {
+		type: 31,
+		direction: 0,
+		name: '旋转进入'
 	},
 	'fadeInRight': {
-		type: 1,
-		direction: 2
+		type: 2,
+		direction: 0,
+		name: '弹入'
 	},
 	'fadeInUp': {
 		type: 1,
@@ -46,7 +63,8 @@ module.exports = {
 	},
 	'zoomIn': {
 		type: 4,
-		direction: 0
+		direction: 0,
+		name: '中心放大'
 	},
 	'rubberBand': {
 		type: 5,
@@ -85,8 +103,9 @@ module.exports = {
 		direction: 0
 	},
 	'bounceOut': {
-		type: 14,
-		direction: 0
+		type: 3,
+		direction: 0,
+		name: '中心弹入'
 	},
 	'rollOut': {
 		type: 15,
@@ -194,7 +213,7 @@ module.exports = {
 	},
 	'translate': {
 		type: 7,
-		direction: 0
+		direction: 0,
 		name: '旋转'
 	}
 };

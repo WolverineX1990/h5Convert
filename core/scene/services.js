@@ -129,9 +129,9 @@ function saveSetting(meta) {
  * [getUpToken 获取上传token]
  * @return {[type]} [description]
  */
-function getUpToken() {
+function getUpToken(type) {
     return request.post({
-        url: serverHost + 'm/base/file/uptokens?type=image',
+        url: serverHost + 'm/base/file/uptokens?type=' + type,
         data: '',
         headers: _headers
     });

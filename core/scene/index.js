@@ -73,18 +73,33 @@ class Scene {
 	}
 
 	uploadImg(url) {
-		if(this.qiniuToken) {
-			return uploader.getBase64(url).then(res=> uploader.upload(res, this.qiniuToken));
+		if(this.imageToken) {
+			return uploader.getBase64(url).then(res=> uploader.upload(res, this.imageToken));
 		} else {
-			return services.getUpToken().then(res=>{
-				this.qiniuToken = JSON.parse(res).map.token;
+			return services.getUpToken('image').then(res=>{
+				this.imageToken = JSON.parse(res).map.token;
 				return this.uploadImg(url);
 			});
 		}
 	}
 
+	uploadAudio(url) {
+		if(this.audioToken) {
+			return uploader.getBase64(url).then(res=> uploader.upload(res, this.audioToken));;
+		} else {
+			return services.getUpToken('audio').then(res=>{
+				this.audioToken = JSON.parse(res).map.token;
+				return this.uploadAudio(url);
+			});
+		}
+	}
+
 	publish() {
-		return services.saveSetting(this.data).then(res=>services.publish(this.data.id));
+		console.log(this.data);
+		return services.saveSetting(this.data).then(res=>{
+			console.log(res);
+			return services.publish(this.data.id);
+		});
 	}
 }
 

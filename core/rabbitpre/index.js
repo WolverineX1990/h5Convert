@@ -19,7 +19,8 @@ class Rabbitpre {
 
 	toScene(scene) {
 		scene.propertys = {
-			name: this.data.name
+			name: this.data.name,
+			description: this.data.desc
 		};
 		var page = this.pages.shift();
 		// var page = this.pages[0];
@@ -28,7 +29,7 @@ class Rabbitpre {
 		if(page) {
 			return insertScenePage(scene, page).then(res=> this.toScene(scene));	
 		} else {
-			return scene.publish();
+			return setSceneMeta(this.data, scene);
 		}
 	}
 
@@ -56,3 +57,44 @@ class Rabbitpre {
 }
 
 module.exports = Rabbitpre;
+
+function setSceneMeta(data, scene) {
+	console.log(1);
+	if(data.imgurl){
+		console.log(2);
+		return scene.uploadImg(data.imgPath).then(res=> {
+			console.log(3);
+			var key = JSON.parse(res).key;
+			scene.propertys = {
+				cover: key
+			};
+			if(data.musicPath) {
+				return scene.uploadAudio(data.musicPath).then(res1=>{
+					console.log(4);
+					var key = JSON.parse(res1).key;
+					scene.propertys = {
+						bgAudio: JSON.stringify({
+							name: data.musicname,
+							url: key
+						})
+					};
+				 	return scene.publish();
+				});
+			} else {
+				return scene.publish();
+			}
+		});
+	} else if(data.musicPath) {
+		return scene.uploadAudio(data.musicPath).then(res1=>{
+			scene.propertys = {
+				bgAudio: {
+					name: data.musicname,
+					url: key
+				}
+			};
+		 	return scene.publish();
+		});
+	} else {
+		return scene.publish();
+	}
+}

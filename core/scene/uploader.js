@@ -1,6 +1,7 @@
 module.exports = {
     upload: upload,
-    getBase64: getBase64
+    getBase64: getBase64,
+    getSvg: getSvg
 };
 
 var request = require('./../request');
@@ -39,6 +40,37 @@ function getBase64(url) {
     });
     return promise;
 }
+
+/**
+ * [getSvg 获取svg]
+ * @param  {[type]} url [description]
+ * @return {[type]}        [description]
+ */
+function getSvg(url) {
+    var param = URL.parse(url);
+    var promise = new Promise(function func(resolve, reject){
+        var options = {
+            host: param.host,
+            path: param.path,
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36'
+            }
+        };
+        var req = http.get(options, function (response) {
+            var data = '';
+            response.on('data', function (res) {    //加载到内存
+                data += res;
+            }).on('end', function () {
+                resolve(data);
+            });
+        });
+        req.on('error', function(err) {
+            reject(err);
+        });
+    });
+    return promise;
+}
+
 
 /**
  * [upload 上传base64数据]

@@ -8,7 +8,8 @@ var compTypes = {
 	'bg': 3,
 	'btn': 2, //没有按钮 只有提交按钮，用text代替
 	'ginput': 5,
-	'gsubmit': 6
+	'gsubmit': 6,
+	'shape': 'h'
 };
 
 function insertScenePage(scene, pageJson) {
@@ -56,7 +57,7 @@ function perfectJson(pageJson) {
 				var eleJson = elements[i];
 				if(compTypes[eleJson.cmpType]) {
 					var newJson = {
-						id: eleJson.tid,
+						id: eleJson.tid || randomId(),
 						type: compTypes[eleJson.cmpType],
 					};
 
@@ -101,6 +102,22 @@ function perfectJson(pageJson) {
 						newJson.properties = {
 							title: eleJson.text,
 							text: eleJson.message
+						};
+					} else if(eleJson.cmpType == 'shape') {
+						newJson.properties = {
+							src: eleJson.src
+						};
+						if(eleJson.fill && eleJson.fill) {
+							newJson.properties.items = [];
+							for (var j = 0; j < eleJson.fill.length; j++) {
+								newJson.properties.items.push({
+									fill: eleJson.fill[j]
+								});
+							}
+						}
+					} else if(eleJson.cmpType == 'bg') {
+						newJson.properties = {
+							imgSrc: eleJson.properties.imgSrc
 						};
 					}
 					extendComJson(newJson, eleJson);
@@ -226,14 +243,34 @@ function uploadRes(scene, pageJson) {
 	var elements = pageJson.elements;
 	var list = [];
 	var imgList = [];
+	var urls = [];
 	for(var i = 0;i<elements.length;i++) {
 		if(elements[i].type == 4 && elements[i].properties.src.indexOf('rabbitpre') > -1) {
-			if(imgList.indexOf(elements[i].properties.src) == -1) {
-				imgList.push(elements[i].properties.src);
+			if(urls.indexOf(elements[i].properties.src) == -1) {
+				imgList.push({
+					url: elements[i].properties.src,
+					type: 'image'
+				});
+				urls.push(elements[i].properties.src);
+			}
+			list.push(elements[i]);
+		} else if(elements[i].type == 'h' && elements[i].properties.src.indexOf('rabbitpre') > -1) {
+			if(urls.indexOf(elements[i].properties.src) == -1) {
+				imgList.push({
+					url: elements[i].properties.src,
+					type: 'svg'
+				});
+				urls.push(elements[i].properties.src);
 			}
 			list.push(elements[i]);
 		} else if(elements[i].type == 3) {
-			imgList.push(elements[i].properties.imgSrc);
+			if(urls.indexOf(elements[i].properties.imgSrc) == -1) {
+				imgList.push({
+					url: elements[i].properties.imgSrc,
+					type: 'image'
+				});
+				urls.push(elements[i].properties.imgSrc);
+			}
 			list.push(elements[i]);
 		}
 	}
@@ -248,22 +285,22 @@ function uploadRes(scene, pageJson) {
 }
 
 function uploadImgs(scene, imgList, cmps) {
-	var url = imgList.shift();
-	if(!url) {
+	var obj = imgList.shift();
+	if(!obj) {
 		var promise = new Promise(function func(resolve, reject){
 			resolve(scene.currentPage);
 		});
 		return promise;
 	}
-	return scene.uploadImg(url).then(res => {
+	return scene.uploadImg(obj).then(res => {
 		var key = JSON.parse(res).key;
 		for(var i = 0;i < cmps.length;i++) {
-			if(cmps[i].type == 4) {
-				if(cmps[i].properties.src == url) {
+			if(cmps[i].type == 4 || cmps[i].type == 'h') {
+				if(cmps[i].properties.src == obj.url) {
 					cmps[i].properties.src = key;
 				}
 			} else if(cmps[i].type == 3) {
-				if(cmps[i].properties.imgSrc == url) {
+				if(cmps[i].properties.imgSrc == obj.url) {
 					cmps[i].properties.imgSrc = key;
 				}
 			}

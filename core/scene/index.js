@@ -101,16 +101,27 @@ class Scene {
 
 	/**
 	 * [uploadImg 上传图片]
-	 * @param  {[type]} url [description]
+	 * @param  {[type]} obj [description]
 	 * @return {[type]}     [description]
 	 */
-	uploadImg(url) {
+	uploadImg(obj) {
 		if(this.imageToken) {
-			return uploader.getBase64(url).then(res=> uploader.upload(res, this.imageToken));
+			if(obj.type == 'image') {
+				return uploader.getBase64(obj.url).then(res=> uploader.upload(res, this.imageToken));
+			} else if(obj.type == 'svg') {
+				return uploader.getSvg(obj.url).then(res=> {
+					var reg = /viewBox="([\s|\d]*)"/;
+					var result = res.match(reg)[1];
+					var arr = result.split(' ');
+					var svg = res.replace('<svg', '<svg width="'+arr[2]+'" height="'+ arr[3] +'"');
+					var base64 = new Buffer(svg, 'binary').toString('base64');
+					return uploader.upload(base64, this.imageToken);
+				});
+			}
 		} else {
 			return services.getUpToken('image').then(res=>{
 				this.imageToken = JSON.parse(res).map.token;
-				return this.uploadImg(url);
+				return this.uploadImg(obj);
 			});
 		}
 	}

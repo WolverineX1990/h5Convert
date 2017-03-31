@@ -79,7 +79,10 @@ module.exports = Rabbitpre;
  */
 function setEqxMeta(data, scene) {
 	if(data.imgurl){
-		return scene.uploadImg(data.imgPath).then(res=> {
+		return scene.uploadImg({
+			type: 'image',
+			url: data.imgPath
+		}).then(res=> {
 			var key = JSON.parse(res).key;
 			scene.propertys = {
 				cover: key

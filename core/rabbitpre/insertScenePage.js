@@ -5,7 +5,10 @@ var compTypes = {
 	'text': 2,
 	'onecall': 8,
 	'map': 'm',
-	'bg': 3
+	'bg': 3,
+	'btn': 2, //没有按钮 只有提交按钮，用text代替
+	'ginput': 5,
+	'gsubmit': 6
 };
 
 function insertScenePage(scene, pageJson) {
@@ -54,38 +57,51 @@ function perfectJson(pageJson) {
 				if(compTypes[eleJson.cmpType]) {
 					var newJson = {
 						id: eleJson.tid,
-						// name: eleJson. tid,
 						type: compTypes[eleJson.cmpType],
 					};
 
-					newJson.css = eleJson.style;
-					newJson.css.zIndex = i + 1
-					newJson.css.position = undefined;
+					newJson.css = getStyle(eleJson.style);
+					
+					newJson.css.zIndex = i + 1;
 					if(eleJson.cmpType == 'image') {
 						newJson.properties = {
 							src: eleJson.file.url || eleJson.file.key
 						};
 					} else if(eleJson.cmpType == 'text') {
-						var fontSizeReg = /font-size:([\d|\s]*)px/;
 						var fontFamilyReg = /font-family: 微软雅黑/;
-						newJson.css.height = newJson.css['line-height'] + 14;
+						newJson.css.height = eleJson.style['line-height'] + 14;
 						var text = eleJson.text.replace(fontFamilyReg, '');
 						newJson.content = text;
-						if(fontSizeReg.test(eleJson.text)) {
-							newJson.css.lineHeight = eleJson.text.match(fontSizeReg)[1] + 'px';
-						} else {
-							newJson.css.lineHeight = '24px';
-						}
+						newJson.css.lineHeight = 1;
 						newJson.css.width = newJson.css.width + 30;
 						newJson.css.left = newJson.css.left - 15;
 						newJson.css.top = newJson.css.top - 7;
-						newJson.css['line-height'] = undefined;
 					} else if(eleJson.cmpType == 'onecall') {
 						newJson.properties = {
 							title:  eleJson.telNum
 						};
 					} else if(eleJson.cmpType == 'map') {
 
+					} else if(eleJson.cmpType == 'btn') {
+						newJson.content = text;
+					} else if(eleJson.cmpType == 'ginput') {
+						newJson.properties = {
+							required: eleJson.required, 
+							placeholder: eleJson.name
+						}
+						if(eleJson.inptype == 'name') {
+							newJson.type = 501;
+						} else if(eleJson.inptype == 'tel') {
+							newJson.type = 502;
+						} else if(eleJson.inptype == 'email') {
+							newJson.type = 503;
+						}
+						
+					} else if(eleJson.cmpType == 'gsubmit') {
+						newJson.properties = {
+							title: eleJson.text,
+							text: eleJson.message
+						};
 					}
 					extendComJson(newJson, eleJson);
 					elements[i] = newJson;
@@ -100,6 +116,53 @@ function perfectJson(pageJson) {
 		
 	});
 	return promise;
+}
+
+function getStyle(style) {
+	var css = {
+		height: style.height,
+		width: style.width,
+		top: style.top,
+		left: style.left,
+		rotate: style.rotate,
+		transform: style.transform,
+		opacity: style.opacity,
+		color: style.color
+	};
+
+	if(style['line-height']) {
+		css.lineHeight = style['line-height'];
+	}
+
+	if(style['text-align']) {
+		css.textAlign = style['text-align'];
+	}
+
+	if(style['background-color']) {
+		css.backgroundColor = style['background-color'];
+	}
+
+	if(style['border-color']) {
+		css.borderColor = style['border-color'];
+	}
+
+	if(style['border-radius']) {
+		css.borderRadius = style['border-radius'];
+	}
+
+	if(style['border-style']) {
+		css.borderStyle = style['border-style'];
+	}
+
+	if(style['border-width']) {
+		css.borderWidth = style['border-width'];
+	}
+
+	if(style['font-size']) {
+		css.fontSize = style['font-size'];
+	}
+
+	return css;
 }
 
 function randomId() {

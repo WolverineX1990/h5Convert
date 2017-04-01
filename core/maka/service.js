@@ -20,8 +20,7 @@ function setHeaders(headers) {
 
 function createScene() {
 	return request.post({
-		data: querystring.stringify(data),
-		url: serverHost + 'template'//,
-		// headers: _headers
+		url: serverHost + 'template',
+		headers: _headers
 	});
 }

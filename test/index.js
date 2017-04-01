@@ -9,7 +9,7 @@
 var config = require('./../core/config').maka;
 var MakaUser = require('./../core/user/makaUser');
 var user = new MakaUser(config.userName, config.userPwd);
-var makaService = require('./../maka/service')
+var makaService = require('./../core/maka/service')
 user.login().then(res=>{
 	// for(var i = 0;i<user.cookie.length;i++) {
 	// 	var cookie = user.cookie[i];

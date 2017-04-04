@@ -87,7 +87,6 @@ function post(params, config) {
 			    			});
 			    		}
 			    	} else {
-			    		console.log(response.statusCode+':'+data);
 			    		resolve(data);
 			    	}
 			    });
@@ -97,7 +96,6 @@ function post(params, config) {
 		    	reject(err);
 		    });
 		    req.write(params.data);
-		    console.log(1);
 			req.end();
 		});
 	} catch(err) {

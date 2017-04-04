@@ -11,13 +11,18 @@ var MakaUser = require('./../core/user/makaUser');
 var user = new MakaUser(config.userName, config.userPwd);
 var makaService = require('./../core/maka/service')
 user.login().then(res=>{
-	// for(var i = 0;i<user.cookie.length;i++) {
-	// 	var cookie = user.cookie[i];
-	// 	var reg = /Makauid=([\d]+);/
-	// 	if(reg.test(cookie)) {
-	// 		console.log(cookie.match(reg)[1]);
-	// 	}
-	// }
+	for(var i = 0;i<user.cookie.length;i++) {
+		var cookie = user.cookie[i];
+		if(cookie.indexOf('Makauid=deleted') > -1 || cookie.indexOf('token=deleted') > -1) {
+			user.cookie.splice(i, 1);
+			i--;
+		}
+		// var reg = /Makauid=([\d]+);/
+		// if(reg.test(cookie)) {
+		// 	console.log(cookie.match(reg)[1]);
+		// }
+	}
+	console.log(user.cookie);
 	makaService.setHeaders({Origin: config.origin, cookie: user.cookie});
 	makaService.createScene().then(res=>console.log(res));
 });

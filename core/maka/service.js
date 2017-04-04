@@ -1,5 +1,6 @@
 module.exports = {
-	createScene: createScene
+	createScene: createScene,
+	setHeaders: setHeaders
 };
 
 var http = require('http');
@@ -20,7 +21,8 @@ function setHeaders(headers) {
 
 function createScene() {
 	return request.post({
-		url: serverHost + 'template',
-		headers: _headers
+		url: serverHost + 'template/',
+		headers: _headers,
+		data: ''
 	});
 }

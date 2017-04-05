@@ -9,7 +9,7 @@
 var config = require('./../core/config').maka;
 var MakaUser = require('./../core/user/makaUser');
 var user = new MakaUser(config.userName, config.userPwd);
-var makaService = require('./../core/maka/service')
+var makaService = require('./../core/maka/service');
 user.login().then(res=>{
 	for(var i = 0;i<user.cookie.length;i++) {
 		var cookie = user.cookie[i];
@@ -22,7 +22,13 @@ user.login().then(res=>{
 		// 	console.log(cookie.match(reg)[1]);
 		// }
 	}
-	console.log(user.cookie);
-	makaService.setHeaders({Origin: config.origin, cookie: user.cookie});
+	// console.log(user.cookie);
+	makaService.setHeaders({
+		Origin: config.origin, 
+		cookie: user.cookie,
+		Referer: 'http://maka.im/designer/projects'
+	});
 	makaService.createScene().then(res=>console.log(res));
+	// makaService.template('T_T53RBCYY').then(res=>console.log(res));
+	// makaService.test().then(res=>console.log(res), res1=>console.log(res1));
 });

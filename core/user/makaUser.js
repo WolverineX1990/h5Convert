@@ -6,7 +6,7 @@ class MakaUser {
 	constructor(name, pwd) {
 		this.name = name;
 		this.pwd = pwd;
-		this.url = config.severHost + 'user/login';
+		this.url = config.severHost + 'designer/login';
 	}
 
 	/**
@@ -15,7 +15,7 @@ class MakaUser {
 	 */
 	login() {
 		var postData = querystring.stringify({
-			username: this.name,
+			email: this.name,
 			password: this.pwd
 		});
 		var that = this;

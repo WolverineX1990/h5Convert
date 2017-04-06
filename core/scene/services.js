@@ -141,7 +141,7 @@ function getPages(sceneId) {
 	});
 }
 
-function getViewData(sceneId) {
-	var url = s1Host + 'eqs/page/'+sceneId+'?time='+Date.now();
+function getViewData(sceneId, sceneCode) {
+	var url = s1Host + 'eqs/page/'+sceneId+'?code='+sceneCode;
 	return request.get({url: url});
 }

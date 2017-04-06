@@ -58,7 +58,7 @@ class Rabbitpre {
 	loadSuc(res) {
 		if(res.indexOf('Moved Temporarily') > -1) {
 	        var reg = /Moved Temporarily. Redirecting to[\s]*([\w|\s|\W]+)/;
-	        utils.getHtml(res.match(reg)[1]).then(res=>this.loadSuc(res));
+	        return utils.getHtml(res.match(reg)[1]).then(res=>this.loadSuc(res));
 	    } else {
 	    	var dataReg = /var[\s|\w]*pageData[\s|\w]*=[\s|\w]*{([\s|\w|\W]+)/;
 	        return utils.getPageData(res, dataReg).then(res => {

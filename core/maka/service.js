@@ -33,5 +33,5 @@ function template(code) {
 	return request.get({
 		url: url,
 		headers: _headers
-	})
+	});
 }

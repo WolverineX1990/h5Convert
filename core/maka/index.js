@@ -5,7 +5,28 @@ var utils = require('./../utils');
  */
 class Maka {
 	constructor(data) {
+		if(typeof data == 'string') {
+			this.dataUrl = data;
+		} else {
+			this.data = data;
+		}
+	}
 
+	/**
+	 * [user 设置用户]
+	 * @param  {[type]} user [description]
+	 * @return {[type]}      [description]
+	 */
+	set user(user) {
+		this._user = user;
+	}
+
+	/**
+	 * [user 获取用户]
+	 * @return {[type]} [description]
+	 */
+	get user() {
+		return this._user;
 	}
 	
 	toScene() {

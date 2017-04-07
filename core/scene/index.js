@@ -2,6 +2,7 @@
 var utils = require('./../utils');
 var services = require('./services');
 var uploader = require('./uploader');
+var insertMakaPage = require('./insertMakaPage');
 /**
  * 易企秀场景
  */
@@ -46,8 +47,9 @@ class Scene {
 		console.log(1);	
 	}
 
-	toMaka() {
-
+	toMaka(maka) {
+		maka.data.music = [];
+		return insertMakaPage(maka, this.pages);
 	}
 
 	loadData() {

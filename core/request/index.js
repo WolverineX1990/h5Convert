@@ -31,7 +31,7 @@ function get(params) {
 		    var req = http.get(options, function (response) {
 			    response.setEncoding('utf-8');
 			    var data = '';
-			    response.on('data', function (res) {    //加载到内存
+			    response.on('data', function (res) {
 			        data += res;
 			    }).on('end', function () {
 			        resolve(data);
@@ -76,9 +76,11 @@ function post(params, config) {
 		    var req = http.request(options, function (response) {
 			    response.setEncoding('utf-8');
 			    var data = '';
+			    // console.log(response.statusCode);
 			    response.on('data', function (res) {    //加载到内存
 			        data += res;
 			    }).on('end', function () {
+			    	console.log(data);
 			    	if(config) {
 			    		if(config.getCookie) {
 			    			resolve({
@@ -92,7 +94,7 @@ function post(params, config) {
 			    });
 			});
 			req.on('error', function(err) {
-				console.log(err)
+				console.log(err);
 		    	reject(err);
 		    });
 		    req.write(params.data);

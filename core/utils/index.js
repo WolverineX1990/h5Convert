@@ -1,6 +1,8 @@
+var extend = require('./extend');
 module.exports = {
 	getHtml: getHtml,
-	getPageData: getPageData
+	getPageData: getPageData,
+	extend: extend
 };
 
 var http = require('http');

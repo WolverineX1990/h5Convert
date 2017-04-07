@@ -2,6 +2,7 @@
 var utils = require('./../utils');
 var services = require('./services');
 var uploader = require('./uploader');
+var insertMakaPage = require('./insertMakaPage');
 /**
  * 易企秀场景
  */
@@ -46,24 +47,28 @@ class Scene {
 		console.log(1);	
 	}
 
-	toMaka() {
-
+	toMaka(maka) {
+		maka.data.music = [];
+		return insertMakaPage(maka, this.pages);
 	}
 
 	loadData() {
-		utils.getHtml(this.dataUrl).then(res=>this.loadSuc(res));
+		return utils.getHtml(this.dataUrl).then(res=>this.loadSuc(res));
 	}
 
 	loadSuc(res) {
-		if(res.indexOf('Moved Temporarily') > -1) {
-	        var reg = /Moved Temporarily. Redirecting to[\s]*([\w|\s|\W]+)/;
-	        utils.getHtml(res.match(reg)[1]).then();
-	    } else {
-	    	var dataReg = /var[\s|\w]*pageData[\s|\w]*=[\s|\w]*{([\s|\w|\W]+)/;
-	        utils.getPageData(res, dataReg).then(function(res) {
+		var dataReg = /var[\s|\w]*scene[\s|\w]*=[\s|\w]*{([\s|\w|\W]+);/;
+        return utils.getPageData(res, dataReg).then(res => {
+        	this.data = eval("("+res+")");
+        	return this.loadViewPages();
+        }, error=>console.log(error));
+	}
 
-	        });
-	    }
+	loadViewPages() {
+		return services.getViewData(this.data.id, this.data.code).then(res=>{
+			this.pages = JSON.parse(res).list;
+			return this;
+		});
 	}
 
 	/**

@@ -69,7 +69,7 @@ function perfectCompJson(compJson) {
 		})
 	} else if(compJson.type == 4) {
 		extend(json, {
-			'cropData' {
+			'cropData': {
 				'height': 0,
 				'widht': 0,
 				'left': 0,

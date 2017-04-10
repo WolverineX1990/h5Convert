@@ -1,7 +1,8 @@
 module.exports = {
 	createScene: createScene,
 	setHeaders: setHeaders,
-	template: template
+	template: template,
+	getOssConfig: getOssConfig
 };
 
 var http = require('http');
@@ -30,6 +31,15 @@ function createScene() {
 
 function template(code) {
 	var url = serverHost + 'v4/template/' + code + '?template_type=designer&data_type=base';
+	return request.get({
+		url: url,
+		headers: _headers
+	});
+}
+
+function getOssConfig(userToken) {
+	var url = serverHost + 'ossSts2?token=' + userToken;
+
 	return request.get({
 		url: url,
 		headers: _headers

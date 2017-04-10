@@ -13,17 +13,22 @@ function insertMakaPage(maka, pages) {
 
 function perfectPageJson(pageJson) {
 	var json = {
-		'bgcolor': '',
+		'bgcolor': 'rgba(250,250,250,1)',
 		'bgpic': '',
-		'bgpicheight': '',
+		'bgpicheight': 1010,
 		'bgpicleft': 0,
-		'bgpictop': '',
-		'bgpicwidth': '640',
-		'content': []
+		'bgpictop': 0,
+		'bgpicwidth': 640,
+		'content': [],
+		"effect": "cubedown"
 	};
 	var elements = pageJson.elements;
 	for(var i = 0;i<elements.length;i++) {
-		json.content.push(perfectCompJson(elements[i]));
+		if(elements[i].type == 3) {
+			json.bgpic = elements[i].properties.imgSrc;
+		} else {
+			json.content.push(perfectCompJson(elements[i]));	
+		}		
 	}
 
 	return json;
@@ -33,17 +38,16 @@ function perfectCompJson(compJson) {
 	var json = {
 		'type': compTypes[compJson.type],
 		'height': 1,
-		'w': 640,
-		'left': 0,
-		'top': 100,
-		'selfH': 72,
-		'selfW': 640,
-		'opacity': 0.72,
-		'borderradius': '',
-		'boxshadow': '',
-		'border-color': '',
-		'border-width': '',
-		'con': '',
+		'w': compJson.css.width*2,
+		'left': compJson.css.left*2,
+		'top': compJson.css.top*2,
+		'selfH': compJson.css.height*2,
+		'selfW': compJson.css.width*2,
+		'opacity': compJson.css.opacity,//0.72
+		'borderradius': compJson.css.borderRadius,
+		'boxshadow': compJson.css.boxShadow,
+		'border-color': compJson.css.borderColor,
+		'border-width': compJson.css.borderWidth,
 		'lineheight': 1.2,
 		'prepara': 0,
 		'rotate': 0,
@@ -55,6 +59,7 @@ function perfectCompJson(compJson) {
 			'fontId': '',
 			'fontTag': '',
 			'fontUrl': '',
+			'con': compJson.content,
 			'fontVersion': 10,
 			'fontbold': false,
 			'fontitalic': false,
@@ -71,23 +76,22 @@ function perfectCompJson(compJson) {
 		extend(json, {
 			'cropData': {
 				'height': 0,
-				'widht': 0,
+				'width': 0,
 				'left': 0,
 				'top': 0
 			},
-			'picid': '',
+			'height': compJson.css.height*2,
+			'picid': compJson.properties.src,
 			'editable': true,
-			'inh': 0,
+			'inh': compJson.css.height*2,
 			'inleft': 0,
 			'intop': 0,
-			'inw': 0,
+			'inw': compJson.css.width*2,
 			"shape": 0,
 			'stylecolor': '',
 			'styleopacity': 0,
 			'version': 1
 		});
-	} else if(compJson.type == 3) {
-
 	} else if(compJson.type == 'h') {
 
 	}

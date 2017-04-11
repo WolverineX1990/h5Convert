@@ -2,7 +2,9 @@ var extend = require('./extend');
 module.exports = {
 	getHtml: getHtml,
 	getPageData: getPageData,
-	extend: extend
+	extend: extend,
+	each: each,
+	getBase64: getBase64
 };
 
 var http = require('http');
@@ -52,4 +54,46 @@ function getPageData(html, dataReg) {
 	});
 
 	return promise;
+}
+
+/**
+ * [getBase64 获取文件的base64数据]
+ * @param  {[type]} url [description]
+ * @return {[type]}        [description]
+ */
+function getBase64(url) {
+    var param = URL.parse(url);
+    var promise = new Promise(function func(resolve, reject){
+        var options = {
+            host: param.host,
+            path: param.path,
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36'
+            }
+        };
+        var req = http.get(options, function (response) {
+            response.setEncoding('binary');
+            var data = '';
+            response.on('data', function (res) {    //加载到内存
+                data += res;
+            }).on('end', function () {
+                var base64 = new Buffer(data, 'binary').toString('base64');
+                resolve(base64);
+            });
+        });
+        req.on('error', function(err) {
+            reject(err);
+        });
+    });
+    return promise;
+}
+
+function each(object, iterFunction) {
+    for (var key in object) {
+        if (object.hasOwnProperty(key)) {
+            var ret = iterFunction.call(this, key, object[key]);
+            // if (ret === ALY.util.abort)
+            //     break;
+        }
+    }
 }

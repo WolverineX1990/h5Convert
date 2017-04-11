@@ -30,13 +30,7 @@ class MakaUser {
 				getCookie: true
 			}).then(function(res) {
 				that.cookie = res.cookie;
-				for(var i = 0;i<that.cookie.length;i++) {
-					var cookie = that.cookie[i];
-					var reg = /Makauid=([\d]+);/
-					if(reg.test(cookie)) {
-						that.info = cookie.match(reg)[1];
-					}
-				}
+				that.info = JSON.parse(res.data).data;
 				resolve(that.info);
 			}, function(err) {
 				reject(err);

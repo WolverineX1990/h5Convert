@@ -52,6 +52,48 @@ class Maka {
 	        });
 	    }
 	}
+
+	/**
+	 * [uploadImg 上传图片]
+	 * @param  {[type]} obj [description]
+	 * @return {[type]}     [description]
+	 */
+	uploadImg(obj) {
+		if(this.ossConfig) {
+			if(obj.type == 'image') {
+				return uploader.getBase64(obj.url).then(res=> uploader.upload(res, this.imageToken));
+			} else if(obj.type == 'svg') {
+				return uploader.getSvg(obj.url).then(res=> {
+					var reg = /viewBox="([\s|\d]*)"/;
+					var result = res.match(reg)[1];
+					var arr = result.split(' ');
+					var svg = res.replace('<svg', '<svg width="'+arr[2]+'" height="'+ arr[3] +'"');
+					var base64 = new Buffer(svg, 'binary').toString('base64');
+					return uploader.upload(base64, this.imageToken);
+				});
+			}
+		} else {
+			return services.getUpToken('image').then(res=>{
+				this.imageToken = JSON.parse(res).map.token;
+				return this.uploadImg(obj);
+			});
+		}
+	}
+	/**
+	 * [uploadAudio 上传音乐]
+	 * @param  {[type]} url [description]
+	 * @return {[type]}     [description]
+	 */
+	uploadAudio(url) {
+		if(this.audioToken) {
+			return uploader.getBase64(url).then(res=> uploader.upload(res, this.audioToken));;
+		} else {
+			return services.getUpToken('audio').then(res=>{
+				this.audioToken = JSON.parse(res).map.token;
+				return this.uploadAudio(url);
+			});
+		}
+	}
 }
 
 module.exports = Maka;

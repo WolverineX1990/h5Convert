@@ -70,10 +70,9 @@ class Maka {
 					var suffixName = /\.[^\.]+$/.exec(imgUrl); 
 					var path = '/' + this.ossSts2.uploadPath +'images/' + utils.randomStr() + suffixName;
 					var resource = '/' + this.ossSts2.bucket + path;
-					var header = makaSign(this.ossSts2, binary, resource);
+					var header = getOssHeader(this.ossSts2, binary, resource);
 					var param = URL.parse(this.ossSts2.hostId);
 					var url = param.protocol + '//' + this.ossSts2.bucket + '.' + param.host + path;
-					// console.log(url);
 					return makaService.upload(url, binary, header).then(()=>url);
 				});
 			} else if(obj.type == 'svg') {

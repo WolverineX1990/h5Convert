@@ -52,8 +52,12 @@ function getOssSts2(userToken) {
 	});
 }
 
+/**
+ * [upload 上传]
+ * @param  {[type]} userToken [description]
+ * @return {[type]}           [description]
+ */
 function upload(path, data, headers) {
-	// extend(headers, _headers);
 	return request.put({
 		url: path,
 		headers: headers,

@@ -133,7 +133,6 @@ function put(params, config) {
 				method: 'PUT',
 				headers: headers
 			};
-			console.log(1);
 		    var req = http.request(options, function (response) {
 			    response.setEncoding('utf-8');
 			    var data = '';

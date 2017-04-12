@@ -2,7 +2,7 @@ module.exports = {
 	createScene: createScene,
 	setHeaders: setHeaders,
 	template: template,
-	getOssConfig: getOssConfig,
+	getOssSts2: getOssSts2,
 	upload: upload
 };
 
@@ -11,7 +11,7 @@ var querystring= require('querystring');
 var request = require('./../request');
 var config = require('./../config').maka;
 var serverHost = config.severHost;
-var utils = require('./../utils');
+var extend = require('./../utils').extend;
 
 var _headers;
 
@@ -40,11 +40,11 @@ function template(code) {
 }
 
 /**
- * [getOssConfig 获取阿里云token]
+ * [getOssSts2 获取阿里云token]
  * @param  {[type]} userToken [description]
  * @return {[type]}           [description]
  */
-function getOssConfig(userToken) {
+function getOssSts2(userToken) {
 	var url = serverHost + 'ossSts2?token=' + userToken;
 	return request.get({
 		url: url,
@@ -52,15 +52,8 @@ function getOssConfig(userToken) {
 	});
 }
 
-function upload(path, data, token) {
-	// x-oss-date
-	//x-oss-security-token
-	//Authorization
-	var headers = extend({
-			'x-oss-date': token.Credentials.Expiration,
-			'x-oss-security-token': token.Credentials.SecurityToken,
-			'Authorization': ''
-		}, _headers);
+function upload(path, data, headers) {
+	// extend(headers, _headers);
 	return request.put({
 		url: path,
 		headers: headers,

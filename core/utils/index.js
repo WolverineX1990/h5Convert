@@ -1,10 +1,13 @@
 var extend = require('./extend');
+var crypto = require('./crypto');
 module.exports = {
 	getHtml: getHtml,
 	getPageData: getPageData,
 	extend: extend,
 	each: each,
-	getBase64: getBase64
+	getResource: getResource,
+	crypto: crypto,
+	randomStr: randomStr
 };
 
 var http = require('http');
@@ -61,7 +64,7 @@ function getPageData(html, dataReg) {
  * @param  {[type]} url [description]
  * @return {[type]}        [description]
  */
-function getBase64(url) {
+function getResource(url) {
     var param = URL.parse(url);
     var promise = new Promise(function func(resolve, reject){
         var options = {
@@ -77,8 +80,7 @@ function getBase64(url) {
             response.on('data', function (res) {    //加载到内存
                 data += res;
             }).on('end', function () {
-                var base64 = new Buffer(data, 'binary').toString('base64');
-                resolve(base64);
+                resolve(data);
             });
         });
         req.on('error', function(err) {
@@ -96,4 +98,15 @@ function each(object, iterFunction) {
             //     break;
         }
     }
+}
+
+function randomStr(len) {
+    len = len || 32;
+    var chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
+    var maxPos = chars.length;
+    var pwd = '';
+    for (var i = 0; i < len; i++) {
+        pwd += chars.charAt(Math.floor(Math.random() * maxPos));
+    }
+    return pwd;
 }

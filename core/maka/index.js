@@ -1,5 +1,8 @@
 'use strict';
 var utils = require('./../utils');
+var service = require('./service');
+var crypto = utils.crypto;
+
 /**
  * MAKA场景
  */
@@ -59,9 +62,20 @@ class Maka {
 	 * @return {[type]}     [description]
 	 */
 	uploadImg(obj) {
-		if(this.ossConfig) {
+		if(this.ossSts2) {
 			if(obj.type == 'image') {
-				return uploader.getBase64(obj.url).then(res=> uploader.upload(res, this.imageToken));
+				return utils.getResource(obj.url).then(res=> {
+					var binary = new Buffer(res, 'binary');
+					var imgUrl = obj.url.split('?image')[0];
+					var suffixName = /\.[^\.]+$/.exec(imgUrl); 
+					var path = '/' + this.ossSts2.uploadPath +'images/' + utils.randomStr() + suffixName;
+					var resource = '/' + this.ossSts2.bucket + path;
+					var header = makaSign(this.ossSts2, binary, resource);
+					var param = URL.parse(this.ossSts2.hostId);
+					var url = param.protocol + '//' + this.ossSts2.bucket + '.' + param.host + path;
+					// console.log(url);
+					return makaService.upload(url, binary, header).then(()=>url);
+				});
 			} else if(obj.type == 'svg') {
 				return uploader.getSvg(obj.url).then(res=> {
 					var reg = /viewBox="([\s|\d]*)"/;
@@ -73,8 +87,8 @@ class Maka {
 				});
 			}
 		} else {
-			return services.getUpToken('image').then(res=>{
-				this.imageToken = JSON.parse(res).map.token;
+			return service.getOssSts2(this.info.token).then(res=>{
+				this.ossSts2 = JSON.parse(res).data;
 				return this.uploadImg(obj);
 			});
 		}
@@ -94,6 +108,23 @@ class Maka {
 			});
 		}
 	}
+}
+
+function getOssHeader(token, imgRes, resource) {
+	var credentials = token.token.Credentials;
+	var ContentMD5 = crypto.md5(imgRes, 'base64');
+	var header = {
+		'method': 'PUT',
+		'Content-MD5': ContentMD5,
+		'Content-Type': 'image/jpeg',
+		'x-oss-date': (new Date()).toUTCString(),
+		'x-oss-security-token': credentials.SecurityToken,
+		'x-sdk-client': ''
+	};
+	var signature = sign(credentials, header, resource);
+	var auth = 'OSS ' + credentials.AccessKeyId + ':' + signature;
+	header.Authorization = auth;
+	return header;
 }
 
 module.exports = Maka;

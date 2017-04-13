@@ -1,4 +1,5 @@
 var extend = require('./../utils').extend;
+var fileHost = 'http://res.eqh5.com/';
 var compTypes = {
 	'4': 'pic',
 	// 'h': '',
@@ -29,6 +30,7 @@ function perfectPageJson(pageJson) {
 	var elements = pageJson.elements;
 	for(var i = 0;i<elements.length;i++) {
 		if(elements[i].type == 3) {
+			var url = elements[i].properties.imgSrc;
 			json.bgpic = elements[i].properties.imgSrc;
 		} else {
 			json.content.push(perfectCompJson(elements[i]));	

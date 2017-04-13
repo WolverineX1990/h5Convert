@@ -23,38 +23,3 @@ function loginSuccess(res) {
 	});
 }
 scene.loadData().then(res=>user.login().then(loginSuccess));
-
-
-function getJson() {
-	var json = [{
-			effect: "cubedown",
-			bgcolor: " rgba(250,250,250,1)",
-			bgpic: "",
-			bgpicheight: "1010",
-			bgpicwidth: "640",
-			bgpictop: "0",
-			bgpicleft: "0",
-			content: []
-		}, {
-			effect: "cubedown",
-			bgcolor: " rgba(250,250,250,1)",
-			bgpic: "",
-			bgpicheight: "1010",
-			bgpicwidth: "640",
-			bgpictop: "0",
-			bgpicleft: "0",
-			content: []
-		}, {
-			effect: "cubedown",
-			bgcolor: " rgba(250,250,250,1)",
-			bgpic: "",
-			bgpicheight: "1010",
-			bgpicwidth: "640",
-			bgpictop: "0",
-			bgpicleft: "0",
-			content: []
-		}
-	];
-
-	return json;
-}

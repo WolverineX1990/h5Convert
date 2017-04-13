@@ -84,6 +84,11 @@ function perfectCompJson(compJson) {
 			'version': 21
 		})
 	} else if(compJson.type == 4) {
+		var url = compJson.properties.src;
+		var reg = /^http/;
+		if(!reg.test(url)) {
+			url = fileHost + url;
+		}
 		extend(json, {
 			'cropData': {
 				'height': 0,

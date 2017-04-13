@@ -73,6 +73,7 @@ class Maka {
 	 */
 	uploadImg(obj) {
 		if(this.ossSts2) {
+			console.log(obj.url);
 			return utils.getResource(obj.url).then(res=> {
 				var binary = new Buffer(res, 'binary');
 				var imgUrl = obj.url.split('?image')[0];

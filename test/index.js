@@ -16,13 +16,9 @@ function loginSuccess(res) {
 			var json = JSON.parse(res2).data;
 			var maka = new Maka(json);
 			maka.user = user;
-			maka.getJson().then(res3=>{
-				maka.jsonData.data.pdata.json = getJson();
-				maka.save().then(res4=>{
-					console.log('success');
-				});
+			maka.getJson().then(res3=> {
+				scene.toMaka(maka).then(res4=>console.log('success'));
 			});
-			// return scene.toMaka(maka);
 		});
 	});
 }

@@ -140,7 +140,6 @@ function put(params, config) {
 		    var req = http.request(options, function (response) {
 			    response.setEncoding('utf-8');
 			    var data = '';
-			    console.log(response.statusCode);
 			    response.on('data', function (res) {
 			        data += res;
 			    }).on('end', function () {

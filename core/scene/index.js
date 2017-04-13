@@ -48,7 +48,6 @@ class Scene {
 	}
 
 	toMaka(maka) {
-		maka.data.music = [];
 		return insertMakaPage(maka, this.pages);
 	}
 

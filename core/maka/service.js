@@ -57,7 +57,6 @@ function getTemplate(code) {
  */
 function saveTemplate(code, version) {
 	var url = serverHost + 'v4/template/' + code;
-	console.log(url);
 	var data = {
 		version: version
 	};

@@ -38,9 +38,7 @@ function convertPage(scene, pageJson) {
 	try {
 		scene.currentPage.elements = pageJson.cmps;
 		return perfectJson(scene.currentPage).then(res=>{
-			return uploadRes(scene, res).then(res1=>{
-				scene.savePage(res1)
-			});
+			return uploadRes(scene, res).then(res1=>scene.savePage(res1));
 		});	
 	} catch(err) {
 		console.log(err);

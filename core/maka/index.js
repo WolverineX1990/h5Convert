@@ -73,28 +73,21 @@ class Maka {
 	 */
 	uploadImg(obj) {
 		if(this.ossSts2) {
-			if(obj.type == 'image') {
-				return utils.getResource(obj.url).then(res=> {
-					var binary = new Buffer(res, 'binary');
-					var imgUrl = obj.url.split('?image')[0];
-					var suffixName = /\.[^\.]+$/.exec(imgUrl); 
-					var path = '/' + this.ossSts2.uploadPath +'images/' + utils.randomStr() + suffixName;
-					var resource = '/' + this.ossSts2.bucket + path;
-					var header = getOssHeader(this.ossSts2, binary, resource, 'image/jpeg');
-					var param = URL.parse(this.ossSts2.hostId);
-					var url = param.protocol + '//' + this.ossSts2.bucket + '.' + param.host + path;
-					return makaService.upload(url, binary, header).then(()=>url);
-				});
-			} else if(obj.type == 'svg') {
-				return uploader.getSvg(obj.url).then(res=> {
-					var reg = /viewBox="([\s|\d]*)"/;
-					var result = res.match(reg)[1];
-					var arr = result.split(' ');
-					var svg = res.replace('<svg', '<svg width="'+arr[2]+'" height="'+ arr[3] +'"');
-					var base64 = new Buffer(svg, 'binary').toString('base64');
-					return uploader.upload(base64, this.imageToken);
-				});
-			}
+			return utils.getResource(obj.url).then(res=> {
+				var binary = new Buffer(res, 'binary');
+				var imgUrl = obj.url.split('?image')[0];
+				var suffixName = /\.[^\.]+$/.exec(imgUrl); 
+				var path = '/' + this.ossSts2.uploadPath +'images/' + utils.randomStr() + suffixName;
+				var resource = '/' + this.ossSts2.bucket + path;
+				var header = getOssHeader(this.ossSts2, binary, resource, 'image/jpeg');
+				var param = URL.parse(this.ossSts2.hostId);
+				var url = param.protocol + '//' + this.ossSts2.bucket + '.' + param.host + path;
+				return service.upload(url, binary, header).then(()=>url);
+				// var promise = new Promise(function func(resolve, reject){
+				// 	resolve(url);
+				// });
+				// return promise;
+			});
 		} else {
 			return service.getOssSts2(this.user.info.token).then(res=>{
 				this.ossSts2 = JSON.parse(res).data;

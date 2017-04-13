@@ -1,14 +1,18 @@
 var extend = require('./../utils').extend;
 var compTypes = {
 	'4': 'pic',
-	'h': '',
+	// 'h': '',
 	'2': 'ptext'
 };
 
 function insertMakaPage(maka, pages) {
+	var makaPages = [];
 	for(var i = 0;i<pages.length;i++) {
 		var page = perfectPageJson(pages[i]);
+		makaPages.push(page);
 	}
+	maka.jsonData.data.pdata.json = makaPages;
+	return uploadRes(maka, makaPages).then(res=>maka.save());
 }
 
 function perfectPageJson(pageJson) {
@@ -97,6 +101,55 @@ function perfectCompJson(compJson) {
 	}
 
 	return json;
+}
+
+function uploadRes(maka, pages) {
+	var list = [];
+	var imgList = [];
+	var urls = [];
+	for(var i = 0;i<pages.length;i++) {
+		var cmps = pages[i].content;
+		for(var j = 0;j<cmps.length;j++) {
+			var cmp = cmps[j];
+			if(cmp.type === 'pic') {
+				if(urls.indexOf(cmp.picid) === -1) {
+					urls.push(cmp.picid);
+					imgList.push({
+						url: cmp.picid
+					});
+				}
+				list.push(cmp);
+			}
+		}
+	}
+	if(list.length) {
+		return uploadImgs(maka, imgList, list);
+	} else {
+		var promise = new Promise(function func(resolve, reject){
+			resolve();
+		});
+		return promise;
+	}
+}
+
+function uploadImgs(maka, imgList, cmps) {
+	var obj = imgList.shift();
+	if(!obj) {
+		var promise = new Promise(function func(resolve, reject){
+			resolve();
+		});
+		return promise;
+	}
+	return maka.uploadImg(obj).then(res => {
+		for(var i = 0;i < cmps.length;i++) {
+			if(cmps[i].picid == obj.url) {
+				cmps[i].picid = res;
+				cmps.splice(i, 1);
+				i--;
+			}
+		}
+		return uploadImgs(maka, imgList, cmps);
+    });
 }
 
 module.exports = insertMakaPage;

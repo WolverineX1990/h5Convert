@@ -78,21 +78,25 @@ function post(params, config) {
 		    var req = http.request(options, function (response) {
 			    response.setEncoding('utf-8');
 			    var data = '';
-			    // console.log(response.statusCode);
-			    response.on('data', function (res) {    //加载到内存
-			        data += res;
-			    }).on('end', function () {
-			    	if(config) {
-			    		if(config.getCookie) {
-			    			resolve({
-			    				data: data,
-			    				cookie: response.headers['set-cookie']
-			    			});
-			    		}
-			    	} else {
-			    		resolve(data);
-			    	}
-			    });
+			    var reg = /^30[\d]+/;
+			    if(reg.test(response.statusCode)) {
+			    	resolve(response.headers.location);
+			    } else {
+			    	response.on('data', function (res) {
+				        data += res;
+				    }).on('end', function () {
+				    	if(config) {
+				    		if(config.getCookie) {
+				    			resolve({
+				    				data: data,
+				    				cookie: response.headers['set-cookie']
+				    			});
+				    		}
+				    	} else {
+				    		resolve(data);
+				    	}
+				    });
+			    }
 			});
 			req.on('error', function(err) {
 				console.log(err);
@@ -137,19 +141,10 @@ function put(params, config) {
 			    response.setEncoding('utf-8');
 			    var data = '';
 			    console.log(response.statusCode);
-			    response.on('data', function (res) {    //加载到内存
+			    response.on('data', function (res) {
 			        data += res;
 			    }).on('end', function () {
-			    	if(config) {
-			    		if(config.getCookie) {
-			    			resolve({
-			    				data: data,
-			    				cookie: response.headers['set-cookie']
-			    			});
-			    		}
-			    	} else {
-			    		resolve(data);
-			    	}
+			    	resolve(data);
 			    });
 			});
 			req.on('error', function(err) {

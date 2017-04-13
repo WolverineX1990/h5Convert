@@ -1,6 +1,8 @@
 'use strict';
 var utils = require('./../utils');
 var service = require('./service');
+var URL = require('url');
+var sign = require('./sign');
 var crypto = utils.crypto;
 
 /**
@@ -34,6 +36,14 @@ class Maka {
 	
 	toScene() {
 
+	}
+
+	getJson() {
+		return utils.getResource(this.data.json_url).then(res=>{
+			this.jsonData = JSON.parse(res);
+			this.page = this.jsonData.data.pdata.json;
+			return this.jsonData;
+		});
 	}
 
 	toRabbitpre() {
@@ -70,7 +80,7 @@ class Maka {
 					var suffixName = /\.[^\.]+$/.exec(imgUrl); 
 					var path = '/' + this.ossSts2.uploadPath +'images/' + utils.randomStr() + suffixName;
 					var resource = '/' + this.ossSts2.bucket + path;
-					var header = getOssHeader(this.ossSts2, binary, resource);
+					var header = getOssHeader(this.ossSts2, binary, resource, 'image/jpeg');
 					var param = URL.parse(this.ossSts2.hostId);
 					var url = param.protocol + '//' + this.ossSts2.bucket + '.' + param.host + path;
 					return makaService.upload(url, binary, header).then(()=>url);
@@ -86,7 +96,7 @@ class Maka {
 				});
 			}
 		} else {
-			return service.getOssSts2(this.info.token).then(res=>{
+			return service.getOssSts2(this.user.info.token).then(res=>{
 				this.ossSts2 = JSON.parse(res).data;
 				return this.uploadImg(obj);
 			});
@@ -98,24 +108,47 @@ class Maka {
 	 * @return {[type]}     [description]
 	 */
 	uploadAudio(url) {
-		if(this.audioToken) {
+		if(this.ossSts2) {
 			return uploader.getBase64(url).then(res=> uploader.upload(res, this.audioToken));;
 		} else {
-			return services.getUpToken('audio').then(res=>{
-				this.audioToken = JSON.parse(res).map.token;
-				return this.uploadAudio(url);
+			return service.getOssSts2(this.user.info.token).then(res=>{
+				this.ossSts2 = JSON.parse(res).data;
+				return this.uploadAudio();
+			});
+		}
+	}
+	/**
+	 * [save 保存]
+	 * @return {[type]} [description]
+	 */
+	save() {
+		if(this.ossSts2) {
+			var code = this.data.id;
+			var string = JSON.stringify(this.jsonData);
+			var binary = new Buffer(string, 'binary');
+			var path = '/' + this.ossSts2.uploadPath +'template/' + code + '/' + code + '_v1.json';
+			var resource = '/' + this.ossSts2.bucket + path;
+			var header = getOssHeader(this.ossSts2, binary, resource, 'text/json');
+			var param = URL.parse(this.ossSts2.hostId);
+			var url = param.protocol + '//' + this.ossSts2.bucket + '.' + param.host + path;
+			return service.upload(url, binary, header).then(res=> service.saveTemplate(code, 1));
+
+		} else {
+			return service.getOssSts2(this.user.info.token).then(res=>{
+				this.ossSts2 = JSON.parse(res).data;
+				return this.save();
 			});
 		}
 	}
 }
 
-function getOssHeader(token, imgRes, resource) {
+function getOssHeader(token, data, resource, contentType) {
 	var credentials = token.token.Credentials;
-	var ContentMD5 = crypto.md5(imgRes, 'base64');
+	var ContentMD5 = crypto.md5(data, 'base64');
 	var header = {
 		'method': 'PUT',
 		'Content-MD5': ContentMD5,
-		'Content-Type': 'image/jpeg',
+		'Content-Type': contentType,
 		'x-oss-date': (new Date()).toUTCString(),
 		'x-oss-security-token': credentials.SecurityToken,
 		'x-sdk-client': ''

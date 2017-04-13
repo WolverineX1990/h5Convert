@@ -1,9 +1,10 @@
 module.exports = {
-	createScene: createScene,
+	createTemplate: createTemplate,
 	setHeaders: setHeaders,
-	template: template,
+	getTemplate: getTemplate,
 	getOssSts2: getOssSts2,
-	upload: upload
+	upload: upload,
+	saveTemplate: saveTemplate
 };
 
 var http = require('http');
@@ -23,7 +24,11 @@ function setHeaders(headers) {
 	_headers = headers;
 }
 
-function createScene() {
+/**
+ * [createTemplate description]
+ * @return {[type]} [description]
+ */
+function createTemplate() {
 	return request.post({
 		url: serverHost + 'template',
 		headers: _headers,
@@ -31,11 +36,35 @@ function createScene() {
 	});
 }
 
-function template(code) {
+/**
+ * [getTemplate 获取模板信息]
+ * @param  {[type]} code [description]
+ * @return {[type]}      [description]
+ */
+function getTemplate(code) {
 	var url = serverHost + 'v4/template/' + code + '?template_type=designer&data_type=base';
 	return request.get({
 		url: url,
 		headers: _headers
+	});
+}
+
+/**
+ * [saveTemplate 保存模板版本]
+ * @param  {[type]} code    [description]
+ * @param  {[type]} version [description]
+ * @return {[type]}         [description]
+ */
+function saveTemplate(code, version) {
+	var url = serverHost + 'v4/template/' + code;
+	console.log(url);
+	var data = {
+		version: version
+	};
+	return request.put({
+		url: url,
+		headers: _headers,
+		data: querystring.stringify(data)
 	});
 }
 

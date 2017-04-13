@@ -31,7 +31,12 @@ function perfectPageJson(pageJson) {
 	for(var i = 0;i<elements.length;i++) {
 		if(elements[i].type == 3) {
 			var url = elements[i].properties.imgSrc;
-			json.bgpic = elements[i].properties.imgSrc;
+			var reg = /^http/;
+			if(reg.test(url)) {
+				json.bgpic = url;
+			} else {
+				json.bgpic = fileHost + url;
+			}
 		} else {
 			json.content.push(perfectCompJson(elements[i]));	
 		}		
@@ -65,7 +70,7 @@ function perfectCompJson(compJson) {
 			'fontId': '',
 			'fontTag': '',
 			'fontUrl': '',
-			'con': compJson.content,
+			'con': 'test',//compJson.content,
 			'fontVersion': 10,
 			'fontbold': false,
 			'fontitalic': false,

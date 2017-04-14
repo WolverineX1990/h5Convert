@@ -52,7 +52,7 @@ module.exports = {
 	'slideDown': {
 		type: 2,
 		direction: 1,
-		name: '从下到上弹入'
+		name: '从上到下弹入'
 	},
 	'slideRight': {
 		type: 2,
@@ -62,7 +62,7 @@ module.exports = {
 	'slideUp': {
 		type: 2,
 		direction: 3,
-		name: '从上到下弹入'
+		name: '从下到上弹入'
 	},
 	'bounceInLeft': {
 		type: 2,

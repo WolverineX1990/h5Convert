@@ -1,8 +1,14 @@
 var extend = require('./../utils').extend;
+var aniType = require('./aniType');
 var fileHost = 'http://res.eqh5.com/';
 var compTypes = {
 	'4': 'pic',
-	// 'h': '',
+	// '501': '',
+	// '502': '',
+	// '503': '',
+	// '6': '',
+	// 'm': '',
+	// 'b': '',
 	'2': 'ptext'
 };
 
@@ -20,12 +26,15 @@ function perfectPageJson(pageJson) {
 	var json = {
 		'bgcolor': 'rgba(250,250,250,1)',
 		'bgpic': '',
-		'bgpicheight': 1010,
+		'bgpicheight': 'auto',
 		'bgpicleft': 0,
 		'bgpictop': 0,
 		'bgpicwidth': 640,
 		'content': [],
-		"effect": "cubedown"
+		'effect': 'cubedown',
+		'lock': false,
+		'opacity': 1,
+		'version': 1
 	};
 	var elements = pageJson.elements;
 	for(var i = 0;i<elements.length;i++) {
@@ -65,8 +74,33 @@ function perfectCompJson(compJson) {
 		'lineheight': 1.2,
 		'prepara': 0,
 		'rotate': 0,
-		'elementAnimations': [],
+		'elementAnimations': {},
 	};
+	try{
+		if(compJson.properties && compJson.properties.anim && compJson.properties.anim.length > 0) {
+			var anim = compJson.properties.anim[0];
+			if(aniType[anim.type]) {
+				var animObj = aniType[anim.type][anim.direction];
+				if(animObj && animObj.maka) {
+					json.elementAnimations = {
+						'animation_in': {
+							'show': animObj.maka,
+							'delay': anim.delay,
+							'speed': anim.duration * 1000
+						}
+					};
+				} else {
+					console.log('anim:'+aniType[anim.type].name+'direction-'+anim.direction+'not found!');	
+				}
+			} else {
+				console.log('anim-type-direction'+anim.type+'-'+anim.direction+'not found!');
+			}
+		}
+	}catch(e) {
+		console.log(e);
+	}
+
+	// {'animation_in': {'delay': , 'show': , 'speed': }}
 
 	if(compJson.type == 2) {
 		extend(json, {

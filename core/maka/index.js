@@ -73,7 +73,6 @@ class Maka {
 	 */
 	uploadImg(obj) {
 		if(this.ossSts2) {
-			console.log(obj.url);
 			return utils.getResource(obj.url).then(res=> {
 				var binary = new Buffer(res, 'binary');
 				var imgUrl = obj.url.split('?image')[0];
@@ -84,10 +83,6 @@ class Maka {
 				var param = URL.parse(this.ossSts2.hostId);
 				var url = param.protocol + '//' + this.ossSts2.bucket + '.' + param.host + path;
 				return service.upload(url, binary, header).then(()=>url);
-				// var promise = new Promise(function func(resolve, reject){
-				// 	resolve(url);
-				// });
-				// return promise;
 			});
 		} else {
 			return service.getOssSts2(this.user.info.token).then(res=>{

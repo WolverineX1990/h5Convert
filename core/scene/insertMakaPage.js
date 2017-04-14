@@ -38,7 +38,10 @@ function perfectPageJson(pageJson) {
 				json.bgpic = fileHost + url;
 			}
 		} else {
-			json.content.push(perfectCompJson(elements[i]));	
+			var cmp = perfectCompJson(elements[i]);
+			if(cmp) {
+				json.content.push(cmp);	
+			}
 		}		
 	}
 
@@ -48,7 +51,7 @@ function perfectPageJson(pageJson) {
 function perfectCompJson(compJson) {
 	var json = {
 		'type': compTypes[compJson.type],
-		'height': 1,
+		'h': 1,
 		'w': compJson.css.width*2,
 		'left': compJson.css.left*2,
 		'top': compJson.css.top*2,
@@ -96,20 +99,23 @@ function perfectCompJson(compJson) {
 				'left': 0,
 				'top': 0
 			},
-			'height': compJson.css.height*2,
-			'picid': compJson.properties.src,
+			'h': compJson.css.height*2,
+			'picid': url,
 			'editable': true,
 			'inh': compJson.css.height*2,
 			'inleft': 0,
 			'intop': 0,
+			// 'orgHeight': ,
+			// 'orgWidth': ,
 			'inw': compJson.css.width*2,
 			"shape": 0,
 			'stylecolor': '',
 			'styleopacity': 0,
 			'version': 1
 		});
-	} else if(compJson.type == 'h') {
-
+	} else {
+		console.log(compJson.type + ':not found!');
+		return null;
 	}
 
 	return json;
@@ -155,7 +161,7 @@ function uploadImgs(maka, imgList, cmps) {
 	return maka.uploadImg(obj).then(res => {
 		for(var i = 0;i < cmps.length;i++) {
 			if(cmps[i].picid == obj.url) {
-				cmps[i].picid = res;
+				cmps[i].picid = res.replace('http://makapicture.oss-cn-beijing.aliyuncs.com/', '');
 				cmps.splice(i, 1);
 				i--;
 			}

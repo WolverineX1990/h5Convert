@@ -2,80 +2,73 @@ module.exports = {
 	'0': {
 		'name': '淡入',
 		'0': {
-			'maka': '',
+			'maka': 'fadeInNormal',
 			'rab': 'fadeIn'
 		}
 	},
 	'1': {
 		'name': '移入',
 		'0': {
-			'maka': '',
+			'maka': 'fadeInLeft',
 			'rab': 'fadeInLeft'
 		},
 		'1': {
-			'maka': '',
+			'maka': 'fadeInDown',
 			'rab': 'fadeInDown'
 		},
 		'2': {
-			'maka': '',
+			'maka': 'fadeInRight',
 			'rab': 'fadeInRight'
 		},
 		'3': {
-			'maka': '',
+			'maka': 'fadeInUp',
 			'rab': 'fadeInUp'
 		}
 	},
 	'2': {
 		'name': '从左向右弹入',
 		'0': {
-			'maka': '',
+			'maka': 'slideLeft',
 			'rab': 'slideLeft'
 		},
 		'1': {
-			'maka': '',
+			'maka': 'slideDown',
 			'rab': 'slideDown'
 		},
 		'2': {
-			'maka': '',
+			'maka': 'slideRight',
 			'rab': 'slideRight'
 		},
 		'3': {
-			'maka': '',
+			'maka': 'slideUp',
 			'rab': 'slideUp'
 		}
 	},
 	'20': {
 		'name': '翻转进入',
 		'0': {
-			'maka': '',
+			'maka': 'flipInY',
 			'rab': ''
 		}
 	},
 	'3': {
 		'name': '中心弹入',
 		'0': {
-			'maka': '',
+			'maka': 'fadeIn',
 			'rab': 'bounceOut'
 		}
 	},
 	'4': {
 		'name': '中心放大',
 		'0': {
-			'maka': '',
+			'maka': 'zoomIn',
 			'rab': ''
 		}
 	},
 	'12': {
 		'name': '翻滚进入',
 		'0': {
-			'maka': '',
-			'rab': ''
-		}
-	},
-	'24': {
-		'name': '翻开进入',
-		'0': {
-			'maka': '',
+			'maka': 'rotateInDownLeft',
 			'rab': ''
 		}
 	},

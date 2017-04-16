@@ -75,35 +75,59 @@ module.exports = {
 	'24': {
 		'name': '翻开进入',
 		'0': {
-			'maka': '',
+			'maka': 'flipInX',
 			'rab': ''
 		}
 	},
 	'13': {
 		'name': '光速进入',
 		'0': {
-			'maka': '',
+			'maka': 'slideRight',
+			'rab': ''
+		},
+		'1': {
+			'maka': 'slideDown',
+			'rab': ''
+		},
+		'2': {
+			'maka': 'slideLeft',
+			'rab': ''
+		},
+		'3': {
+			'maka': 'slideUp',
 			'rab': ''
 		}
 	},
 	'26': {
 		'name': '魔幻进入',
 		'0': {
-			'maka': '',
+			'maka': 'rotateInDownLeft',
+			'rab': ''
+		},
+		'1': {
+			'maka': 'rotateInDownRight',
+			'rab': ''
+		},
+		'2': {
+			'maka': 'rotateInDownRight',
+			'rab': ''
+		},
+		'3': {
+			'maka': 'rotateInDownLeft',
 			'rab': ''
 		}
 	},
 	'27': {
 		'name': '缩小进入',
 		'0': {
-			'maka': '',
+			'maka': 'expandOpen',
 			'rab': ''
 		}
 	},
 	'6': {
 		'name': '摇摆',
 		'0': {
-			'maka': '',
+			'maka': 'rotateIn',
 			'rab': ''
 		}
 	},
@@ -118,7 +142,7 @@ module.exports = {
 		'name': '旋转',
 		'0': {
 			'maka': '',
-			'rab': ''
+			'rab': 'rotateIn'
 		}
 	},
 	'9': {
@@ -258,28 +282,3 @@ module.exports = {
 		}
 	}
 }
-
-// "noEffect": "无效果",
-// "fadeInNormal": "淡入",
-// "rotateInDownLeft": "从左滚入",
-// "rotateInDownRight": "从右滚入",
-// "zoomIn": "放大",
-// "zoomInDown": "下落放大",
-// "fadeIn": "弹性放大",
-// "expandOpen": "弹性缩小",
-// "fadeInLeft": "向右飞入",
-// "fadeInRight": "向左飞入",
-// "fadeInUp": "向上飞入",
-// "fadeInDown": "向下飞入",
-// "rotateIn": "旋转出现",
-// "flipInY": "左右翻转",
-// "flipInX": "上下翻转",
-// "lightSpeedIn": "刹车",
-// "slideRight": "向右滑入",
-// "slideLeft": "向左滑入",
-// "slideUp": "向上滑入",
-// "slideDown": "向下滑入",
-// "stretchRight": "向右展开",
-// "stretchLeft": "向左展开",
-// "pullUp": "向上展开",
-// "pullDown": "向下展开"

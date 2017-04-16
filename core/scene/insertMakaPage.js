@@ -3,6 +3,7 @@ var aniType = require('./aniType');
 var fileHost = 'http://res.eqh5.com/';
 var compTypes = {
 	'4': 'pic',
+	'h': 'pshape',
 	// '501': '',
 	// '502': '',
 	// '503': '',
@@ -100,8 +101,6 @@ function perfectCompJson(compJson) {
 		console.log(e);
 	}
 
-	// {'animation_in': {'delay': , 'show': , 'speed': }}
-
 	if(compJson.type == 2) {
 		extend(json, {
 			'fontId': '',
@@ -119,7 +118,7 @@ function perfectCompJson(compJson) {
 			'tl': 60,
 			'afterpara': 0,
 			'version': 21
-		})
+		});
 	} else if(compJson.type == 4) {
 		var url = compJson.properties.src;
 		var reg = /^http/;
@@ -147,6 +146,16 @@ function perfectCompJson(compJson) {
 			'styleopacity': 0,
 			'version': 1
 		});
+	} else if(compJson.type == 'h') {
+		extend(json, {
+			'h': compJson.css.height*2,
+			'shape': compJson.properties.src,
+			'colorScheme': {},
+			'svgHTML': {
+				'0': {},
+				'length': 1
+			}
+		});
 	} else {
 		console.log(compJson.type + ':not found!');
 		return null;
@@ -167,7 +176,17 @@ function uploadRes(maka, pages) {
 				if(urls.indexOf(cmp.picid) === -1) {
 					urls.push(cmp.picid);
 					imgList.push({
-						url: cmp.picid
+						url: cmp.picid//,
+						// type: 'img'
+					});
+				}
+				list.push(cmp);
+			} else if(cmp.type === 'pshape') {
+				if(urls.indexOf(cmp.shape) === -1) {
+					urls.push(cmp.shape);
+					imgList.push({
+						url: cmp.shape//,
+						// type: 'svg'
 					});
 				}
 				list.push(cmp);
@@ -194,11 +213,20 @@ function uploadImgs(maka, imgList, cmps) {
 	}
 	return maka.uploadImg(obj).then(res => {
 		for(var i = 0;i < cmps.length;i++) {
-			if(cmps[i].picid == obj.url) {
-				cmps[i].picid = res.replace('http://makapicture.oss-cn-beijing.aliyuncs.com/', '');
-				cmps.splice(i, 1);
-				i--;
+			if(coms[i].type == 'pic') {
+				if(cmps[i].picid == obj.url) {
+					cmps[i].picid = res.replace('http://makapicture.oss-cn-beijing.aliyuncs.com/', '');
+					cmps.splice(i, 1);
+					i--;
+				}
+			} else if(coms[i].type == 'pshape') {
+				if(cmps[i].shape == obj.url) {
+					coms[i].shape == res;
+					cmps.splice(i, 1);
+					i--;
+				}
 			}
+			
 		}
 		return uploadImgs(maka, imgList, cmps);
     });

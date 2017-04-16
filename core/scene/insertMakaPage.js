@@ -8,7 +8,7 @@ var compTypes = {
 	// '502': '',
 	// '503': '',
 	// '6': '',
-	// 'm': '',
+	'm': 'map',
 	// 'b': '',
 	'2': 'ptext'
 };
@@ -147,14 +147,31 @@ function perfectCompJson(compJson) {
 			'version': 1
 		});
 	} else if(compJson.type == 'h') {
+		var url = compJson.properties.src;
+		var reg = /^http/;
+		if(!reg.test(url)) {
+			url = fileHost + url;
+		}
 		extend(json, {
 			'h': compJson.css.height*2,
-			'shape': compJson.properties.src,
+			'shape': url,
 			'colorScheme': {},
 			'svgHTML': {
 				'0': {},
 				'length': 1
 			}
+		});
+	} else if(compJson.type == 'm') {
+		extend(json, {
+			'h': compJson.css.height*2,
+			'latlng': {
+				'lat': 1,
+				'lng': 1
+			},
+			'addr': '',
+			'zoom': 0,
+			'setZoom': 16,
+			'id': ''
 		});
 	} else {
 		console.log(compJson.type + ':not found!');
@@ -213,15 +230,15 @@ function uploadImgs(maka, imgList, cmps) {
 	}
 	return maka.uploadImg(obj).then(res => {
 		for(var i = 0;i < cmps.length;i++) {
-			if(coms[i].type == 'pic') {
+			if(cmps[i].type == 'pic') {
 				if(cmps[i].picid == obj.url) {
 					cmps[i].picid = res.replace('http://makapicture.oss-cn-beijing.aliyuncs.com/', '');
 					cmps.splice(i, 1);
 					i--;
 				}
-			} else if(coms[i].type == 'pshape') {
+			} else if(cmps[i].type == 'pshape') {
 				if(cmps[i].shape == obj.url) {
-					coms[i].shape == res;
+					cmps[i].shape == res;
 					cmps.splice(i, 1);
 					i--;
 				}

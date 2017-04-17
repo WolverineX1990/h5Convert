@@ -253,6 +253,13 @@ module.exports = {
 			'rab': ''
 		}
 	},
+	'31': {
+		'name': '旋转',
+		'0': {
+			'maka': 'rotateIn',
+			'rab': ''
+		}
+	},
 	'15': {
 		'name': '翻滚退出',
 		'0': {

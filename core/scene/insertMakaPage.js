@@ -4,12 +4,11 @@ var fileHost = 'http://res.eqh5.com/';
 var compTypes = {
 	'4': 'pic',
 	'h': 'pshape',
-	// '501': '',
-	// '502': '',
-	// '503': '',
-	// '6': '',
+	'501': 'newForm',
+	'502': 'newForm',
+	'503': 'newForm',
+	'6': 'newForm',
 	'm': 'map',
-	// 'b': '',
 	'2': 'ptext'
 };
 
@@ -38,6 +37,7 @@ function perfectPageJson(pageJson) {
 		'version': 1
 	};
 	var elements = pageJson.elements;
+	var newForm;
 	for(var i = 0;i<elements.length;i++) {
 		if(elements[i].type == 3) {
 			var url = elements[i].properties.imgSrc;
@@ -47,15 +47,79 @@ function perfectPageJson(pageJson) {
 			} else {
 				json.bgpic = fileHost + url;
 			}
+		} else if(compTypes[elements[i].type] == 'newForm') {
+			getNewForm(newForm, elements[i]);
 		} else {
 			var cmp = perfectCompJson(elements[i]);
 			if(cmp) {
-				json.content.push(cmp);	
+				json.content.push(cmp);
 			}
 		}		
 	}
 
+	if(newForm) {
+		json.content.push(newForm);
+	}
+
 	return json;
+}
+
+function getNewForm(formObj, compJson) {
+	if(!formObj) {
+		formObj = {
+			  'opacity': 1,
+			  'elementAnimations': {},
+			  'left': 9,
+			  'btnColor': '#18ccc0',
+			  'h': 588,
+			  'type': 'newForm',
+			  'rotate': '0',
+			  'selfH': 404,
+			  'formid': Date.now(),
+			  'selfW': 640,
+			  'boxshadow': 0,
+			  'top': 229,
+			  'textColor': '#4B4B4B',
+			  'w': 640,
+			  'inputs': []
+		}
+	}
+
+	if(compJson.type == 6) {
+		formObj.submit = {
+			'color': '#ffffff',
+		    'height': 72,
+		    'background': '#18ccc0',
+		    'fontSize': 32,
+		    'padding': 40,
+		    'str': compJson.properties.title,
+		    'beforeStr': compJson.properties.text || '谢谢您的参与！',
+		    'top': 488,
+		    'textAlign': 'center',
+		    'lineHeight': 72,
+		    'borderRadius': 8
+		};
+	} else {
+		var obj = {
+			  'strPadding': 20,
+		      'color': '#ffffff',
+		      'inputType': 'name',
+		      'require': true,
+		      'moduleType': 'textfield',
+		      'moduleId': Date.now(),
+		      'height': 72,
+		      'border': 2,
+		      'background': '#fcfcfc',
+		      'fontSize': 28,
+		      'padding': 40,
+		      'str': compJson.properties.placeholder,
+		      'top': 28,
+		      'regularType': 'normal',
+		      'lineHeight': 72,
+		      'borderRadius': 8
+		};
+		formObj.inputs.push(obj);
+	}
 }
 
 function perfectCompJson(compJson) {
@@ -141,7 +205,7 @@ function perfectCompJson(compJson) {
 			// 'orgHeight': ,
 			// 'orgWidth': ,
 			'inw': compJson.css.width*2,
-			"shape": 0,
+			'shape': 0,
 			'stylecolor': '',
 			'styleopacity': 0,
 			'version': 1
@@ -193,8 +257,7 @@ function uploadRes(maka, pages) {
 				if(urls.indexOf(cmp.picid) === -1) {
 					urls.push(cmp.picid);
 					imgList.push({
-						url: cmp.picid//,
-						// type: 'img'
+						url: cmp.picid
 					});
 				}
 				list.push(cmp);
@@ -202,8 +265,7 @@ function uploadRes(maka, pages) {
 				if(urls.indexOf(cmp.shape) === -1) {
 					urls.push(cmp.shape);
 					imgList.push({
-						url: cmp.shape//,
-						// type: 'svg'
+						url: cmp.shape
 					});
 				}
 				list.push(cmp);

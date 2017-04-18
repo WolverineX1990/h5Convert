@@ -3,6 +3,7 @@ var utils = require('./../utils');
 var services = require('./services');
 var uploader = require('./uploader');
 var insertMakaPage = require('./insertMakaPage');
+var fileHost = 'http://res.eqh5.com/';
 /**
  * 易企秀场景
  */
@@ -48,7 +49,17 @@ class Scene {
 	}
 
 	toMaka(maka) {
-		return insertMakaPage(maka, this.pages);
+		var url = this.data.cover;
+		var reg = /^http/;
+		if(!reg.test(url)) {
+			url = fileHost + url;
+		}
+		maka.data.title = this.data.name;
+		maka.data.content = this.data.description;
+		return maka.uploadImg({url: url}).then(res=>{
+			maka.data.thumb = res;
+			return insertMakaPage(maka, this.pages);
+		});
 	}
 
 	loadData() {

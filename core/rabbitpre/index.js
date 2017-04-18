@@ -28,8 +28,6 @@ class Rabbitpre {
 			description: this.data.desc
 		};
 		var page = this.pages.shift();
-		// var page = this.pages[0];
-		// this.pages = [];
 		console.log('page:'+this.pages.length);
 		if(page) {
 			return insertScenePage(scene, page).then(res=> this.toScene(scene));	

@@ -55,11 +55,8 @@ function getTemplate(code) {
  * @param  {[type]} version [description]
  * @return {[type]}         [description]
  */
-function saveTemplate(code, version) {
+function saveTemplate(code, data) {
 	var url = serverHost + 'v4/template/' + code;
-	var data = {
-		version: version
-	};
 	return request.put({
 		url: url,
 		headers: _headers,

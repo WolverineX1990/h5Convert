@@ -97,7 +97,7 @@ class Maka {
 	 * @return {[type]}     [description]
 	 */
 	uploadAudio(url) {
-		if(this.ossSts2) {
+		if(this.ossSts2) {//audio/mp3
 			return uploader.getBase64(url).then(res=> uploader.upload(res, this.audioToken));;
 		} else {
 			return service.getOssSts2(this.user.info.token).then(res=>{
@@ -120,7 +120,12 @@ class Maka {
 			var header = getOssHeader(this.ossSts2, binary, resource, 'text/json; charset=gb2312');
 			var param = URL.parse(this.ossSts2.hostId);
 			var url = param.protocol + '//' + this.ossSts2.bucket + '.' + param.host + path;
-			return service.upload(url, binary, header).then(res=> service.saveTemplate(code, 1));
+			return service.upload(url, binary, header).then(res=> service.saveTemplate(code, {
+				version: 1,
+				thumb: this.data.thumb,
+				title: this.data.title,
+				content: this.data.content
+			}));
 
 		} else {
 			return service.getOssSts2(this.user.info.token).then(res=>{

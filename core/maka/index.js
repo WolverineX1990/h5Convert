@@ -97,12 +97,22 @@ class Maka {
 	 * @return {[type]}     [description]
 	 */
 	uploadAudio(url) {
-		if(this.ossSts2) {//audio/mp3
-			return uploader.getBase64(url).then(res=> uploader.upload(res, this.audioToken));;
+		if(this.ossSts2) {
+			return utils.getResource(obj.url).then(res=> {
+				var binary = new Buffer(res, 'binary');
+				var imgUrl = obj.url.split('?image')[0];
+				var suffixName = /\.[^\.]+$/.exec(imgUrl); 
+				var path = '/' + this.ossSts2.uploadPath +'images/' + utils.randomStr() + suffixName;
+				var resource = '/' + this.ossSts2.bucket + path;
+				var header = getOssHeader(this.ossSts2, binary, resource, 'audio/mp3');
+				var param = URL.parse(this.ossSts2.hostId);
+				var url = param.protocol + '//' + this.ossSts2.bucket + '.' + param.host + path;
+				return service.upload(url, binary, header).then(()=>url);
+			});
 		} else {
 			return service.getOssSts2(this.user.info.token).then(res=>{
 				this.ossSts2 = JSON.parse(res).data;
-				return this.uploadAudio();
+				return this.uploadAudio(obj);
 			});
 		}
 	}

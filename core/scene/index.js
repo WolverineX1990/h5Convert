@@ -166,8 +166,10 @@ function setMakaMeta(maka, eqxMeta) {
 	if(!reg.test(url)) {
 		url = fileHost + url;
 	}
-	// return maka.uploadImg({url: url}).then(res=>{
-		// 	maka.data.thumb = res;
-		// 	return insertMakaPage(maka, this.pages);
-		// });
+	return maka.uploadImg({url: url}).then(res=>{
+		maka.data.thumb = res;
+		return maka.uploadAudio().then(function() {
+			return '';
+		});
+	});
 }

@@ -48,18 +48,8 @@ class Scene {
 		console.log(1);	
 	}
 
-	toMaka(maka) {
-		var url = this.data.cover;
-		var reg = /^http/;
-		if(!reg.test(url)) {
-			url = fileHost + url;
-		}
-		maka.data.title = this.data.name;
-		maka.data.content = this.data.description;
-		return maka.uploadImg({url: url}).then(res=>{
-			maka.data.thumb = res;
-			return insertMakaPage(maka, this.pages);
-		});
+	toMaka(maka) {		
+		return setMakaMeta(maka, this.data).then(res=>insertMakaPage(maka, this.pages));
 	}
 
 	loadData() {
@@ -167,3 +157,17 @@ class Scene {
 }
 
 module.exports = Scene;
+
+function setMakaMeta(maka, eqxMeta) {
+	maka.data.title = eqxMeta.name;
+	maka.data.content = eqxMeta.description;
+	var url = this.data.cover;
+	var reg = /^http/;
+	if(!reg.test(url)) {
+		url = fileHost + url;
+	}
+	// return maka.uploadImg({url: url}).then(res=>{
+		// 	maka.data.thumb = res;
+		// 	return insertMakaPage(maka, this.pages);
+		// });
+}

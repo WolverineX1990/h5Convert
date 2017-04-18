@@ -168,8 +168,12 @@ function setMakaMeta(maka, eqxMeta) {
 	}
 	return maka.uploadImg({url: url}).then(res=>{
 		maka.data.thumb = res;
-		return maka.uploadAudio().then(function() {
-			return '';
-		});
+		if(eqxMeta.bgAudio && eqxMeta.bgAudio.url) {
+			return maka.uploadAudio(eqxMeta.bgAudio.url).then(function(res) {
+				return '';
+			});
+		}
+
+		return res;
 	});
 }

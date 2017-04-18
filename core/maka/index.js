@@ -100,9 +100,8 @@ class Maka {
 		if(this.ossSts2) {
 			return utils.getResource(obj.url).then(res=> {
 				var binary = new Buffer(res, 'binary');
-				var imgUrl = obj.url.split('?image')[0];
 				var suffixName = /\.[^\.]+$/.exec(imgUrl); 
-				var path = '/' + this.ossSts2.uploadPath +'images/' + utils.randomStr() + suffixName;
+				var path = '/' + this.ossSts2.uploadPath +'audio/' + utils.randomStr() + suffixName;
 				var resource = '/' + this.ossSts2.bucket + path;
 				var header = getOssHeader(this.ossSts2, binary, resource, 'audio/mp3');
 				var param = URL.parse(this.ossSts2.hostId);

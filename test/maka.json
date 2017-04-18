@@ -1,163 +1,51 @@
 {
-  "code": 200,
-  "data": {
-    "pdata": {
-      "json": [
-        {
-          "bgcolor": " rgba(250,250,250,1)",
-          "bgpic": "",
-          "bgpicheight": "1010",
-          "bgpicleft": "0",
-          "bgpictop": "0",
-          "bgpicwidth": "640",
-          "content": [
-            {
-              "afterpara": "0",
-              "border-color": "#000000",
-              "border-style": "none",
-              "border-width": "0px",
-              "borderradius": 0,
-              "boxshadow": 0,
-              "con": "标题",
-              "elementAnimations": {
-                "animation_in": {
-                  "delay": 600,
-                  "show": "fadeIn",
-                  "speed": 1000
-                }
-              },
-              "fontId": "",
-              "fontTag": "17jUBw5i",
-              "fontUrl": "http://cdn.yun.galaxyfont.com/xmht_web_fonts/e1fae83a98d2d56b4f2447d453393e23/17jUBw5i/d8/4c/9a/69/0cb8223e2e387defb3d9c683.ttf",
-              "fontVersion": 10,
-              "fontbold": false,
-              "fontitalic": false,
-              "ftcolor": "#000",
-              "ftsize": 60,
-              "height": 1,
-              "left": 0,
-              "lineheight": 1.2,
-              "opacity": 0.72,
-              "prepara": "0",
-              "rotate": "0",
-              "selfH": 72,
-              "selfW": 640,
-              "textalign": "center",
-              "textvalign": "middle",
-              "tl": 60,
-              "top": 100,
-              "type": "ptext",
-              "udl": false,
-              "version": 21,
-              "w": 640
-            },
-            {
-              "borderradius": 0,
-              "boxshadow": 0,
-              "cropData": {
-                "height": 1003,
-                "left": 0,
-                "top": 0,
-                "width": 821
-              },
-              "editable": true,
-              "elementAnimations": {
-                "animation_in": {
-                  "delay": 600,
-                  "show": "fadeInNormal",
-                  "speed": 1000
-                }
-              },
-              "h": 643,
-              "inh": 643,
-              "inleft": 0,
-              "intop": 0,
-              "inw": 526,
-              "left": 29,
-              "opacity": 1,
-              "orgHeight": 1000,
-              "orgWidth": 818,
-              "picid": "common/images/festival/festival0005.png",
-              "rotate": 0,
-              "selfH": 643,
-              "selfW": 526,
-              "shape": 0,
-              "stylecolor": "rgba(0,0,0,0)",
-              "styleopacity": 0,
-              "top": 295,
-              "type": "pic",
-              "version": 1,
-              "w": 526
-            },
-            {
-              "afterpara": "0",
-              "border-color": "#000000",
-              "border-style": "none",
-              "border-width": "0px",
-              "borderradius": 0,
-              "boxshadow": 0,
-              "con": "标题",
-              "elementAnimations": {
-                "animation_in": {
-                  "delay": 600,
-                  "show": "fadeIn",
-                  "speed": 1000
-                }
-              },
-              "fontId": "",
-              "fontTag": "17jUBw5i",
-              "fontUrl": "http://cdn.yun.galaxyfont.com/xmht_web_fonts/e1fae83a98d2d56b4f2447d453393e23/17jUBw5i/d8/4c/9a/69/0cb8223e2e387defb3d9c683.ttf",
-              "fontVersion": 10,
-              "fontbold": false,
-              "fontitalic": false,
-              "ftcolor": "#000",
-              "ftsize": 60,
-              "height": 1,
-              "left": 29,
-              "lineheight": 1.2,
-              "opacity": 1,
-              "prepara": "0",
-              "rotate": "0",
-              "selfH": 72,
-              "selfW": 640,
-              "textalign": "center",
-              "textvalign": "middle",
-              "tl": 60,
-              "top": 140,
-              "type": "ptext",
-              "udl": false,
-              "version": 21,
-              "w": 640
-            }
-          ],
-          "effect": "cubedown"
-        },
-        {
-          "bgcolor": " rgba(250,250,250,1)",
-          "bgpic": "",
-          "bgpicheight": "1010",
-          "bgpicleft": "0",
-          "bgpictop": "0",
-          "bgpicwidth": "640",
-          "content": [],
-          "effect": "cubedown"
-        },
-        {
-          "bgcolor": " rgba(250,250,250,1)",
-          "bgpic": "",
-          "bgpicheight": "1010",
-          "bgpicleft": "0",
-          "bgpictop": "0",
-          "bgpicwidth": "640",
-          "content": [],
-          "effect": "cubedown"
-        }
-      ],
-      "menu": {
-        "menuOpen": false
+      "content": "中文中文中文中文中文中文121",
+      "css": {
+        "top": 349,
+        "left": 43,
+        "width": 235,
+        "height": 115,
+        "fontSize": 24,
+        "zIndex": 4,
+        "color": "#676767",
+        "backgroundColor": "",
+        "opacity": 1,
+        "transform": "rotateZ(0deg)",
+        "textAlign": "left",
+        "borderWidth": 0,
+        "borderStyle": "solid",
+        "borderColor": "rgba(0,0,0,1)",
+        "borderRadius": 0,
+        "borderRadiusPerc": 0,
+        "borderBottomRightRadius": 0,
+        "borderBottomLeftRadius": 0,
+        "borderTopRightRadius": 0,
+        "borderTopLeftRadius": 0,
+        "paddingBottom": 0,
+        "paddingTop": 0,
+        "boxShadow": "0px 0px 0px rgba(0,0,0,0.5)",
+        "boxShadowDirection": 270,
+        "boxShadowSize": 0
       },
-      "music": [],
-      "version": 3
-    }
-  }
+      "properties": {
+        "anim": [
+          {
+            "type": 24,
+            "direction": 0,
+            "duration": 2,
+            "delay": 0,
+            "countNum": 1,
+            "interval": 0,
+            "count": 0,
+            "$show": true,
+            "$$hashKey": "object:48532"
+          }
+        ]
+      },
+      "type": 2,
+      "id": 8758184351,
+      "pageId": 767168904,
+      "sceneId": 78539821,
+      "num": 4,
+      "name": "文本1"
 }

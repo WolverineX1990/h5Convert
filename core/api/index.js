@@ -29,7 +29,23 @@ function rabToEqx(url) {
 function eqxToMaka(url) {
 	var user = new MakaUser(makaConfig.userName, makaConfig.userPwd);
 	var scene = new Scene(url);
-	scene.loadData().then(res=>console.log(scene.pages));
+	scene.loadData().then(res=>user.login().then(loginSuccess));
+
+	function loginSuccess(res) {
+		makaService.setHeaders({
+			Origin: makaConfig.origin, 
+			cookie: user.cookie
+		});	
+		makaService.createTemplate().then(res1=>{
+			var code = res1.split('=')[1];
+			makaService.getTemplate(code).then(res2=>{
+				var json = JSON.parse(res2).data;
+				var maka = new Maka(json);
+				maka.user = user;
+				maka.getJson().then(scene.toMaka(maka));
+			});
+		});
+	}
 }
 
 module.exports = {

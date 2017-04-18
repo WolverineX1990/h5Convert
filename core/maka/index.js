@@ -114,10 +114,10 @@ class Maka {
 		if(this.ossSts2) {
 			var code = this.data.id;
 			var string = JSON.stringify(this.jsonData);
-			var binary = new Buffer(string, 'binary');
+			var binary = new Buffer(string, 'utf8');
 			var path = '/' + this.ossSts2.uploadPath +'template/' + code + '/' + code + '_v1.json';
 			var resource = '/' + this.ossSts2.bucket + path;
-			var header = getOssHeader(this.ossSts2, binary, resource, 'text/json');
+			var header = getOssHeader(this.ossSts2, binary, resource, 'text/json; charset=gb2312');
 			var param = URL.parse(this.ossSts2.hostId);
 			var url = param.protocol + '//' + this.ossSts2.bucket + '.' + param.host + path;
 			return service.upload(url, binary, header).then(res=> service.saveTemplate(code, 1));

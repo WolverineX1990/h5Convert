@@ -170,7 +170,7 @@ function perfectCompJson(compJson) {
 			'fontId': '',
 			'fontTag': '',
 			'fontUrl': '',
-			'con': 'test',//compJson.content,
+			'con': compJson.content,
 			'fontVersion': 10,
 			'fontbold': false,
 			'fontitalic': false,

@@ -3,8 +3,10 @@ var MakaUser = require('./../core/user/makaUser');
 var makaService = require('./../core/maka/service');
 var Maka = require('./../core/maka');
 var Scene = require('./../core/scene');
+var makaUpload = require('./makaUpload');
 var user = new MakaUser(config.userName, config.userPwd);
 var scene = new Scene('http://h5.eqxiu.com/s/mPRgdwxR');
+
 function loginSuccess(res) {
 	makaService.setHeaders({
 		Origin: config.origin, 
@@ -23,3 +25,5 @@ function loginSuccess(res) {
 	});
 }
 scene.loadData().then(res=>user.login().then(loginSuccess));
+// 
+// makaUpload();

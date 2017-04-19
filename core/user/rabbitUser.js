@@ -1,8 +1,8 @@
 'use strict';
 var request = require('./../request');
 var querystring = require('querystring');
-var config = require('./../config').rab;
-class RabUser {
+var config = require('./../config').rabbit;
+class RabbitUser {
 	constructor(name, pwd) {
 		this.name = name;
 		this.pwd = pwd;
@@ -17,7 +17,9 @@ class RabUser {
 	login() {
 		var postData = querystring.stringify({
 			account: this.name,
-			password: this.pwd
+			password: this.pwd,
+			remember: false,
+			devkey: config.devKey
 		});
 		var that = this;
 		var promise = new Promise(function func(resolve, reject){
@@ -41,4 +43,4 @@ class RabUser {
 	}
 }
 
-module.exports = RabUser;
+module.exports = RabbitUser;

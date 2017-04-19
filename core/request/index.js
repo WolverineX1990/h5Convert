@@ -13,7 +13,7 @@ var header = require('./header');
  * @param  {[type]} params [description]
  * @return {[type]}        [description]
  */
-function get(params) {
+function get(params, config) {
 	try {
 		var param = URL.parse(params.url);
 		var promise = new Promise(function func(resolve, reject){
@@ -36,7 +36,16 @@ function get(params) {
 			    response.on('data', function (res) {
 			        data += res;
 			    }).on('end', function () {
-			        resolve(data);
+			    	if(config) {
+			    		if(config.getCookie) {
+			    			resolve({
+			    				data: data,
+			    				cookie: response.headers['set-cookie']
+			    			});
+			    		}
+			    	} else {
+			    		resolve(data);
+			    	}			        
 			    });
 			});
 			req.on('error', function(err) {

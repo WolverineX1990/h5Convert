@@ -8,7 +8,7 @@ var compTypes = {
 /**
  * 兔展场景对象
  */
-class Rabbitpre {
+class Rabbit {
 	constructor(data) {
 		if(typeof data == 'string') {
 			this.dataUrl = data;
@@ -68,7 +68,7 @@ class Rabbitpre {
 	}
 }
 
-module.exports = Rabbitpre;
+module.exports = Rabbit;
 
 /**
  * [setEqxMeta 设置易企秀场景属性]

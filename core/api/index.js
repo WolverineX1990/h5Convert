@@ -1,5 +1,5 @@
 var Scene = require('./../scene');
-var Rabbitpre = require('./../rabbitpre');
+var Rabbitpre = require('./../rabbit');
 var EqxUser = require('./../user/eqxUser');
 var config = require('./../config');
 var eqxConfig = config.eqx;

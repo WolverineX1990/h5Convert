@@ -2,7 +2,6 @@ var config = require('./../core/config').maka;
 var MakaUser = require('./../core/user/makaUser');
 var makaService = require('./../core/maka/service');
 var user = new MakaUser(config.userName, config.userPwd);
-var json = require('./maka.json');
 var URL = require('url');
 var sign = require('./../core/maka/sign');
 var utils = require('./../core/utils');
@@ -12,7 +11,7 @@ var randomStr = utils.randomStr;
 function loginSuccess() {
 	makaService.getOssSts2(user.info.token).then(res => {
 		var ossSts2 = JSON.parse(res).data;
-		var string = JSON.stringify(json);
+		var string = '{test:"中文"}';
 		var binary = new Buffer(string, 'utf8');
 		var path = '/' + ossSts2.uploadPath +'template/fff/'+ randomStr() +'.json';
 		var resource = '/' + ossSts2.bucket + path;

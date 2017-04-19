@@ -2,7 +2,7 @@
 var request = require('./../request');
 var querystring = require('querystring');
 var config = require('./../config').rab;
-class MakaUser {
+class RabUser {
 	constructor(name, pwd) {
 		this.name = name;
 		this.pwd = pwd;
@@ -17,9 +17,7 @@ class MakaUser {
 	login() {
 		var postData = querystring.stringify({
 			account: this.name,
-			password: this.pwd,
-			remember: false//,
-			// devkey: ,
+			password: this.pwd
 		});
 		var that = this;
 		var promise = new Promise(function func(resolve, reject){
@@ -33,7 +31,7 @@ class MakaUser {
 				getCookie: true
 			}).then(function(res) {
 				that.cookie = res.cookie;
-				that.info = JSON.parse(res.data).data;
+				that.info = JSON.parse(res.data).result;
 				resolve(that.info);
 			}, function(err) {
 				reject(err);
@@ -43,4 +41,4 @@ class MakaUser {
 	}
 }
 
-module.exports = MakaUser;
+module.exports = RabUser;

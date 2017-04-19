@@ -1,6 +1,11 @@
-var config = require('./../core/config').maka;
+var config = require('./../core/config').rab;
 var Scene = require('./../core/scene');
 var makaUpload = require('./makaUpload');
+var RabUser = require('./../core/user/rabUser');
+
+var user = new RabUser(config.userName, config.userPwd);
+
+user.login().then(res=>console.log(res));
 
 function loginSuccess(res) {
 	makaService.setHeaders({
@@ -19,6 +24,6 @@ function loginSuccess(res) {
 		});
 	});
 }
-scene.loadData().then(res=>user.login().then(loginSuccess));
+// scene.loadData().then(res=>user.login().then(loginSuccess));
 // 
 // makaUpload();

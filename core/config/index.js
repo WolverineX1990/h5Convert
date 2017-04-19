@@ -1,8 +1,8 @@
 var maka = require('./maka');
-var rabbitpre = require('./rabbitpre');
+var rab = require('./rab');
 var eqx = require('./eqx');
 module.exports = {
 	eqx: eqx,
 	maka: maka,
-	rabbitpre: rabbitpre
+	rab: rab
 };

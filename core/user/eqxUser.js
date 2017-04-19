@@ -1,7 +1,7 @@
 'use strict';
 var request = require('./../request');
 var querystring = require('querystring');
-var config = require('./../config');
+var config = require('./../config').eqx;
 class EqxUser {
 	constructor(name, pwd) {
 		this.name = name;

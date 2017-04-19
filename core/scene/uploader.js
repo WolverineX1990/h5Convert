@@ -7,7 +7,6 @@ module.exports = {
 var request = require('./../request');
 var URL = require('url');
 var http = require('http');
-var config = require('./../config');
 
 /**
  * [getBase64 获取文件的base64数据]

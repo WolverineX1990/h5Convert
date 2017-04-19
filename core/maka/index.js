@@ -98,9 +98,10 @@ class Maka {
 	 */
 	uploadAudio(url) {
 		if(this.ossSts2) {
-			return utils.getResource(obj.url).then(res=> {
+			console
+			return utils.getResource(url).then(res=> {
 				var binary = new Buffer(res, 'binary');
-				var suffixName = /\.[^\.]+$/.exec(imgUrl); 
+				var suffixName = /\.[^\.]+$/.exec(url); 
 				var path = '/' + this.ossSts2.uploadPath +'audio/' + utils.randomStr() + suffixName;
 				var resource = '/' + this.ossSts2.bucket + path;
 				var header = getOssHeader(this.ossSts2, binary, resource, 'audio/mp3');
@@ -126,7 +127,7 @@ class Maka {
 			var binary = new Buffer(string, 'utf8');
 			var path = '/' + this.ossSts2.uploadPath +'template/' + code + '/' + code + '_v1.json';
 			var resource = '/' + this.ossSts2.bucket + path;
-			var header = getOssHeader(this.ossSts2, binary, resource, 'text/json; charset=gb2312');
+			var header = getOssHeader(this.ossSts2, binary, resource, 'text/json');
 			var param = URL.parse(this.ossSts2.hostId);
 			var url = param.protocol + '//' + this.ossSts2.bucket + '.' + param.host + path;
 			return service.upload(url, binary, header).then(res=> service.saveTemplate(code, {

@@ -3,9 +3,10 @@ var Rabbitpre = require('./../rabbitpre');
 var EqxUser = require('./../user/eqxUser');
 var eqxConfig = require('./../config');
 var sceneService = require('./../scene/services');
-var makaConfig = require('./../core/config').maka;
-var MakaUser = require('./../core/user/makaUser');
+var makaConfig = eqxConfig.maka;
+var MakaUser = require('./../user/makaUser');
 var makaService = require('./../maka/service');
+var Maka = require('./../maka');
 
 function rabToEqx(url) {
 	var eqxUser = new EqxUser(eqxConfig.eqxName, eqxConfig.eqxPwd);
@@ -29,20 +30,20 @@ function rabToEqx(url) {
 function eqxToMaka(url) {
 	var user = new MakaUser(makaConfig.userName, makaConfig.userPwd);
 	var scene = new Scene(url);
-	scene.loadData().then(res=>user.login().then(loginSuccess));
+	return scene.loadData().then(res=>user.login().then(loginSuccess));
 
 	function loginSuccess(res) {
 		makaService.setHeaders({
 			Origin: makaConfig.origin, 
 			cookie: user.cookie
 		});	
-		makaService.createTemplate().then(res1=>{
+		return makaService.createTemplate().then(res1=>{
 			var code = res1.split('=')[1];
-			makaService.getTemplate(code).then(res2=>{
+			return makaService.getTemplate(code).then(res2=>{
 				var json = JSON.parse(res2).data;
 				var maka = new Maka(json);
 				maka.user = user;
-				maka.getJson().then(scene.toMaka(maka));
+				return maka.getJson().then(()=>scene.toMaka(maka));
 			});
 		});
 	}

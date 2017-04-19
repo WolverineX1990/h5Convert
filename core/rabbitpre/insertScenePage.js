@@ -5,7 +5,7 @@ var compTypes = {
 	'text': 2,
 	'onecall': 8,
 	'map': 'm',
-	'bg': 3,
+	'bg': 4,
 	'btn': 2, //没有按钮 只有提交按钮，用text代替
 	'ginput': 5,
 	'gsubmit': 6,
@@ -17,9 +17,14 @@ function insertScenePage(scene, pageJson) {
 		pageJson.cmps.push({
 				id: randomId(),
 				cmpType: 'bg',
-				style: {},
+				style: {
+					width: 374,
+					height: 520,
+					top: -17,
+					left: -27
+				},
 				properties: {
-					imgSrc: pageJson.bgimage
+					src: pageJson.bgimage
 				}
 			});
 	}
@@ -115,7 +120,7 @@ function perfectJson(pageJson) {
 						}
 					} else if(eleJson.cmpType == 'bg') {
 						newJson.properties = {
-							imgSrc: eleJson.properties.imgSrc
+							src: eleJson.properties.src
 						};
 					}
 					extendComJson(newJson, eleJson);

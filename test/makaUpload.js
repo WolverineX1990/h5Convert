@@ -20,7 +20,6 @@ function loginSuccess() {
 		header.CacheControl = 'public';
 		var param = URL.parse(ossSts2.hostId);
 		var url = param.protocol + '//' + ossSts2.bucket + '.' + param.host + path;
-		console.log(url);
 		makaService.upload(url, binary, header);
 	});
 }

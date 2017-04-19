@@ -161,7 +161,7 @@ module.exports = Scene;
 function setMakaMeta(maka, eqxMeta) {
 	maka.data.title = eqxMeta.name;
 	maka.data.content = eqxMeta.description;
-	var url = this.data.cover;
+	var url = eqxMeta.cover;
 	var reg = /^http/;
 	if(!reg.test(url)) {
 		url = fileHost + url;
@@ -170,10 +170,15 @@ function setMakaMeta(maka, eqxMeta) {
 		maka.data.thumb = res;
 		if(eqxMeta.bgAudio && eqxMeta.bgAudio.url) {
 			return maka.uploadAudio(eqxMeta.bgAudio.url).then(function(res) {
-				return '';
+				maka.jsonData.data.pdata.music = {
+					name: eqxMeta.bgAudio.name,
+					id: res,
+					version: 1
+				}
+				return res;
 			});
+		} else {
+			return res;
 		}
-
-		return res;
 	});
 }

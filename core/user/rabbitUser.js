@@ -2,11 +2,11 @@
 var request = require('./../request');
 var querystring = require('querystring');
 var config = require('./../config').rabbit;
+var service = require('./../rabbit/service');
 class RabbitUser {
 	constructor(name, pwd) {
 		this.name = name;
 		this.pwd = pwd;
-		// this.url = config.severHost + 'designer/login';
 		this.url = 'http://eps.rabbitpre.com/api/user/login';
 	}
 
@@ -40,6 +40,24 @@ class RabbitUser {
 			});
 		});
 		return promise;
+	}
+
+	getSession() {
+		return service.getSso({'x-jwt-token': this.info.token}).then(res=>{
+			for(var i = 0;i<res.cookie.length;i++) {
+				this.cookie.push(res.cookie[i]);	
+			}
+			
+			var url = JSON.parse(res.data).data.url;
+			return service.getTicket(url).then(res=>{
+				for(var i = 0;i<res.cookie.length;i++) {
+					this.cookie.push(res.cookie[i]);	
+				}
+				return this.info;
+				// console.log(this.info)
+				// return service.getSesion().then(res=>console.log(res));
+			});
+		});
 	}
 }
 

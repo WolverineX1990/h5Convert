@@ -1,9 +1,9 @@
 module.exports = {
 	createTemplate: createTemplate,
-	test: test,
-	test1: test1,
+	getSso: getSso,
+	getTicket: getTicket,
+	getSesion: getSesion,
 	test2: test2,
-	test3: test3,
 	setHeaders: setHeaders,
 	getTemplate: getTemplate,
 	getOssSts2: getOssSts2,
@@ -28,31 +28,32 @@ function setHeaders(headers) {
 	_headers = headers;
 }
 
-function test() {
+function getSso(headers) {
 	return request.get({
 		url: 'http://www.rabbitpre.com/user/syncsso',
+		headers: extend(headers, _headers)
+	}, {getCookie: true});
+}
+
+function getTicket(url) {
+	return request.get({
+		url: url,
 		headers: _headers
 	}, {getCookie: true});
 }
 
-function test1(data) {
+function getSesion() {
 	return request.get({
-		url: 'http://www.rabbitpre.com/user/safeinfo',
+		url: 'http://eps.rabbitpre.com/api/user/session?callback=undefined',
 		headers: _headers
 	}, {getCookie: true});
 }
 
-function test2() {
+function test2(headers) {
 	return request.get({
-		url: 'http://www.rabbitpre.com/user/info?isAjax=true',
-		headers: _headers
+		url: 'http://www.rabbitpre.com/user/info',
+		headers: extend(headers, _headers)
 	}, {getCookie: true});
-}
-
-function test3() {
-	return request.get({
-		url: 'http://sso.rabbitpre.com/checkStatus'
-	});
 }
 
 /**
@@ -60,7 +61,6 @@ function test3() {
  * @return {[type]} [description]
  */
 function createTemplate(data) {
-	console.log(_headers);
 	return request.post({
 		url: 'http://www.rabbitpre.com/app',
 		headers: _headers,

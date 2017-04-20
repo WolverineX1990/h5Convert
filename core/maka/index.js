@@ -98,7 +98,6 @@ class Maka {
 	 */
 	uploadAudio(url) {
 		if(this.ossSts2) {
-			console
 			return utils.getResource(url).then(res=> {
 				var binary = new Buffer(res, 'binary');
 				var suffixName = /\.[^\.]+$/.exec(url); 

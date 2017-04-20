@@ -6,7 +6,7 @@ module.exports = {
 	test2: test2,
 	setHeaders: setHeaders,
 	getTemplate: getTemplate,
-	getOssSts2: getOssSts2,
+	getUploadToken: getUploadToken,
 	upload: upload,
 	saveTemplate: saveTemplate
 };
@@ -97,12 +97,12 @@ function saveTemplate(code, data) {
 }
 
 /**
- * [getOssSts2 获取阿里云token]
+ * [getUploadToken ]
  * @param  {[type]} userToken [description]
  * @return {[type]}           [description]
  */
-function getOssSts2(userToken) {
-	var url = serverHost + 'ossSts2?token=' + userToken;
+function getUploadToken() {
+	var url = 'http://www.rabbitpre.com/upload/params?serverType=A&type=IMAGE&count=1&files=%5B%7B%22name%22%3A%22a.gif%22%7D%5D&appid=63b96dc2-e6f2-4a5f-aaa8-3121b00485a4&userfolder=-1&isAjax=true';
 	return request.get({
 		url: url,
 		headers: _headers

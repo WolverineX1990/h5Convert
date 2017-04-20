@@ -17,6 +17,9 @@ function get(params, config) {
 	try {
 		var param = URL.parse(params.url);
 		var promise = new Promise(function func(resolve, reject){
+			if(params.data) {
+				param.path = param.path + '';
+			}
 			var options = {
 				host: param.host,
 				path: param.path,

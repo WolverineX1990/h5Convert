@@ -7,6 +7,7 @@ module.exports = {
 var http = require('http');
 var URL = require('url');
 var header = require('./header');
+var querystring = require('querystring');
 
 /**
  * [get promise封装get接口]
@@ -18,7 +19,7 @@ function get(params, config) {
 		var param = URL.parse(params.url);
 		var promise = new Promise(function func(resolve, reject){
 			if(params.data) {
-				param.path = param.path + '';
+				param.path = param.path + (/\?/.test(param.path) ? '&' : '?') + querystring.stringify(params.data);
 			}
 			var options = {
 				host: param.host,

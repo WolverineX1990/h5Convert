@@ -169,7 +169,11 @@ function setMakaMeta(maka, eqxMeta) {
 	return maka.uploadImg({url: url}).then(res=>{
 		maka.data.thumb = res;
 		if(eqxMeta.bgAudio && eqxMeta.bgAudio.url) {
-			return maka.uploadAudio(eqxMeta.bgAudio.url).then(function(res) {
+			var url = eqxMeta.bgAudio.url;
+			if(!reg.test(url)) {
+				url = fileHost + url;
+			}
+			return maka.uploadAudio(url).then(function(res) {
 				maka.jsonData.data.pdata.music = {
 					name: eqxMeta.bgAudio.name,
 					id: res,

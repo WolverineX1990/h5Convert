@@ -8,8 +8,10 @@ var compTypes = {
 	'502': 'newForm',
 	'503': 'newForm',
 	'6': 'newForm',
+	'601': 'newForm',
 	'm': 'map',
 	'2': 'ptext'
+	// 'l'
 };
 
 function insertMakaPage(maka, pages) {
@@ -85,7 +87,7 @@ function getNewForm(formObj, compJson) {
 		}
 	}
 
-	if(compJson.type == 6) {
+	if(compJson.type == 6 || compJson.type == 601) {
 		formObj.submit = {
 			'color': '#ffffff',
 		    'height': 72,
@@ -295,14 +297,10 @@ function uploadImgs(maka, imgList, cmps) {
 			if(cmps[i].type == 'pic') {
 				if(cmps[i].picid == obj.url) {
 					cmps[i].picid = res.replace('http://makapicture.oss-cn-beijing.aliyuncs.com/', '');
-					cmps.splice(i, 1);
-					i--;
 				}
 			} else if(cmps[i].type == 'pshape') {
 				if(cmps[i].shape == obj.url) {
 					cmps[i].shape == res;
-					cmps.splice(i, 1);
-					i--;
 				}
 			}
 			

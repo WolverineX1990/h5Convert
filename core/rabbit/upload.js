@@ -9,10 +9,8 @@ var http = require('http');
 var URL = require('url');
 var header = require('./../request/header');
 function upload(file, postData, url) {
-	debugger;
 	var param = URL.parse(url);
 	var headers = {
-			'Content-Type': 'application/x-www-form-urlencoded',
 			'User-Agent': header.UserAgent
 	};
 	var options = {
@@ -21,6 +19,7 @@ function upload(file, postData, url) {
 		method: 'POST',
 		headers: headers
 	};
+
 	var req = http.request(options, function (response) {
 	    response.setEncoding('utf-8');
 	    console.log(response.statusCode);
@@ -48,6 +47,8 @@ function upload(file, postData, url) {
         return rslt.join('');
     })(postData);
 
+    console.log(content);
+
     // 组装数据
     content += '\r\n----' + boundaryKey + '\r\n' +
             'Content-Type: image/gif\r\n' +
@@ -59,6 +60,8 @@ function upload(file, postData, url) {
 
     req.setHeader('Content-Type', 'multipart/form-data; boundary=--' + boundaryKey);
     req.setHeader('Content-Length', filesLength + Buffer.byteLength(endData));
+
+    console.log(req.getHeader('Content-Type'));
 
     // 执行上传
     req.write(file.contentBinary);

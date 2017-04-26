@@ -3,18 +3,16 @@ module.exports = {
 	getSso: getSso,
 	getTicket: getTicket,
 	getSesion: getSesion,
-	test2: test2,
+	getUserInfo: getUserInfo,
 	setHeaders: setHeaders,
-	getTemplate: getTemplate,
 	getUploadToken: getUploadToken,
-	upload: upload,
-	saveTemplate: saveTemplate
+	upload: upload
 };
 
 var http = require('http');
 var querystring= require('querystring');
 var request = require('./../request');
-var config = require('./../config').maka;
+var config = require('./../config').rabbit;
 var serverHost = config.severHost;
 var extend = require('./../utils').extend;
 
@@ -30,7 +28,7 @@ function setHeaders(headers) {
 
 function getSso(headers) {
 	return request.get({
-		url: 'http://www.rabbitpre.com/user/syncsso',
+		url: serverHost + 'user/syncsso',
 		headers: extend(headers, _headers)
 	}, {getCookie: true});
 }
@@ -49,9 +47,9 @@ function getSesion() {
 	}, {getCookie: true});
 }
 
-function test2(headers) {
+function getUserInfo(headers) {
 	return request.get({
-		url: 'http://www.rabbitpre.com/user/info',
+		url: serverHost + 'user/info',
 		headers: extend(headers, _headers)
 	}, {getCookie: true});
 }
@@ -62,35 +60,7 @@ function test2(headers) {
  */
 function createTemplate(data) {
 	return request.post({
-		url: 'http://www.rabbitpre.com/app',
-		headers: _headers,
-		data: querystring.stringify(data)
-	});
-}
-
-/**
- * [getTemplate 获取模板信息]
- * @param  {[type]} code [description]
- * @return {[type]}      [description]
- */
-function getTemplate(code) {
-	var url = serverHost + 'v4/template/' + code + '?template_type=designer&data_type=base';
-	return request.get({
-		url: url,
-		headers: _headers
-	});
-}
-
-/**
- * [saveTemplate 保存模板版本]
- * @param  {[type]} code    [description]
- * @param  {[type]} version [description]
- * @return {[type]}         [description]
- */
-function saveTemplate(code, data) {
-	var url = serverHost + 'v4/template/' + code;
-	return request.put({
-		url: url,
+		url: serverHost + 'app',
 		headers: _headers,
 		data: querystring.stringify(data)
 	});
@@ -102,7 +72,7 @@ function saveTemplate(code, data) {
  * @return {[type]}           [description]
  */
 function getUploadToken(data) {
-	var url = 'http://www.rabbitpre.com/upload/params';
+	var url = serverHost + 'upload/params';
 	return request.get({
 		url: url,
 		headers: _headers,

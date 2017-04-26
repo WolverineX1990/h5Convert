@@ -18,13 +18,12 @@ function loginSuccess(res) {
 		isAjax: true
 	};
 	user.getSession().then(res=>{
-		rabSevice.test2({'x-jwt-token': user.info.token}).then(res=>{
+		rabSevice.getUserInfo({'x-jwt-token': user.info.token}).then(res=>{
 			rabSevice.setHeaders({
 				Origin: config.origin, 
 				cookie: res.cookie
 			});
-			// rabSevice.createTemplate(data).then(res=>console.log(res));
-			rabSevice.getUploadToken({}).then(res=>console.log(res));
+			rabSevice.createTemplate(data).then(res=>console.log(res));
 		});
 	});
 	// rabSevice.test().then(res=>{
@@ -35,7 +34,7 @@ function loginSuccess(res) {
 	// 	});
 	// });
 }
-// scene.loadData().then(res=>user.login().then(loginSuccess));
+scene.loadData().then(res=>user.login().then(loginSuccess));
 // 
 // makaUpload();
-rabUpload();
+// rabUpload();

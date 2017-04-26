@@ -14,7 +14,7 @@ function loginSuccess() {
 		cookie: user.cookie
 	});
 	user.getSession().then(res=>{
-		rabSevice.test2({'x-jwt-token': user.info.token}).then(res=>{
+		rabSevice.getUserInfo({'x-jwt-token': user.info.token}).then(res=>{
 			rabSevice.setHeaders({
 				Origin: config.origin, 
 				cookie: res.cookie

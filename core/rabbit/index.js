@@ -1,6 +1,7 @@
 'use strict';
 var utils = require('./../utils');
 var insertScenePage = require('./insertScenePage');
+var service = require('./service');
 var compTypes = {
 	'image': 4,
 	'text': 2
@@ -65,6 +66,10 @@ class Rabbit {
 	        	return res;
 	        }, error=>console.log(error));
 	    }
+	}
+
+	save() {
+		return service.createTemplate(this.data);
 	}
 }
 

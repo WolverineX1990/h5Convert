@@ -110,7 +110,7 @@ function perfectJson(pageJson) {
 						newJson.properties = {
 							src: eleJson.src
 						};
-						if(eleJson.fill && eleJson.fill) {
+						if(eleJson.fill) {
 							newJson.properties.items = [];
 							for (var j = 0; j < eleJson.fill.length; j++) {
 								newJson.properties.items.push({

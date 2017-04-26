@@ -44,8 +44,8 @@ class Scene {
 		}
 	}
 	
-	toRabbitpre() {
-		console.log(1);
+	toRabbit(rabbit) {
+		return insertMakaPage(rabbit, this.pages);
 	}
 
 	toMaka(maka) {		
@@ -185,4 +185,8 @@ function setMakaMeta(maka, eqxMeta) {
 			return res;
 		}
 	});
+}
+
+function setRabMeta() {
+
 }

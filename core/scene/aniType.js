@@ -3,289 +3,289 @@ module.exports = {
 		'name': '淡入',
 		'0': {
 			'maka': 'fadeInNormal',
-			'rab': 'fadeIn'
+			'rabbit': 'fadeIn'
 		}
 	},
 	'1': {
 		'name': '移入',
 		'0': {
 			'maka': 'fadeInLeft',
-			'rab': 'fadeInLeft'
+			'rabbit': 'fadeInLeft'
 		},
 		'1': {
 			'maka': 'fadeInDown',
-			'rab': 'fadeInDown'
+			'rabbit': 'fadeInDown'
 		},
 		'2': {
 			'maka': 'fadeInRight',
-			'rab': 'fadeInRight'
+			'rabbit': 'fadeInRight'
 		},
 		'3': {
 			'maka': 'fadeInUp',
-			'rab': 'fadeInUp'
+			'rabbit': 'fadeInUp'
 		}
 	},
 	'2': {
 		'name': '从左向右弹入',
 		'0': {
 			'maka': 'slideLeft',
-			'rab': 'slideLeft'
+			'rabbit': 'slideLeft'
 		},
 		'1': {
 			'maka': 'slideDown',
-			'rab': 'slideDown'
+			'rabbit': 'slideDown'
 		},
 		'2': {
 			'maka': 'slideRight',
-			'rab': 'slideRight'
+			'rabbit': 'slideRight'
 		},
 		'3': {
 			'maka': 'slideUp',
-			'rab': 'slideUp'
+			'rabbit': 'slideUp'
 		}
 	},
 	'20': {
 		'name': '翻转进入',
 		'0': {
 			'maka': 'flipInY',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'3': {
 		'name': '中心弹入',
 		'0': {
 			'maka': 'fadeIn',
-			'rab': 'bounceOut'
+			'rabbit': 'bounceOut'
 		}
 	},
 	'4': {
 		'name': '中心放大',
 		'0': {
 			'maka': 'zoomIn',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'12': {
 		'name': '翻滚进入',
 		'0': {
 			'maka': 'rotateInDownLeft',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'24': {
 		'name': '翻开进入',
 		'0': {
 			'maka': 'flipInX',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'13': {
 		'name': '光速进入',
 		'0': {
 			'maka': 'slideRight',
-			'rab': ''
+			'rabbit': ''
 		},
 		'1': {
 			'maka': 'slideDown',
-			'rab': ''
+			'rabbit': ''
 		},
 		'2': {
 			'maka': 'slideLeft',
-			'rab': ''
+			'rabbit': ''
 		},
 		'3': {
 			'maka': 'slideUp',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'26': {
 		'name': '魔幻进入',
 		'0': {
 			'maka': 'rotateInDownLeft',
-			'rab': ''
+			'rabbit': ''
 		},
 		'1': {
 			'maka': 'rotateInDownRight',
-			'rab': ''
+			'rabbit': ''
 		},
 		'2': {
 			'maka': 'rotateInDownRight',
-			'rab': ''
+			'rabbit': ''
 		},
 		'3': {
 			'maka': 'rotateInDownLeft',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'27': {
 		'name': '缩小进入',
 		'0': {
 			'maka': 'expandOpen',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'6': {
 		'name': '摇摆',
 		'0': {
 			'maka': 'rotateIn',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'5': {
 		'name': '抖动',
 		'0': {
 			'maka': '',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'7': {
 		'name': '旋转',
 		'0': {
 			'maka': '',
-			'rab': 'rotateIn'
+			'rabbit': 'rotateIn'
 		}
 	},
 	'9': {
 		'name': '悬摆',
 		'0': {
 			'maka': '',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'23': {
 		'name': '闪烁',
 		'0': {
 			'maka': '',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'29': {
 		'name': '下滑',
 		'0': {
 			'maka': '',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'30': {
 		'name': '上滑',
 		'0': {
 			'maka': '',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'21': {
 		'name': '放大抖动',
 		'0': {
 			'maka': '',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'22': {
 		'name': '倾斜摆动',
 		'0': {
 			'maka': '',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'10': {
 		'name': '淡出',
 		'0': {
 			'maka': '',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'17': {
 		'name': '移出',
 		'0': {
 			'maka': '',
-			'rab': ''
+			'rabbit': ''
 		},
 		'1': {
 			'maka': '',
-			'rab': ''
+			'rabbit': ''
 		},
 		'2': {
 			'maka': '',
-			'rab': ''
+			'rabbit': ''
 		},
 		'3': {
 			'maka': '',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'19': {
 		'name': '弹出',
 		'0': {
 			'maka': '',
-			'rab': ''
+			'rabbit': ''
 		},
 		'1': {
 			'maka': '',
-			'rab': ''
+			'rabbit': ''
 		},
 		'2': {
 			'maka': '',
-			'rab': ''
+			'rabbit': ''
 		},
 		'3': {
 			'maka': '',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'11': {
 		'name': '翻转消失',
 		'0': {
 			'maka': '',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'14': {
 		'name': '中心消失',
 		'0': {
 			'maka': '',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'18': {
 		'name': '中心缩小',
 		'0': {
 			'maka': '',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'31': {
 		'name': '旋转',
 		'0': {
 			'maka': 'rotateIn',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'15': {
 		'name': '翻滚退出',
 		'0': {
 			'maka': '',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'25': {
 		'name': '翻开消失',
 		'0': {
 			'maka': '',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'16': {
 		'name': '光速退出',
 		'0': {
 			'maka': '',
-			'rab': ''
+			'rabbit': ''
 		}
 	},
 	'28': {
 		'name': '放大退出',
 		'0': {
 			'maka': '',
-			'rab': ''
+			'rabbit': ''
 		}
 	}
 };

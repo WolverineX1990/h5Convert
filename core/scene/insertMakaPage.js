@@ -5,6 +5,7 @@ var compTypes = {
 	'4': 'pic',
 	'3': 'pic',
 	'h': 'pshape',
+	'5': 'newForm',
 	'501': 'newForm',
 	'502': 'newForm',
 	'503': 'newForm',

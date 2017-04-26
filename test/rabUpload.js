@@ -19,83 +19,54 @@ function loginSuccess() {
 				Origin: config.origin, 
 				cookie: res.cookie
 			});
+			console.log(user.info);
+			console.log(res.cookie);
 			var data = {
 				serverType: 'A',
 				type: 'IMAGE',
 				count: 1,
-				files: JSON.stringify([{"name": "a.gif"}]),
+				files: JSON.stringify([{"name":"upload.png"}]),
 				appid: '63b96dc2-e6f2-4a5f-aaa8-3121b00485a4', //场景相关信息
 				userfolder: -1,
 				isAjax: true
 			};
 			rabSevice.getUploadToken(data).then(res=>{
 				var token = JSON.parse(res)[0];
-				console.log(token);
-				// var newName = utils.randomStr() + '.gif';
-				console.log('http://tenc1.rabbitpre.com/' + token.key);
+				// console.log('http://tenc1.rabbitpre.com/' + token.key);
+				// console.log(token)
 				var data = {
 					'OSSAccessKeyId': token.accessKey,
 					'policy': token.policy,
-					'Signature': token.token,
-					'key': token.key
-					'x-oss-meta-ext': '.gif',
-					'x-oss-meta-userid': '19d9e8bf-60f0-41f7-8865-9c6846c8da27',
-					'x-oss-meta-appid': '63b96dc2-e6f2-4a5f-aaa8-3121b00485a4',
-					'x-oss-meta-userfolder': -1,
-					'x-oss-meta-type': 'IMAGE',
-					'x-oss-meta-serverType': 'A',
-					'x-oss-meta-bucket': 'rabbitpre'
+					'signature': token.token,
+					'key': token.key,
+					'x-oss-meta-ext': token.xparams.ext,
+					'x-oss-meta-userid': token.xparams.userid,
+					'x-oss-meta-appid': token.xparams.appid,
+					'x-oss-meta-userfolder': token.xparams.userfolder,
+					'x-oss-meta-type': token.xparams.type,
+					'x-oss-meta-serverType': token.xparams.serverType,
+					'x-oss-meta-bucket': token.xparams.bucket
 				};
-				var header = {
-					'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryp7HM9uwWRU6DFVSx',
-					Origin: 'http://www.rabbitpre.com',
-					'Content-Length': 266566
-				};
-				needle.get('http://res1.eqh5.com/FqPjxlaR2sHeAlSidoNkcOpP2Vyv', function(err, resp) {
-					console.log(data);
+				return;
+				utils.getResource('http://ali3.rabbitpre.com/24f8ff6e-cc9e-45ce-97c1-8cfc4356affe.png').then(res=> {
 					data.file = {
-						buffer: resp.body,
-					    filename: 'a.gif',//User-Agent
-					    content_type : 'image/gif'
+						buffer: new Buffer(res, 'binary'),
+					    filename: 'a.gif',
+					    content_type: 'image/png'
 					};
 
 					var options = {
 						headers: {
-							Origin: 'http://www.rabbitpre.com',
 							'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36'
 						},
 						multipart: true
 					}
-				    needle.post('http://rabbitpre.oss-cn-shenzhen.aliyuncs.com/', data, options, function(err, resp, body) {
-					  console.log(resp.statusCode);
-					  console.log('err:'+err);
-					  // console.log(resp)
-					  // if you see, when using buffers we need to pass the filename for the multipart body. 
-					  // you can also pass a filename when using the file path method, in case you want to override 
-					  // the default filename to be received on the other end. 
+					var url = 'http://rabbitpre.oss-cn-shenzhen.aliyuncs.com';
+				    needle.post(url, data, options, function(err, resp, body) {
+					  console.log(body.toString());
+					  console.log(resp.statusCode)
 					});
 				});
-				// utils.getResource('http://res1.eqh5.com/FqPjxlaR2sHeAlSidoNkcOpP2Vyv').then(res=> {
-				// 	var binary = new Buffer(res, 'binary');
-				// 	var file = {
-				// 		name: 'aa.gif',
-				// 		binary: binary
-				// 	};
-				// 	data.file = {
-				// 		buffer: binary,
-				// 	    filename: 'tt.gif',
-				// 	    content_type : 'image/gif'
-				// 	};
-				// 	needle.post('http://rabbitpre.oss-cn-shenzhen.aliyuncs.com/', data, { multipart: true }, function(err, resp, body) {
-				// 	  console.log(resp.body);
-				// 	  console.log('err:'+err);
-				// 	  // console.log(resp)
-				// 	  // if you see, when using buffers we need to pass the filename for the multipart body. 
-				// 	  // you can also pass a filename when using the file path method, in case you want to override 
-				// 	  // the default filename to be received on the other end. 
-				// 	});
-				// 	// upload(file, data, 'http://rabbitpre.oss-cn-shenzhen.aliyuncs.com/');
-				// });
 			});
 		});
 	});

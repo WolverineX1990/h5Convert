@@ -76,10 +76,16 @@ class Maka {
 			return utils.getResource(obj.url).then(res=> {
 				var binary = new Buffer(res, 'binary');
 				var imgUrl = obj.url.split('?image')[0];
-				var suffixName = /\.[^\.]+$/.exec(imgUrl); 
+				var suffixName = /\.[^\.]+$/.exec(imgUrl);
 				var path = '/' + this.ossSts2.uploadPath +'images/' + utils.randomStr() + suffixName;
 				var resource = '/' + this.ossSts2.bucket + path;
-				var header = getOssHeader(this.ossSts2, binary, resource, 'image/jpeg');
+				var type = 'image/jpeg';
+				if(suffixName == 'svg') {
+					type = 'image/svg+xml';
+				} else if(suffixName=='png'){
+					type = 'image/png';
+				}
+				var header = getOssHeader(this.ossSts2, binary, resource, type);
 				var param = URL.parse(this.ossSts2.hostId);
 				var url = param.protocol + '//' + this.ossSts2.bucket + '.' + param.host + path;
 				return service.upload(url, binary, header).then(()=>url);

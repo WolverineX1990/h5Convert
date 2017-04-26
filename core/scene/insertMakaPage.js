@@ -3,6 +3,7 @@ var aniType = require('./aniType');
 var fileHost = 'http://res.eqh5.com/';
 var compTypes = {
 	'4': 'pic',
+	'3': 'pic',
 	'h': 'pshape',
 	'501': 'newForm',
 	'502': 'newForm',
@@ -10,8 +11,8 @@ var compTypes = {
 	'6': 'newForm',
 	'601': 'newForm',
 	'm': 'map',
-	'2': 'ptext'
-	// 'l'
+	'2': 'ptext',
+	'l': 'ptext'
 };
 
 function insertMakaPage(maka, pages) {
@@ -41,15 +42,7 @@ function perfectPageJson(pageJson) {
 	var elements = pageJson.elements;
 	var newForm;
 	for(var i = 0;i<elements.length;i++) {
-		if(elements[i].type == 3) {
-			var url = elements[i].properties.imgSrc;
-			var reg = /^http/;
-			if(reg.test(url)) {
-				json.bgpic = url;
-			} else {
-				json.bgpic = fileHost + url;
-			}
-		} else if(compTypes[elements[i].type] == 'newForm') {
+		if(compTypes[elements[i].type] == 'newForm') {
 			getNewForm(newForm, elements[i]);
 		} else {
 			var cmp = perfectCompJson(elements[i]);
@@ -238,6 +231,52 @@ function perfectCompJson(compJson) {
 			'zoom': 0,
 			'setZoom': 16,
 			'id': ''
+		});
+	} else if(compJson.type == 3) {
+		var url = compJson.properties.imgSrc;
+		var reg = /^http/;
+		if(!reg.test(url)) {
+			url = fileHost + url;
+		}
+		extend(json, {
+			'cropData': {
+				'height': 0,
+				'width': 0,
+				'left': 0,
+				'top': 0
+			},
+			'h': 1006,
+			'left': 0,
+			'top': 0,
+			'picid': url,
+			'editable': true,
+			'inh': 1006,
+			'inleft': 0,
+			'intop': 0,
+			'inw': 640,
+			'w': 640,
+			'shape': 0,
+			'stylecolor': '',
+			'styleopacity': 0,
+			'version': 1
+		});
+	} else if(compJson.type == 'l') {
+		extend(json, {
+			'fontId': '',
+			'fontTag': '',
+			'fontUrl': '',
+			'con': '<a href="'+compJson.properties.url+'">'+compJson.properties.title+'</a>',
+			'fontVersion': 10,
+			'fontbold': false,
+			'fontitalic': false,
+			'ftcolor': '#000',
+			'ftsize': 60,
+			'textalign': 'center',
+			'textvalign': 'middle',
+			'udl': false,
+			'tl': 60,
+			'afterpara': 0,
+			'version': 21
 		});
 	} else {
 		console.log(compJson.type + ':not found!');

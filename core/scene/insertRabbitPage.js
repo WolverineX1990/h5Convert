@@ -20,8 +20,13 @@ var compTypes = {
 function insertRabbitPage(rabbit, pages) {
 	var rabPages = [];
 	for(var i = 0;i<pages.length;i++) {
-		var page = perfectPageJson(pages[i], rabbit.data);
-		rabPages.push(page);
+		console.log(i);
+		try{
+			var page = perfectPageJson(pages[i], rabbit.data);
+			rabPages.push(page);
+		} catch(e) {
+			console.log(e);
+		}
 	}
 	rabbit.data.pages = rabPages;
 	return rabbit.save();
@@ -43,7 +48,6 @@ function perfectPageJson(pageJson, rabbitData) {
 		cmps: []
 	};
 	var elements = pageJson.elements;
-	var newForm;
 	for(var i = 0;i<elements.length;i++) {
 		var cmp = perfectCompJson(elements[i]);
 		if(cmp) {
@@ -69,7 +73,7 @@ function perfectCompJson(compJson) {
 			if(aniType[anims[i].type]) {
 				var animObj = aniType[anims[i].type][anims[i].direction];
 				if(animObj && animObj.rabbit) {
-					var count = anim.count == 1 ? 'infinite' : anims[i].countNum;
+					var count = anims[i].count == 1 ? 'infinite' : anims[i].countNum;
 					var anim = {
 						name: animObj.rabbit,
 						count: count,
@@ -77,10 +81,10 @@ function perfectCompJson(compJson) {
 					};
 					newJson.animation.push(anim);
 				} else {
-					console.log('anim:'+aniType[anim.type].name+'direction-'+anim.direction+'not found!');	
+					console.log('anim:'+aniType[anims[i].type].name+'direction-'+anims[i].direction+'not found!');	
 				}
 			} else {
-				console.log('anim-type-direction'+anim.type+'-'+anim.direction+'not found!');
+				console.log('anim-type-direction'+anims[i].type+'-'+anims[i].direction+'not found!');
 			}
 		}
 	}
@@ -141,7 +145,7 @@ function perfectCompJson(compJson) {
 		console.log(compJson.type + ' not found')
 	}
 
-	return json;
+	return compJson;
 }
 
 function getStyle(css) {

@@ -69,7 +69,11 @@ class Rabbit {
 	}
 
 	save() {
-		return service.createTemplate(this.data);
+		var data = {
+			data: JSON.stringify(this.data),
+			isAjax: true
+		};
+		return service.createTemplate(data);
 	}
 }
 

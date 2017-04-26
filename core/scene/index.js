@@ -3,7 +3,7 @@ var utils = require('./../utils');
 var services = require('./services');
 var uploader = require('./uploader');
 var insertMakaPage = require('./insertMakaPage');
-var insertMakaPage = require('./insertRabbitPage');
+var insertRabbitPage = require('./insertRabbitPage');
 var fileHost = 'http://res.eqh5.com/';
 /**
  * 易企秀场景
@@ -46,7 +46,7 @@ class Scene {
 	}
 	
 	toRabbit(rabbit) {
-		return insertRabbitPage(rabbit, this.data);
+		return insertRabbitPage(rabbit, this.pages);
 	}
 
 	toMaka(maka) {		

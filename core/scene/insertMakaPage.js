@@ -326,7 +326,7 @@ function uploadRes(maka, pages) {
 
 function uploadImgs(maka, imgList, cmps) {
 	var obj = imgList.shift();
-	if(!obj) {
+  	if(!obj) {
 		var promise = new Promise(function func(resolve, reject){
 			resolve();
 		});
@@ -340,7 +340,7 @@ function uploadImgs(maka, imgList, cmps) {
 				}
 			} else if(cmps[i].type == 'pshape') {
 				if(cmps[i].shape == obj.url) {
-					cmps[i].shape == res;
+					cmps[i].shape = res;
 				}
 			}
 			

@@ -10,6 +10,7 @@ var eqxUrl = 'http://h5.eqxiu.com/s//U3srOsDl';
 //http://h5.eqxiu.com/s//iaptgUlz
  
 // api.rabToEqx(rabbitpreUrl).then(res2=>console.log('convert success'));
+debugger;
 api.eqxToMaka(eqxUrl).then(res=>console.log('convert success'));
 
 

@@ -76,12 +76,14 @@ class Maka {
 			return utils.getResource(obj.url).then(res=> {
 				var binary = new Buffer(res, 'binary');
 				var imgUrl = obj.url.split('?image')[0];
-				var suffixName = /\.[^\.]+$/.exec(imgUrl);
+				var suffixName = /\.[^\.]+$/.exec(imgUrl)[0];
 				var path = '/' + this.ossSts2.uploadPath +'images/' + utils.randomStr() + suffixName;
 				var resource = '/' + this.ossSts2.bucket + path;
 				var type = 'image/jpeg';
-				if(suffixName == 'svg') {
+				console.log(suffixName)
+				if(suffixName.indexOf('svg') > -1) {
 					type = 'image/svg+xml';
+					path = '/shapeSVG/svg/Default/SVG/' + utils.randomStr() + suffixName;
 				} else if(suffixName=='png'){
 					type = 'image/png';
 				}
@@ -135,6 +137,7 @@ class Maka {
 			var header = getOssHeader(this.ossSts2, binary, resource, 'text/json');
 			var param = URL.parse(this.ossSts2.hostId);
 			var url = param.protocol + '//' + this.ossSts2.bucket + '.' + param.host + path;
+			console.log(url);
 			return service.upload(url, binary, header).then(res=> service.saveTemplate(code, {
 				version: 1,
 				thumb: this.data.thumb,

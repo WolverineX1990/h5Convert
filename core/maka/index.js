@@ -80,17 +80,17 @@ class Maka {
 				var path = '/' + this.ossSts2.uploadPath +'images/' + utils.randomStr() + suffixName;
 				var resource = '/' + this.ossSts2.bucket + path;
 				var type = 'image/jpeg';
-				console.log(suffixName)
 				if(suffixName.indexOf('svg') > -1) {
 					type = 'image/svg+xml';
 					path = '/shapeSVG/svg/Default/SVG/' + utils.randomStr() + suffixName;
+					// path = '/' + this.ossSts2.uploadPath +'shapeSVG/' + utils.randomStr() + suffixName;
 				} else if(suffixName=='png'){
 					type = 'image/png';
 				}
 				var header = getOssHeader(this.ossSts2, binary, resource, type);
 				var param = URL.parse(this.ossSts2.hostId);
 				var url = param.protocol + '//' + this.ossSts2.bucket + '.' + param.host + path;
-				return service.upload(url, binary, header).then(()=>url);
+				return service.upload(url, binary, header).then(()=>path);
 			});
 		} else {
 			return service.getOssSts2(this.user.info.token).then(res=>{

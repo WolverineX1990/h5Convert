@@ -11,15 +11,19 @@ var randomStr = utils.randomStr;
 function loginSuccess() {
 	makaService.getOssSts2(user.info.token).then(res => {
 		var ossSts2 = JSON.parse(res).data;
+		console.log(ossSts2)
 		var string = '{test:"中文"}';
 		var binary = new Buffer(string, 'utf8');
-		var path = '/' + ossSts2.uploadPath +'template/fff/'+ randomStr() +'.json';
+		// var path = '/' + ossSts2.uploadPath +'template/fff/'+ randomStr() +'.json';
+		// var path = '/shapeSVG/svg/Default/SVG/'+ randomStr() +'.json';
+		var path = '/' + ossSts2.uploadPath +'shapeSVG/'+ randomStr() +'.json';
 		var resource = '/' + ossSts2.bucket + path;
 		var header = getOssHeader(ossSts2, binary, resource, 'text/json');
 		header.CacheControl = 'public';
 		var param = URL.parse(ossSts2.hostId);
 		var url = param.protocol + '//' + ossSts2.bucket + '.' + param.host + path;
-		makaService.upload(url, binary, header);
+		console.log(url)
+		makaService.upload(url, binary, header).then(res=>console.log(res));
 	});
 }
 

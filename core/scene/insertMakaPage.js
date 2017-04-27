@@ -336,7 +336,7 @@ function uploadImgs(maka, imgList, cmps) {
 		for(var i = 0;i < cmps.length;i++) {
 			if(cmps[i].type == 'pic') {
 				if(cmps[i].picid == obj.url) {
-					cmps[i].picid = res.replace('http://makapicture.oss-cn-beijing.aliyuncs.com/', '');
+					cmps[i].picid = res;
 				}
 			} else if(cmps[i].type == 'pshape') {
 				if(cmps[i].shape == obj.url) {

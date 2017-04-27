@@ -9,7 +9,8 @@ var compTypes = {
 	'btn': 2, //没有按钮 只有提交按钮，用text代替
 	'ginput': 5,
 	'gsubmit': 6,
-	'shape': 'h'
+	'shape': 'h',
+	'form': ''
 };
 
 function insertScenePage(scene, pageJson) {
@@ -21,7 +22,8 @@ function insertScenePage(scene, pageJson) {
 					width: 374,
 					height: 520,
 					top: -17,
-					left: -27
+					left: -27,
+					zIndex: 0
 				},
 				properties: {
 					src: pageJson.bgimage

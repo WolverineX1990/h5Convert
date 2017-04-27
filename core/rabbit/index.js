@@ -2,10 +2,7 @@
 var utils = require('./../utils');
 var insertScenePage = require('./insertScenePage');
 var service = require('./service');
-var compTypes = {
-	'image': 4,
-	'text': 2
-};
+var extend = utils.extend;
 /**
  * 兔展场景对象
  */
@@ -66,6 +63,60 @@ class Rabbit {
 	        	return res;
 	        }, error=>console.log(error));
 	    }
+	}
+
+	uploadImg(obj) {
+		if(this.token) {
+			var promise = new Promise(function func(resolve, reject){
+				utils.getResource(obj.url).then(res=> {
+					var data = extend(true, {
+						file: {
+							buffer: new Buffer(res, 'binary'),
+						    filename: 'upload.png',
+						    content_type: 'image/png'
+						}
+					}, this.token);
+
+					var url = 'http://rabbitpre.oss-cn-shenzhen.aliyuncs.com';
+				    needle.post(url, data, {multipart: true}, function(err, resp, body) {
+				    	resolve(body.toString());
+					  // console.log(body.toString());
+					  // console.log(resp.statusCode)
+					});
+				});
+			});
+		} else {
+			this.getUploadToken().then(res=>this.uploadImg(obj));
+		}
+	}
+
+	getUploadToken() {
+		var data = {
+			serverType: 'A',
+			type: 'IMAGE',
+			count: 1,
+			files: JSON.stringify([{"name":"upload.png"}]),
+			appid: this.data.id, //场景相关信息
+			userfolder: -1,
+			isAjax: true
+		};
+		service.getUploadToken(data).then(res=> {
+			var token = JSON.parse(res)[0];
+			this.token = {
+				'OSSAccessKeyId': token.accessKey,
+				'policy': token.policy,
+				'signature': token.token,
+				'key': token.key,
+				'x-oss-meta-ext': token.xparams.ext,
+				'x-oss-meta-userid': token.xparams.userid,
+				'x-oss-meta-appid': token.xparams.appid,
+				'x-oss-meta-userfolder': token.xparams.userfolder,
+				'x-oss-meta-type': token.xparams.type,
+				'x-oss-meta-serverType': token.xparams.serverType,
+				'x-oss-meta-bucket': token.xparams.bucket
+			};
+			return token;
+		});
 	}
 
 	save() {

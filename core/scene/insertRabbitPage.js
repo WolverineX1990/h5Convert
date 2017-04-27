@@ -1,4 +1,3 @@
-var extend = require('./../utils').extend;
 var aniType = require('./aniType');
 var fileHost = 'http://res.eqh5.com/';
 var compTypes = {
@@ -29,8 +28,7 @@ function insertRabbitPage(rabbit, pages) {
 		}
 	}
 	rabbit.data.pages = rabPages;
-	return rabbit.save();
-	// return uploadRes(maka, makaPages).then(res=>maka.save());
+	return uploadRes(rabbit, rabPages).then(res=>rabbit.save());
 }
 
 function perfectPageJson(pageJson, rabbitData) {
@@ -197,6 +195,68 @@ function getStyle(css) {
 
 function randomId() {
     return Math.ceil(Math.random() * 10000000000);
+}
+
+function uploadRes(rabbit, pages) {
+	var list = [];
+	var imgList = [];
+	var urls = [];
+	for(var i = 0;i<pages.length;i++) {
+		var cmps = pages[i].content;
+		for(var j = 0;j<cmps.length;j++) {
+			var cmp = cmps[j];
+			if(cmp.type === 'image') {
+				if(urls.indexOf(cmp.picid) === -1) {
+					urls.push(cmp.picid);
+					imgList.push({
+						url: cmp.picid
+					});
+				}
+				list.push(cmp);
+			} else if(cmp.type === 'shape') {
+				if(urls.indexOf(cmp.shape) === -1) {
+					urls.push(cmp.shape);
+					imgList.push({
+						url: cmp.shape
+					});
+				}
+				list.push(cmp);
+			}
+		}
+	}
+	if(list.length) {
+		return uploadImgs(rabbit, imgList, list);
+	} else {
+		var promise = new Promise(function func(resolve, reject){
+			resolve();
+		});
+		return promise;
+	}
+}
+
+function uploadImgs(rabbit, imgList, cmps) {
+	var obj = imgList.shift();
+	if(!obj) {
+		var promise = new Promise(function func(resolve, reject){
+			resolve();
+		});
+		return promise;
+	}
+	return rabbit.uploadImg(obj).then(res => {
+		for(var i = 0;i < cmps.length;i++) {
+			if(cmps[i].type == 'pic') {
+				if(cmps[i].file.key == obj.url) {
+					cmps[i].file.url = cmps[i].file.key = res;
+				}
+			} else if(cmps[i].type == 'pshape') {
+				if(cmps[i].src == obj.url) {
+					cmps[i].src == res;
+				}
+			}
+			
+		}
+		return uploadImgs(maka, imgList, cmps);
+    });
 }
 
 module.exports = insertRabbitPage;

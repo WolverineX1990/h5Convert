@@ -67,9 +67,9 @@ class Rabbit {
 	}
 
 	uploadImg(obj) {
-		if(this.token) {
-			var that = this;
-			var promise = new Promise(function func(resolve, reject){
+		var that = this;
+		var promise = new Promise(function func(resolve, reject){
+			that.getUploadToken().then(token=>{
 				utils.getResource(obj.url).then(res=> {
 					var data = extend(true, {
 						file: {
@@ -77,19 +77,18 @@ class Rabbit {
 						    filename: 'upload.png',
 						    content_type: 'image/png'
 						}
-					}, that.token);
+					}, token);
 
 					var url = 'http://rabbitpre.oss-cn-shenzhen.aliyuncs.com';
 				    needle.post(url, data, {multipart: true}, function(err, resp, body) {
-				    	resolve(body.toString());
-					  // console.log(resp.statusCode)
+				    	resolve(data);
+					  // console.log(resp.statusCode);
 					});
 				});
 			});
-			return promise;
-		} else {
-			return this.getUploadToken().then(res=>this.uploadImg(obj));
-		}
+		});
+		return promise;
+		
 	}
 
 	getUploadToken() {
@@ -104,7 +103,7 @@ class Rabbit {
 		};
 		return service.getUploadToken(data).then(res=> {
 			var token = JSON.parse(res)[0];
-			this.token = {
+			var param = {
 				'OSSAccessKeyId': token.accessKey,
 				'policy': token.policy,
 				'signature': token.token,
@@ -117,7 +116,7 @@ class Rabbit {
 				'x-oss-meta-serverType': token.xparams.serverType,
 				'x-oss-meta-bucket': token.xparams.bucket
 			};
-			return token;
+			return param;
 		});
 	}
 

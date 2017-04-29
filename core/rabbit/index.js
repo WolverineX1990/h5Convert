@@ -3,6 +3,7 @@ var utils = require('./../utils');
 var insertScenePage = require('./insertScenePage');
 var service = require('./service');
 var extend = utils.extend;
+var needle = require('needle');
 /**
  * 兔展场景对象
  */
@@ -67,8 +68,8 @@ class Rabbit {
 
 	uploadImg(obj) {
 		if(this.token) {
+			var that = this;
 			var promise = new Promise(function func(resolve, reject){
-				console.log(obj.url)
 				utils.getResource(obj.url).then(res=> {
 					var data = extend(true, {
 						file: {
@@ -76,12 +77,11 @@ class Rabbit {
 						    filename: 'upload.png',
 						    content_type: 'image/png'
 						}
-					}, this.token);
+					}, that.token);
 
 					var url = 'http://rabbitpre.oss-cn-shenzhen.aliyuncs.com';
 				    needle.post(url, data, {multipart: true}, function(err, resp, body) {
 				    	resolve(body.toString());
-					  // console.log(body.toString());
 					  // console.log(resp.statusCode)
 					});
 				});

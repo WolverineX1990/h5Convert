@@ -271,7 +271,7 @@ function uploadImgs(rabbit, imgList, cmps) {
 			}
 			
 		}
-		return uploadImgs(maka, imgList, cmps);
+		return uploadImgs(rabbit, imgList, cmps);
     });
 }
 

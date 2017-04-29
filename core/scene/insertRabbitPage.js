@@ -19,7 +19,6 @@ var compTypes = {
 function insertRabbitPage(rabbit, pages) {
 	var rabPages = [];
 	for(var i = 0;i<pages.length;i++) {
-		console.log(i);
 		try{
 			var page = perfectPageJson(pages[i], rabbit.data);
 			rabPages.push(page);
@@ -140,10 +139,11 @@ function perfectCompJson(compJson) {
 		newJson.text = compJson.properties.title;
 		newJson.message = compJson.properties.text;
 	} else {
-		console.log(compJson.type + ' not found')
+		console.log(compJson.type + ' not found');
+		return null;
 	}
 
-	return compJson;
+	return newJson;
 }
 
 function getStyle(css) {
@@ -202,28 +202,29 @@ function uploadRes(rabbit, pages) {
 	var imgList = [];
 	var urls = [];
 	for(var i = 0;i<pages.length;i++) {
-		var cmps = pages[i].content;
+		var cmps = pages[i].cmps;
 		for(var j = 0;j<cmps.length;j++) {
 			var cmp = cmps[j];
 			if(cmp.type === 'image') {
-				if(urls.indexOf(cmp.picid) === -1) {
-					urls.push(cmp.picid);
+				if(urls.indexOf(cmp.file.key) === -1) {
+					urls.push(cmp.file.key);
 					imgList.push({
-						url: cmp.picid
+						url: cmp.file.key
 					});
 				}
 				list.push(cmp);
 			} else if(cmp.type === 'shape') {
-				if(urls.indexOf(cmp.shape) === -1) {
-					urls.push(cmp.shape);
+				if(urls.indexOf(cmp.src) === -1) {
+					urls.push(cmp.src);
 					imgList.push({
-						url: cmp.shape
+						url: cmp.src
 					});
 				}
 				list.push(cmp);
 			}
 		}
 	}
+	console.log('imglen:' + list.length);
 	if(list.length) {
 		return uploadImgs(rabbit, imgList, list);
 	} else {
@@ -244,11 +245,11 @@ function uploadImgs(rabbit, imgList, cmps) {
 	}
 	return rabbit.uploadImg(obj).then(res => {
 		for(var i = 0;i < cmps.length;i++) {
-			if(cmps[i].type == 'pic') {
+			if(cmps[i].type == 'image') {
 				if(cmps[i].file.key == obj.url) {
 					cmps[i].file.url = cmps[i].file.key = res;
 				}
-			} else if(cmps[i].type == 'pshape') {
+			} else if(cmps[i].type == 'shape') {
 				if(cmps[i].src == obj.url) {
 					cmps[i].src == res;
 				}

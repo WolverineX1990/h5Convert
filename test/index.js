@@ -26,13 +26,13 @@ function loginSuccess(res) {
 			rabSevice.createTemplate(data).then(res=>{
 				var json = JSON.parse(res);
 				var rabbit = new Rabbit(json);
-				scene.toRabbit(rabbit).then(res=>console.log(res));
+				scene.toRabbit(rabbit).then(res=>console.log('conver success!'));
 			});
 		});
 	});
 }
 var scene = new Scene('http://h5.eqxiu.com/s//U3srOsDl');
-// scene.loadData().then(res=>user.login().then(loginSuccess));
+scene.loadData().then(res=>user.login().then(loginSuccess));
 // 
-makaUpload();
+// makaUpload();
 // rabUpload();

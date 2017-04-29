@@ -74,6 +74,11 @@ module.exports = {
 		direction: 1,
 		name: '从上到下移入'
 	},
+	'bounceIn': {
+		type: 27,
+		direction: 0,
+		name: '飞入'
+	},
 	'bounceInRight': {
 		type: 1,
 		direction: 2,

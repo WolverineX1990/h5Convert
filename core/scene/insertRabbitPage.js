@@ -93,26 +93,41 @@ function perfectCompJson(compJson) {
 		// newJson.css.left = newJson.css.left - 15;
 		// newJson.css.top = newJson.css.top - 7;
 	} else if(compJson.type == 3) {
+		var url = compJson.properties.imgSrc;
+		var reg = /^http/;
+		if(!reg.test(url)) {
+			url = fileHost + url;
+		}
 		newJson.file = {
-			url: compJson.properties.imgSrc,
-			key: compJson.properties.imgSrc,
+			url: url,
+			key: url,
 			server: 'Q'
 		};
 	} else if(compJson.type == 4) {
+		var url = compJson.properties.src;
+		var reg = /^http/;
+		if(!reg.test(url)) {
+			url = fileHost + url;
+		}
 		newJson.file = {
-			url: compJson.properties.src,
-			key: compJson.properties.src,
+			url: url,
+			key: url,
 			server: 'Q'
 		};
 	} else if(compJson.type == 'h') {
 		newJson.fill = [];
+		var url = compJson.properties.src;
+		var reg = /^http/;
+		if(!reg.test(url)) {
+			url = fileHost + url;
+		}
 		if(newJson.properties && newJson.properties.items) {
 			var items = newJson.properties.items;
 			for (var j = 0; j < items.length; j++) {
 				newJson.fill.push(items[i].file);
 			}
 		}
-		newJson.src = compJson.properties.src;
+		newJson.src = url;
 	} else if(compJson.type == 8) {
 		newJson.telNum = compJson.properties.title;
 	} else if(compJson.type == 'm') {

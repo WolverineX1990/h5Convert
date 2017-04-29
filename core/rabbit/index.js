@@ -68,6 +68,7 @@ class Rabbit {
 	uploadImg(obj) {
 		if(this.token) {
 			var promise = new Promise(function func(resolve, reject){
+				console.log(obj.url)
 				utils.getResource(obj.url).then(res=> {
 					var data = extend(true, {
 						file: {
@@ -85,8 +86,9 @@ class Rabbit {
 					});
 				});
 			});
+			return promise;
 		} else {
-			this.getUploadToken().then(res=>this.uploadImg(obj));
+			return this.getUploadToken().then(res=>this.uploadImg(obj));
 		}
 	}
 
@@ -100,7 +102,7 @@ class Rabbit {
 			userfolder: -1,
 			isAjax: true
 		};
-		service.getUploadToken(data).then(res=> {
+		return service.getUploadToken(data).then(res=> {
 			var token = JSON.parse(res)[0];
 			this.token = {
 				'OSSAccessKeyId': token.accessKey,

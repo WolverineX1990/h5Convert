@@ -205,7 +205,7 @@ function uploadRes(rabbit, pages) {
 		var cmps = pages[i].cmps;
 		for(var j = 0;j<cmps.length;j++) {
 			var cmp = cmps[j];
-			if(cmp.type === 'image') {
+			if(cmp.cmpType === 'image') {
 				if(urls.indexOf(cmp.file.key) === -1) {
 					urls.push(cmp.file.key);
 					imgList.push({
@@ -213,7 +213,7 @@ function uploadRes(rabbit, pages) {
 					});
 				}
 				list.push(cmp);
-			} else if(cmp.type === 'shape') {
+			} else if(cmp.cmpType === 'shape') {
 				if(urls.indexOf(cmp.src) === -1) {
 					urls.push(cmp.src);
 					imgList.push({
@@ -245,11 +245,11 @@ function uploadImgs(rabbit, imgList, cmps) {
 	}
 	return rabbit.uploadImg(obj).then(res => {
 		for(var i = 0;i < cmps.length;i++) {
-			if(cmps[i].type == 'image') {
+			if(cmps[i].cmpType == 'image') {
 				if(cmps[i].file.key == obj.url) {
 					cmps[i].file.url = cmps[i].file.key = res;
 				}
-			} else if(cmps[i].type == 'shape') {
+			} else if(cmps[i].cmpType == 'shape') {
 				if(cmps[i].src == obj.url) {
 					cmps[i].src == res;
 				}

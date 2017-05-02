@@ -19,14 +19,14 @@ function loginSuccess() {
 				Origin: config.origin, 
 				cookie: res.cookie
 			});
-			console.log(user.info);
-			console.log(res.cookie);
+			// console.log(user.info);
+			// console.log(res.cookie);
 			var data = {
 				serverType: 'A',
 				type: 'IMAGE',
 				count: 1,
-				files: JSON.stringify([{"name":"upload.png"}]),
-				appid: '63b96dc2-e6f2-4a5f-aaa8-3121b00485a4', //场景相关信息
+				files: JSON.stringify([{"name":"upload.svg"}]),
+				appid: 'd2905dec-68a7-4f0c-997b-05d00aea181f', //场景相关信息
 				userfolder: -1,
 				isAjax: true
 			};
@@ -34,6 +34,8 @@ function loginSuccess() {
 				var token = JSON.parse(res)[0];
 				// console.log('http://tenc1.rabbitpre.com/' + token.key);
 				// console.log(token)
+				// return;
+				token.key = token.key + '.svg'
 				var data = {
 					'OSSAccessKeyId': token.accessKey,
 					'policy': token.policy,
@@ -47,24 +49,21 @@ function loginSuccess() {
 					'x-oss-meta-serverType': token.xparams.serverType,
 					'x-oss-meta-bucket': token.xparams.bucket
 				};
-				return;
-				utils.getResource('http://ali3.rabbitpre.com/24f8ff6e-cc9e-45ce-97c1-8cfc4356affe.png').then(res=> {
+				utils.getResource('http://res1.eqh5.com/3e06ffaa-992c-4830-ab3d-b07f95fe557c.svg').then(res=> {
 					data.file = {
 						buffer: new Buffer(res, 'binary'),
-					    filename: 'a.gif',
-					    content_type: 'image/png'
+					    filename: 'a.svg',
+					    content_type: 'image/svg+xml'
 					};
 
 					var options = {
-						headers: {
-							'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36'
-						},
 						multipart: true
 					}
 					var url = 'http://rabbitpre.oss-cn-shenzhen.aliyuncs.com';
 				    needle.post(url, data, options, function(err, resp, body) {
-					  console.log(body.toString());
-					  console.log(resp.statusCode)
+				    	console.log(url + '/' + data.key);
+				    	console.log(body.toString());
+					  	console.log(resp.statusCode);
 					});
 				});
 			});

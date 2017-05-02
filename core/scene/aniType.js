@@ -62,7 +62,7 @@ module.exports = {
 		'name': '中心放大',
 		'0': {
 			'maka': 'zoomIn',
-			'rabbit': ''
+			'rabbit': 'zoomIn'
 		}
 	},
 	'12': {
@@ -76,7 +76,7 @@ module.exports = {
 		'name': '翻开进入',
 		'0': {
 			'maka': 'flipInX',
-			'rabbit': ''
+			'rabbit': 'translateReverse'
 		}
 	},
 	'13': {
@@ -121,7 +121,7 @@ module.exports = {
 		'name': '缩小进入',
 		'0': {
 			'maka': 'expandOpen',
-			'rabbit': ''
+			'rabbit': 'zoomOut'
 		}
 	},
 	'6': {

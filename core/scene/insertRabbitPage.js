@@ -12,8 +12,8 @@ var compTypes = {
 	'601': 'gsubmit',
 	'm': 'map',
 	'2': 'text',
-	'8': 'onecall'//,
-	// 'l': 'text'
+	'8': 'onecall',
+	'l': 'text'
 };
 
 function insertRabbitPage(rabbit, pages) {
@@ -88,6 +88,7 @@ function perfectCompJson(compJson) {
 
 	if(compJson.type == 2) {
 		newJson.text = compJson.content;
+		newJson.style.height = 'auto';
 		// newJson.css.lineHeight = 1;
 		// newJson.css.width = newJson.css.width + 30;
 		// newJson.css.left = newJson.css.left - 15;
@@ -153,6 +154,8 @@ function perfectCompJson(compJson) {
 	} else if(compJson.type == 601) {
 		newJson.text = compJson.properties.title;
 		newJson.message = compJson.properties.text;
+	} else if(compJson.type == 'l') {
+		newJson.text = '<a href="'+compJson.properties.url+'">'+compJson.properties.title+'</a>';
 	} else {
 		console.log(compJson.type + ' not found');
 		return null;
@@ -224,7 +227,8 @@ function uploadRes(rabbit, pages) {
 				if(urls.indexOf(cmp.file.key) === -1) {
 					urls.push(cmp.file.key);
 					imgList.push({
-						url: cmp.file.key
+						url: cmp.file.key,
+						type: 'image'
 					});
 				}
 				list.push(cmp);
@@ -232,14 +236,14 @@ function uploadRes(rabbit, pages) {
 				if(urls.indexOf(cmp.src) === -1) {
 					urls.push(cmp.src);
 					imgList.push({
-						url: cmp.src
+						url: cmp.src,
+						type: 'svg'
 					});
 				}
 				list.push(cmp);
 			}
 		}
 	}
-	console.log('imglen:' + list.length);
 	if(list.length) {
 		return uploadImgs(rabbit, imgList, list);
 	} else {
@@ -266,7 +270,7 @@ function uploadImgs(rabbit, imgList, cmps) {
 				}
 			} else if(cmps[i].cmpType == 'shape') {
 				if(cmps[i].src == obj.url) {
-					cmps[i].src == res;
+					cmps[i].src = res;
 				}
 			}
 			

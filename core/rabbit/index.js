@@ -69,20 +69,25 @@ class Rabbit {
 	uploadImg(obj) {
 		var that = this;
 		var promise = new Promise(function func(resolve, reject){
-			that.getUploadToken().then(token=>{
+			var type = 'IMAGE';
+			var fileName = 'upload.png';
+			var contentType = 'image/png';
+			if(obj.type == 'svg') {
+				fileName = 'upload.svg';
+				contentType = 'image/svg+xml';
+			}
+			that.getUploadToken(type, fileName).then(data=>{
 				utils.getResource(obj.url).then(res=> {
-					var data = extend(true, {
-						file: {
-							buffer: new Buffer(res, 'binary'),
-						    filename: 'upload.png',
-						    content_type: 'image/png'
-						}
-					}, token);
+					data.file = {
+						buffer: new Buffer(res, 'binary'),
+					    filename: fileName,
+					    content_type: contentType
+					};
 
 					var url = 'http://rabbitpre.oss-cn-shenzhen.aliyuncs.com';
 				    needle.post(url, data, {multipart: true}, function(err, resp, body) {
-				    	resolve(data);
-					  // console.log(resp.statusCode);
+				    	// console.log(resp.statusCode);
+				    	resolve(url + '/' +data.key);
 					});
 				});
 			});
@@ -91,12 +96,12 @@ class Rabbit {
 		
 	}
 
-	getUploadToken() {
+	getUploadToken(type, fileName) {
 		var data = {
 			serverType: 'A',
-			type: 'IMAGE',
+			type: type,
 			count: 1,
-			files: JSON.stringify([{"name":"upload.png"}]),
+			files: JSON.stringify([{"name": fileName}]),
 			appid: this.data.id, //场景相关信息
 			userfolder: -1,
 			isAjax: true

@@ -188,6 +188,29 @@ function setMakaMeta(maka, eqxMeta) {
 	});
 }
 
-function setRabMeta() {
+function setRabMeta(rabbit, eqxMeta) {
+	rabbit.data.sname = eqxMeta.name;
+	rabbit.data.desc = eqxMeta.description;
+	var url = eqxMeta.cover;
+	var reg = /^http/;
+	if(!reg.test(url)) {
+		url = fileHost + url;
+	}
 
+	return rabbit.uploadImg({url: url}).then(res=> {
+		rabbit.data.imgurl = res;
+		if(eqxMeta.bgAudio && eqxMeta.bgAudio.url) {
+			var url = eqxMeta.bgAudio.url;
+			if(!reg.test(url)) {
+				url = fileHost + url;
+			}
+			return rabbit.uploadAudio(url).then(res=>{
+				rabbit.data.musicname = eqxMeta.bgAudio.name;
+				rabbit.data.music_path = res;
+				return res;
+			});
+		} else {
+			return res;
+		}
+	});
 }

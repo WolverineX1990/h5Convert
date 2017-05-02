@@ -96,6 +96,30 @@ class Rabbit {
 		
 	}
 
+	uploadAudio(url) {
+		var that = this;
+		var promise = new Promise(function func(resolve, reject){
+			var type = 'MUSIC';
+			var fileName = 'upload.mp3';
+			var contentType = 'audio/mp3';
+			that.getUploadToken(type, fileName).then(data=>{
+				utils.getResource(url).then(res=> {
+					data.file = {
+						buffer: new Buffer(res, 'binary'),
+					    filename: fileName,
+					    content_type: contentType
+					};
+
+					var url = 'http://rabbitpre.oss-cn-shenzhen.aliyuncs.com';
+				    needle.post(url, data, {multipart: true}, function(err, resp, body) {
+				    	resolve(data.key);
+					});
+				});
+			});
+		});
+		return promise;
+	}
+
 	getUploadToken(type, fileName) {
 		var data = {
 			serverType: 'A',

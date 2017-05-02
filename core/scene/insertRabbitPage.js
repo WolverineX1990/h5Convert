@@ -263,14 +263,16 @@ function uploadImgs(rabbit, imgList, cmps) {
 		return promise;
 	}
 	return rabbit.uploadImg(obj).then(res => {
+		var url = 'http://tenc1.rabbitpre.com/' + res;
 		for(var i = 0;i < cmps.length;i++) {
 			if(cmps[i].cmpType == 'image') {
 				if(cmps[i].file.key == obj.url) {
-					cmps[i].file.url = cmps[i].file.key = res;
+					cmps[i].file.key = url;
+					cmps[i].file.url = res;
 				}
 			} else if(cmps[i].cmpType == 'shape') {
 				if(cmps[i].src == obj.url) {
-					cmps[i].src = res;
+					cmps[i].src = url;
 				}
 			}
 			

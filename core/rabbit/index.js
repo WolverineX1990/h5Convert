@@ -154,7 +154,6 @@ class Rabbit {
 			data: JSON.stringify(this.data),
 			isAjax: true
 		};
-		console.log(data);
 		return service.createTemplate(data);
 	}
 }

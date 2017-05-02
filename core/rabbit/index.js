@@ -70,6 +70,9 @@ class Rabbit {
 		var that = this;
 		var promise = new Promise(function func(resolve, reject){
 			var type = 'IMAGE';
+			if(obj.type == 'cover') {
+				type = 'FILE';	
+			}
 			var fileName = 'upload.png';
 			var contentType = 'image/png';
 			if(obj.type == 'svg') {

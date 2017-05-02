@@ -198,7 +198,7 @@ function setRabMeta(rabbit, eqxMeta) {
 		url = fileHost + url;
 	}
 
-	return rabbit.uploadImg({url: url}).then(res=> {
+	return rabbit.uploadImg({url: url, type: 'cover'}).then(res=> {
 		rabbit.data.imgurl = res;
 		if(eqxMeta.bgAudio && eqxMeta.bgAudio.url) {
 			var url = eqxMeta.bgAudio.url;

@@ -87,7 +87,7 @@ class Rabbit {
 					var url = 'http://rabbitpre.oss-cn-shenzhen.aliyuncs.com';
 				    needle.post(url, data, {multipart: true}, function(err, resp, body) {
 				    	// console.log(resp.statusCode);
-				    	resolve(url + '/' +data.key);
+				    	resolve(data.key);
 					});
 				});
 			});
@@ -154,6 +154,7 @@ class Rabbit {
 			data: JSON.stringify(this.data),
 			isAjax: true
 		};
+		console.log(data);
 		return service.createTemplate(data);
 	}
 }

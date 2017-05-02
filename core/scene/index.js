@@ -46,7 +46,7 @@ class Scene {
 	}
 	
 	toRabbit(rabbit) {
-		return insertRabbitPage(rabbit, this.pages);
+		return setRabMeta(rabbit, this.data).then(res=>insertRabbitPage(rabbit, this.pages));
 	}
 
 	toMaka(maka) {		
@@ -189,8 +189,9 @@ function setMakaMeta(maka, eqxMeta) {
 }
 
 function setRabMeta(rabbit, eqxMeta) {
-	rabbit.data.sname = eqxMeta.name;
+	rabbit.data.name = eqxMeta.name;
 	rabbit.data.desc = eqxMeta.description;
+	rabbit.data.publish = true;
 	var url = eqxMeta.cover;
 	var reg = /^http/;
 	if(!reg.test(url)) {
@@ -206,7 +207,7 @@ function setRabMeta(rabbit, eqxMeta) {
 			}
 			return rabbit.uploadAudio(url).then(res=>{
 				rabbit.data.musicname = eqxMeta.bgAudio.name;
-				rabbit.data.music_path = res;
+				rabbit.data.music = res;
 				return res;
 			});
 		} else {

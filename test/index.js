@@ -33,6 +33,7 @@ function loginSuccess(res) {
 }
 var scene = new Scene('http://h5.eqxiu.com/s/U3srOsDl');
 scene.loadData().then(res=>user.login().then(loginSuccess));
+
 // 
 // makaUpload();
 // rabUpload();

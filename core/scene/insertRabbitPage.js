@@ -1,3 +1,4 @@
+'use strict';
 var aniType = require('./aniType');
 var utils = require('./../utils');
 var fileHost = 'http://res.eqh5.com/';
@@ -46,7 +47,11 @@ function perfectPageJson(pageJson, pageNum, rabbitData) {
 		bgtop: 0,
 		cmps: []
 	};
-	var elements = pageJson.elements;
+	var elements = pageJson.elements.sort((a, b)=>{
+		var aIndex = a.css.zIndex;
+		var bIndex = b.css.zIndex;
+		return aIndex - bIndex;
+	});
 	for(var i = 0;i<elements.length;i++) {
 		var cmp = perfectCompJson(elements[i]);
 		if(cmp) {

@@ -31,7 +31,8 @@ function loginSuccess(res) {
 		});
 	});
 }
-var scene = new Scene('http://h5.eqxiu.com/s/U3srOsDl');
+// var scene = new Scene('http://h5.eqxiu.com/s/U3srOsDl');
+var scene = new Scene('http://h5.eqxiu.com/s//TTrPggim');
 scene.loadData().then(res=>user.login().then(loginSuccess));
 
 // 

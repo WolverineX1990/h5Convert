@@ -141,7 +141,7 @@ module.exports = {
 	'7': {
 		'name': '旋转',
 		'0': {
-			'maka': '',
+			'maka': 'rotateIn',
 			'rabbit': 'rotateIn'
 		}
 	},
@@ -191,26 +191,26 @@ module.exports = {
 		'name': '淡出',
 		'0': {
 			'maka': '',
-			'rabbit': ''
+			'rabbit': 'fadeOut'
 		}
 	},
 	'17': {
 		'name': '移出',
 		'0': {
 			'maka': '',
-			'rabbit': ''
+			'rabbit': 'fadeOutRight'
 		},
 		'1': {
 			'maka': '',
-			'rabbit': ''
+			'rabbit': 'fadeOutDown'
 		},
 		'2': {
 			'maka': '',
-			'rabbit': ''
+			'rabbit': 'fadeOutLeft'
 		},
 		'3': {
 			'maka': '',
-			'rabbit': ''
+			'rabbit': 'fadeOutUp'
 		}
 	},
 	'19': {
@@ -257,7 +257,19 @@ module.exports = {
 		'name': '旋转',
 		'0': {
 			'maka': 'rotateIn',
-			'rabbit': ''
+			'rabbit': 'rotateIn'
+		},
+		'1': {
+			'maka': 'rotateIn',
+			'rabbit': 'rotateIn'
+		},
+		'2': {
+			'maka': 'rotateIn',
+			'rabbit': 'rotateIn'
+		},
+		'3': {
+			'maka': 'rotateIn',
+			'rabbit': 'rotateIn'
 		}
 	},
 	'15': {

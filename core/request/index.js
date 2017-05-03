@@ -92,6 +92,7 @@ function post(params, config) {
 			    response.setEncoding('utf-8');
 			    var data = '';
 			    var reg = /^30[\d]+/;
+			    // console.log(response.statusCode)
 			    if(reg.test(response.statusCode)) {
 			    	resolve(response.headers.location);
 			    } else {

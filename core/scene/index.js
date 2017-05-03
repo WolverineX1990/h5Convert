@@ -46,7 +46,11 @@ class Scene {
 	}
 	
 	toRabbit(rabbit) {
-		return setRabMeta(rabbit, this.data).then(res=>insertRabbitPage(rabbit, this.pages));
+		return setRabMeta(rabbit, this.data).then(res=>{
+			console.log(res)
+			rabbit.save();
+		});
+		// return setRabMeta(rabbit, this.data).then(res=>insertRabbitPage(rabbit, this.pages));
 	}
 
 	toMaka(maka) {		
@@ -197,19 +201,13 @@ function setRabMeta(rabbit, eqxMeta) {
 	if(!reg.test(url)) {
 		url = fileHost + url;
 	}
-
-	return rabbit.uploadImg({url: url, type: 'cover'}).then(res=> {
-		rabbit.data.imgurl = res;
+	return rabbit.setCover(url).then(res=> {
 		if(eqxMeta.bgAudio && eqxMeta.bgAudio.url) {
 			var url = eqxMeta.bgAudio.url;
 			if(!reg.test(url)) {
 				url = fileHost + url;
 			}
-			return rabbit.uploadAudio(url).then(res=>{
-				rabbit.data.musicname = eqxMeta.bgAudio.name;
-				rabbit.data.music = res;
-				return res;
-			});
+			return rabbit.setBgAudio(url);
 		} else {
 			return res;
 		}

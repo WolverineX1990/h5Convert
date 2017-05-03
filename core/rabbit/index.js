@@ -66,21 +66,48 @@ class Rabbit {
 	    }
 	}
 
-	uploadImg(obj) {
+	setCover(url) {
+		return this.uploadRes({url: url, type: 'cover'}).then(res=>{
+			var xparams = extend({'filename': 'upload.png'});
+			var data = {
+				key: res.key,
+				xparams: JSON.stringify(xparams),
+				isAjax: true
+			};
+			return service.upload(data).then(res=>this.data.imgurl=JSON.parse(res).file.id);
+		});
+	}
+
+	setBgAudio(url) {
+		return this.uploadRes({url: url, type: 'audio'}).then(res=>{
+			var data = {
+				key: res,
+				xparams: JSON.stringify({"keyprev":"mp3/","userid":"19d9e8bf-60f0-41f7-8865-9c6846c8da27","appid":"780ad4e3-3abb-4eb6-a638-76c7d9bbe6b4","userfolder":"-1","type":"MUSIC","serverType":"A","bucket":"rabbitpre","filename":"upload.mp3"}),
+				isAjax: true
+			};
+			return service.upload(data).then(res=>this.data.imgurl=JSON.parse(res).file.id);
+		});
+	}
+
+	uploadRes(obj) {
 		var that = this;
 		var promise = new Promise(function func(resolve, reject){
 			var type = 'IMAGE';
-			if(obj.type == 'cover') {
-				type = 'FILE';	
-			}
 			var fileName = 'upload.png';
 			var contentType = 'image/png';
-			if(obj.type == 'svg') {
+			if(obj.type == 'cover') {
+				type = 'FILE';	
+			} else if(obj.type == 'audio') {
+				type = 'MUSIC';
+				fileName = 'upload.mp3';
+				contentType = 'audio/mp3';
+			}else if(obj.type == 'svg') {
 				fileName = 'upload.svg';
 				contentType = 'image/svg+xml';
 			}
-			that.getUploadToken(type, fileName).then(data=>{
+			that.getUploadToken(type, fileName).then(token=>{
 				utils.getResource(obj.url).then(res=> {
+					var data = extend({}, token);
 					data.file = {
 						buffer: new Buffer(res, 'binary'),
 					    filename: fileName,
@@ -90,37 +117,13 @@ class Rabbit {
 					var url = 'http://rabbitpre.oss-cn-shenzhen.aliyuncs.com';
 				    needle.post(url, data, {multipart: true}, function(err, resp, body) {
 				    	// console.log(resp.statusCode);
-				    	resolve(data.key);
+				    	resolve(token);
 					});
 				});
 			});
 		});
 		return promise;
 		
-	}
-
-	uploadAudio(url) {
-		var that = this;
-		var promise = new Promise(function func(resolve, reject){
-			var type = 'MUSIC';
-			var fileName = 'upload.mp3';
-			var contentType = 'audio/mp3';
-			that.getUploadToken(type, fileName).then(data=>{
-				utils.getResource(url).then(res=> {
-					data.file = {
-						buffer: new Buffer(res, 'binary'),
-					    filename: fileName,
-					    content_type: contentType
-					};
-
-					var url = 'http://rabbitpre.oss-cn-shenzhen.aliyuncs.com';
-				    needle.post(url, data, {multipart: true}, function(err, resp, body) {
-				    	resolve(data.key);
-					});
-				});
-			});
-		});
-		return promise;
 	}
 
 	getUploadToken(type, fileName) {
@@ -141,22 +144,35 @@ class Rabbit {
 				'signature': token.token,
 				'key': token.key,
 				'x-oss-meta-ext': token.xparams.ext,
-				'x-oss-meta-userid': token.xparams.userid,
-				'x-oss-meta-appid': token.xparams.appid,
-				'x-oss-meta-userfolder': token.xparams.userfolder,
 				'x-oss-meta-type': token.xparams.type,
 				'x-oss-meta-serverType': token.xparams.serverType,
 				'x-oss-meta-bucket': token.xparams.bucket
 			};
+			if(type == 'FILE') {
+				param['x-oss-meta-keyprev'] = token.xparams.keyprev
+			} else {
+				param['x-oss-meta-userid'] = token.xparams.userid;
+				param['x-oss-meta-appid'] = token.xparams.appid;
+				param['x-oss-meta-userfolder'] = token.xparams.userfolder;
+			}
 			return param;
 		});
 	}
 
 	save() {
+		// var data = {
+		// 	data: JSON.stringify(this.data),
+		// 	isAjax: true
+		// };
 		var data = {
-			data: JSON.stringify(this.data),
+			data: JSON.stringify({
+				id: this.data.id,
+				imgurl: this.data.imgurl,
+				publish: true
+			}),
 			isAjax: true
 		};
+		console.log(data)
 		return service.createTemplate(data);
 	}
 }

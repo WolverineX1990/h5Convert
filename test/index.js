@@ -26,7 +26,7 @@ function loginSuccess(res) {
 			rabSevice.createTemplate(data).then(res=>{
 				var json = JSON.parse(res);
 				var rabbit = new Rabbit(json);
-				scene.toRabbit(rabbit).then(res=>console.log('conver success!'));
+				scene.toRabbit(rabbit).then(res=>console.log(res));
 			});
 		});
 	});

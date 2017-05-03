@@ -85,11 +85,11 @@ function getUploadToken(data) {
  * @param  {[type]} userToken [description]
  * @return {[type]}           [description]
  */
-function upload(data, headers) {
-	var url = 'http://rabbitpre.oss-cn-shenzhen.aliyuncs.com/';
+function upload(data) {
+	var url = serverHost + 'upload/uploaded';
 	return request.post({
 		url: url,
-		headers: headers,
-		data: data
+		headers: _headers,
+		data: querystring.stringify(data)
 	});
 }

@@ -1,3 +1,4 @@
+'use strict';
 var extend = require('./extend');
 var crypto = require('./crypto');
 module.exports = {
@@ -7,7 +8,9 @@ module.exports = {
 	each: each,
 	getResource: getResource,
 	crypto: crypto,
-	randomStr: randomStr
+	randomStr: randomStr,
+	toInt: toInt,
+	parseTransform: parseTransform
 };
 
 var http = require('http');
@@ -109,4 +112,48 @@ function randomStr(len) {
         pwd += chars.charAt(Math.floor(Math.random() * maxPos));
     }
     return pwd;
+}
+
+function toFixed(int, n) {
+    if (typeof int !== 'number') {
+        int = parseFloat(int);
+    }
+    return parseFloat(int.toFixed(n))
+}
+
+function toInt(int) {
+    return toFixed(int, 0);
+}
+
+var rotateReg = /rotateZ\((-?\d*\.?\d*)deg\)/;
+var scaleReg = /scale\((-?\d+),\s?(\d+)\)/;
+var translate3dReg = /translate3d\((-?\d*(?:px)?),\s?(-?\d*(?:px)?),\s?(-?\d*(?:px)?)\)/;
+
+function parseTransform(str) {
+    str += '';
+
+    var obj = {
+        rotate: 0,
+        scale: {
+            x: 1,
+            y: 1
+        },
+        translate3d: {
+            x: 0,
+            y: 0,
+            z: 0
+        }
+    };
+    str = str.replace(rotateReg, (match, $1) => obj.rotate = toInt($1));
+    str = str.replace(scaleReg, (match, $1, $2) => obj.scale = {
+        x: toInt($1),
+        y: toInt($2)
+    });
+    str.replace(translate3dReg, (match, $1, $2, $3) => obj.translate3d = {
+        x: toInt($1),
+        y: toInt($2),
+        z: toInt($3)
+    });
+
+    return obj;
 }

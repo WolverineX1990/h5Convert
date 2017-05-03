@@ -1,4 +1,5 @@
 var aniType = require('./aniType');
+var utils = require('./../utils');
 var fileHost = 'http://res.eqh5.com/';
 var compTypes = {
 	'4': 'image',
@@ -201,6 +202,12 @@ function getStyle(css, type) {
 		style['border-radius'] = css.borderRadius;
 	}
 
+	if(css.transform) {
+		var rotate = utils.parseTransform(css.transform).rotate;
+		style.rotate = rotate;
+		style.transform = getRotateStr(rotate);
+	}
+
 	if(css.borderStyle && css.borderWidth && css.borderColor) {
 		style['border-style'] = css.borderStyle;
 		style['border-color'] = css.borderColor;
@@ -212,6 +219,13 @@ function getStyle(css, type) {
 	}
 
 	return style;
+}
+
+function getRotateStr(rotate) {
+    if (rotate !== undefined) {
+        return `rotate(${rotate}deg)`
+    }
+    return '';
 }
 
 function randomId() {

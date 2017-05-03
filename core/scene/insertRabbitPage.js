@@ -17,23 +17,24 @@ var compTypes = {
 };
 
 function insertRabbitPage(rabbit, pages) {
-	var rabPages = [];
+	var rabPages = rabbit.data.pages;
+	rabPages[0].deleted = true;
 	for(var i = 0;i<pages.length;i++) {
 		try{
-			var page = perfectPageJson(pages[i], rabbit.data);
+			var page = perfectPageJson(pages[i], i, rabbit.data);
 			rabPages.push(page);
 		} catch(e) {
 			console.log(e);
 		}
 	}
-	rabbit.data.pages = rabPages;
+
 	return uploadRes(rabbit, rabPages).then(res=>rabbit.save());
 }
 
-function perfectPageJson(pageJson, rabbitData) {
+function perfectPageJson(pageJson, pageNum, rabbitData) {
 	var json = {
 		appid: rabbitData.id,
-		row: 0,
+		row: pageNum,
 		col: 0,
 		in: null,
 		out: null,
@@ -48,7 +49,11 @@ function perfectPageJson(pageJson, rabbitData) {
 	for(var i = 0;i<elements.length;i++) {
 		var cmp = perfectCompJson(elements[i]);
 		if(cmp) {
-			json.cmps.push(cmp);
+			if(elements[i].type == 3) {
+				json.cmps.splice(0, 0, cmp);
+			} else {
+				json.cmps.push(cmp);
+			}
 		}		
 	}
 
@@ -58,7 +63,7 @@ function perfectPageJson(pageJson, rabbitData) {
 function perfectCompJson(compJson) {
 	var newJson = {
 		tid: randomId(),
-		style: getStyle(compJson.css),
+		style: getStyle(compJson.css, compJson.type),
 		trigger: [],
 		animation: [],
 		cmpType: compTypes[compJson.type]
@@ -104,6 +109,10 @@ function perfectCompJson(compJson) {
 			key: url,
 			server: 'Q'
 		};
+		newJson.style.left = -14;
+		newJson.style.top = -9;
+		newJson.style.width = 348;
+		newJson.style.height = 524;
 	} else if(compJson.type == 4) {
 		var url = compJson.properties.src;
 		var reg = /^http/;
@@ -164,7 +173,7 @@ function perfectCompJson(compJson) {
 	return newJson;
 }
 
-function getStyle(css) {
+function getStyle(css, type) {
 	var style = {
 		height: css.height,
 		width: css.width,
@@ -176,8 +185,8 @@ function getStyle(css) {
 		color: css.color
 	};
 
-	if(css.lineHeight) {
-		style['line-height'] = css.lineHeight
+	if(css.lineHeight && type!=2) {
+		style['line-height'] = css.lineHeight;
 	}
 
 	if(css.textAlign) {
@@ -188,19 +197,13 @@ function getStyle(css) {
 		style['background-color'] = css.backgroundColor;
 	}
 
-	if(css.borderColor) {
-		style['border-color'] = css.borderColor;
-	}
-
 	if(css.borderRadius) {
 		style['border-radius'] = css.borderRadius;
 	}
 
-	if(css.borderStyle) {
+	if(css.borderStyle && css.borderWidth && css.borderColor) {
 		style['border-style'] = css.borderStyle;
-	}
-
-	if(css.borderWidth) {
+		style['border-color'] = css.borderColor;
 		style['border-width'] = css.borderWidth;
 	}
 

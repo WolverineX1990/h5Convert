@@ -192,6 +192,12 @@ function setRabMeta(rabbit, eqxMeta) {
 	rabbit.data.name = eqxMeta.name;
 	rabbit.data.desc = eqxMeta.description;
 	rabbit.data.publish = true;
+	if(eqxMeta.pageMode == 6) {
+		rabbit.data.in = 'cvbe';
+	} else {
+		rabbit.data.in = 'move';	
+	}
+	
 	var cover = eqxMeta.cover;
 	var reg = /^http/;
 	if(!reg.test(cover)) {

@@ -29,7 +29,7 @@ module.exports = {
 		'name': '从左向右弹入',
 		'0': {
 			'maka': 'slideLeft',
-			'rabbit': 'slideLeft'
+			'rabbit': 'slideRight'
 		},
 		'1': {
 			'maka': 'slideDown',
@@ -37,7 +37,7 @@ module.exports = {
 		},
 		'2': {
 			'maka': 'slideRight',
-			'rabbit': 'slideRight'
+			'rabbit': 'slideLeft'
 		},
 		'3': {
 			'maka': 'slideUp',

@@ -159,17 +159,23 @@ class Rabbit {
 				'policy': token.policy,
 				'signature': token.token,
 				'key': token.key,
-				'x-oss-meta-ext': token.xparams.ext,
 				'x-oss-meta-type': token.xparams.type,
 				'x-oss-meta-serverType': token.xparams.serverType,
 				'x-oss-meta-bucket': token.xparams.bucket
 			};
 			if(type == 'FILE') {
-				param['x-oss-meta-keyprev'] = token.xparams.keyprev
-			} else {
+				param['x-oss-meta-keyprev'] = token.xparams.keyprev;
+				param['x-oss-meta-ext'] = token.xparams.ext;
+			} else if(type == 'IMAGE') {
 				param['x-oss-meta-userid'] = token.xparams.userid;
 				param['x-oss-meta-appid'] = token.xparams.appid;
 				param['x-oss-meta-userfolder'] = token.xparams.userfolder;
+				param['x-oss-meta-ext'] = token.xparams.ext;
+			} else if(type == 'MUSIC') {
+				param['x-oss-meta-userid'] = token.xparams.userid;
+				param['x-oss-meta-appid'] = token.xparams.appid;
+				param['x-oss-meta-userfolder'] = token.xparams.userfolder;
+				param['x-oss-meta-keyprev'] = token.xparams.keyprev;
 			}
 			return param;
 		});

@@ -46,11 +46,7 @@ class Scene {
 	}
 	
 	toRabbit(rabbit) {
-		return setRabMeta(rabbit, this.data).then(res=>{
-			console.log(res)
-			rabbit.save();
-		});
-		// return setRabMeta(rabbit, this.data).then(res=>insertRabbitPage(rabbit, this.pages));
+		return setRabMeta(rabbit, this.data).then(res=>insertRabbitPage(rabbit, this.pages));
 	}
 
 	toMaka(maka) {		
@@ -196,18 +192,18 @@ function setRabMeta(rabbit, eqxMeta) {
 	rabbit.data.name = eqxMeta.name;
 	rabbit.data.desc = eqxMeta.description;
 	rabbit.data.publish = true;
-	var url = eqxMeta.cover;
+	var cover = eqxMeta.cover;
 	var reg = /^http/;
-	if(!reg.test(url)) {
-		url = fileHost + url;
+	if(!reg.test(cover)) {
+		cover = fileHost + cover;
 	}
-	return rabbit.setCover(url).then(res=> {
+	return rabbit.setCover(cover).then(res=> {
 		if(eqxMeta.bgAudio && eqxMeta.bgAudio.url) {
-			var url = eqxMeta.bgAudio.url;
-			if(!reg.test(url)) {
-				url = fileHost + url;
+			var audio = eqxMeta.bgAudio.url;
+			if(!reg.test(audio)) {
+				audio = fileHost + audio;
 			}
-			return rabbit.setBgAudio(url);
+			return rabbit.setBgAudio(audio);
 		} else {
 			return res;
 		}

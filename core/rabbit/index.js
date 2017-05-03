@@ -68,7 +68,13 @@ class Rabbit {
 
 	setCover(url) {
 		return this.uploadRes({url: url, type: 'cover'}).then(res=>{
-			var xparams = extend({'filename': 'upload.png'});
+			var xparams = {
+					'keyprev': res['x-oss-meta-keyprev'],
+					'type': res['x-oss-meta-type'],
+					'serverType': res['x-oss-meta-serverType'],
+					'bucket': res['x-oss-meta-bucket'],
+					'filename': 'upload.png'
+				};
 			var data = {
 				key: res.key,
 				xparams: JSON.stringify(xparams),
@@ -80,12 +86,22 @@ class Rabbit {
 
 	setBgAudio(url) {
 		return this.uploadRes({url: url, type: 'audio'}).then(res=>{
+			var xparams = {
+				'keyprev': res['x-oss-meta-keyprev'],
+				'userid': res['x-oss-meta-userid'],
+				'appid': res['x-oss-meta-appid'],
+				'userfolder': res['x-oss-met09a-userfolder'],
+				'type': res['x-oss-meta-type'],
+				'serverType': res['x-oss-meta-serverType'],
+				'bucket': res['x-oss-meta-bucket'],
+				'filename': 'upload.mp3'
+			};
 			var data = {
-				key: res,
-				xparams: JSON.stringify({"keyprev":"mp3/","userid":"19d9e8bf-60f0-41f7-8865-9c6846c8da27","appid":"780ad4e3-3abb-4eb6-a638-76c7d9bbe6b4","userfolder":"-1","type":"MUSIC","serverType":"A","bucket":"rabbitpre","filename":"upload.mp3"}),
+				key: res.key,
+				xparams: JSON.stringify(xparams),
 				isAjax: true
 			};
-			return service.upload(data).then(res=>this.data.imgurl=JSON.parse(res).file.id);
+			return service.upload(data).then(res=>this.data.music=JSON.parse(res).file.id);
 		});
 	}
 
@@ -131,7 +147,7 @@ class Rabbit {
 			serverType: 'A',
 			type: type,
 			count: 1,
-			files: JSON.stringify([{"name": fileName}]),
+			files: JSON.stringify([{'name': fileName}]),
 			appid: this.data.id, //场景相关信息
 			userfolder: -1,
 			isAjax: true
@@ -160,19 +176,11 @@ class Rabbit {
 	}
 
 	save() {
-		// var data = {
-		// 	data: JSON.stringify(this.data),
-		// 	isAjax: true
-		// };
+		this.data.publish = true;
 		var data = {
-			data: JSON.stringify({
-				id: this.data.id,
-				imgurl: this.data.imgurl,
-				publish: true
-			}),
+			data: JSON.stringify(this.data),
 			isAjax: true
 		};
-		console.log(data)
 		return service.createTemplate(data);
 	}
 }

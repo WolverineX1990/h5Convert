@@ -4,6 +4,18 @@ module.exports = {
 		'0': {
 			'maka': 'fadeInNormal',
 			'rabbit': 'fadeIn'
+		},
+		'1': {
+			'maka': 'fadeInNormal',
+			'rabbit': 'fadeIn'
+		},
+		'2': {
+			'maka': 'fadeInNormal',
+			'rabbit': 'fadeIn'
+		},
+		'3': {
+			'maka': 'fadeInNormal',
+			'rabbit': 'fadeIn'
 		}
 	},
 	'1': {
@@ -69,14 +81,14 @@ module.exports = {
 		'name': '翻滚进入',
 		'0': {
 			'maka': 'rotateInDownLeft',
-			'rabbit': ''
+			'rabbit': 'rotateInDownLeft'
 		}
 	},
 	'24': {
 		'name': '翻开进入',
 		'0': {
 			'maka': 'flipInX',
-			'rabbit': 'translateReverse'
+			'rabbit': 'translate'
 		}
 	},
 	'13': {
@@ -142,7 +154,7 @@ module.exports = {
 		'name': '旋转',
 		'0': {
 			'maka': 'rotateIn',
-			'rabbit': 'rotateIn'
+			'rabbit': 'translate'
 		}
 	},
 	'9': {
@@ -257,19 +269,19 @@ module.exports = {
 		'name': '旋转',
 		'0': {
 			'maka': 'rotateIn',
-			'rabbit': 'rotateIn'
+			'rabbit': 'translate'
 		},
 		'1': {
 			'maka': 'rotateIn',
-			'rabbit': 'rotateIn'
+			'rabbit': 'translate'
 		},
 		'2': {
 			'maka': 'rotateIn',
-			'rabbit': 'rotateIn'
+			'rabbit': 'translate'
 		},
 		'3': {
 			'maka': 'rotateIn',
-			'rabbit': 'rotateIn'
+			'rabbit': 'translate'
 		}
 	},
 	'15': {

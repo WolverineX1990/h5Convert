@@ -89,17 +89,19 @@ function perfectCompJson(compJson) {
 					};
 					newJson.animation.push(anim);
 				} else {
-					console.log('anim:'+aniType[anims[i].type].name+'direction-'+anims[i].direction+'not found!');	
+					console.log('id:' + compJson.id + '-anim:'+aniType[anims[i].type].name+'direction-'+anims[i].direction+'not found!');	
 				}
 			} else {
-				console.log('anim-type-direction'+anims[i].type+'-'+anims[i].direction+'not found!');
+				console.log('id:' + compJson.id + '-anim-type-direction'+anims[i].type+'-'+anims[i].direction+'not found!');
 			}
 		}
 	}
 
 	if(compJson.type == 2) {
-		newJson.text = compJson.content;
+		newJson.text = getText(compJson.content);
 		newJson.style.height = 'auto';
+		newJson.style['font-family'] = '黑体';
+		// newJson.style['padding'] = '7px 15px';
 		// newJson.css.lineHeight = 1;
 		// newJson.css.width = newJson.css.width + 30;
 		// newJson.css.left = newJson.css.left - 15;
@@ -147,21 +149,21 @@ function perfectCompJson(compJson) {
 	} else if(compJson.type == 8) {
 		newJson.telNum = compJson.properties.title;
 	} else if(compJson.type == 'm') {
-		
+		newJson.coordinate = compJson.properties.lng + ',' + compJson.properties.lat;
 	} else if(compJson.type == 5) {
 		newJson.required = compJson.properties.required;
 		newJson.name = compJson.properties.placeholder;
 	} else if(compJson.type == 501) {
 		newJson.required = compJson.properties.required;
-		newJson.name = compJson.properties.placeholder;
+		newJson.text = newJson.nickname = newJson.name = compJson.properties.placeholder;
 		newJson.inptype = 'name';
 	} else if(compJson.type == 502) {
 		newJson.required = compJson.properties.required;
-		newJson.name = compJson.properties.placeholder;
+		newJson.text = newJson.nickname = newJson.name = compJson.properties.placeholder;
 		newJson.inptype = 'tel';
 	} else if(compJson.type == 503) {
 		newJson.required = compJson.properties.required;
-		newJson.name = compJson.properties.placeholder;
+		newJson.text = newJson.nickname = newJson.name = compJson.properties.placeholder;
 		newJson.inptype = 'email';
 	} else if(compJson.type == 6) {
 		newJson.text = compJson.properties.title;
@@ -301,6 +303,33 @@ function uploadImgs(rabbit, imgList, cmps) {
 		}
 		return uploadImgs(rabbit, imgList, cmps);
     });
+}
+
+function getText(text) {
+	var reg = /([^>]*)/;
+	var ss = '';
+	if(reg.test(text)) {
+	  ss = text.match(reg)[1];
+	}
+	if(text.indexOf('<div') == 0) {
+		if(ss) {
+			var reg1 = /style="([^"]*)/;
+			if(reg1.test(ss)) {
+			  	var mm = ss.match(reg1)[1];
+			  	var ss1 = ss.replace(mm, mm + ';padding:7px 15px;');
+			  	ss = text.replace(ss, ss1);
+			} else {
+				var append = ' style="padding:7px 15px;"'
+				ss = text.replace(ss, ss + append);
+			}
+		} else {
+			ss = '<div style="padding:7px 15px;">' + text +'</div>';
+		}	
+	} else {
+		ss = '<div style="padding:7px 15px;">' + text +'</div>';
+	}
+	
+	return ss;
 }
 
 module.exports = insertRabbitPage;

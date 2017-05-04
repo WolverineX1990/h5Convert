@@ -34,6 +34,36 @@ function loginSuccess(res) {
 // var scene = new Scene('http://h5.eqxiu.com/s/U3srOsDl');
 var scene = new Scene('http://h5.eqxiu.com/s//TTrPggim');
 scene.loadData().then(res=>user.login().then(loginSuccess));
+// /var[\s|\w]*scene[\s|\w]*=[\s|\w]*{([\s|\w|\W]+);/
+function getText(text) {
+	var reg = /([^>]*)/;
+	var ss = '';
+	if(reg.test(text)) {
+	  ss = text.match(reg)[1];
+	}
+	if(text.indexOf('<div') == 0) {
+		if(ss) {
+			var reg1 = /style="([^"]*)/;
+			if(reg1.test(ss)) {
+			  	var mm = ss.match(reg1)[1];
+			  	var ss1 = ss.replace(mm, mm + ';padding:7px 15px;');
+			  	ss = text.replace(ss, ss1);
+			} else {
+				var append = ' style="padding:7px 15px;"'
+				ss = text.replace(ss, ss + append);
+			}
+		} else {
+			ss = '<div style="padding:7px 15px;">' + text +'</div>';
+		}	
+	} else {
+		ss = '<div style="padding:7px 15px;">' + text +'</div>';
+	}
+	
+	return ss;
+}
+
+// var tt = '<span style=\"background-color: initial; color: rgb(255, 255, 255);\">AUTO SHOW</span>';
+// console.log(getText(tt));
 
 // 
 // makaUpload();

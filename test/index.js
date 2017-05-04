@@ -23,6 +23,26 @@ function loginSuccess(res) {
 				Origin: config.origin, 
 				cookie: res.cookie
 			});
+			// rabSevice.test().then(res=>{
+			// 	var json = JSON.parse(res).data;
+			// 	var pages = json.pages;
+			// 	for(var i=0;i<pages.length;i++) {
+			// 		var cmps = pages[i].cmps;
+			// 		for(var j = 0;j<cmps.length;j++) {
+			// 			if(cmps[j].cmpType == 'shape') {
+			// 				if(cmps[j].src == 'http://tenc1.rabbitpre.com/b933779f-1314-4d35-8775-fb978cb9b768') {
+			// 					cmps[j].src = 'http://wscdn.rabbitpre.com/3fe3893e-11fb-474b-b501-c753e922a3a0-3161'
+			// 					console.log(j)
+			// 				}
+			// 			}
+			// 		}
+			// 	}
+			// 	var data = {
+			// 		data: JSON.stringify(json),
+			// 		isAjax: true
+			// 	};
+			// 	rabSevice.createTemplate(data).then(res=>console.log(res));
+			// });
 			rabSevice.createTemplate(data).then(res=>{
 				var json = JSON.parse(res);
 				var rabbit = new Rabbit(json);
@@ -34,37 +54,7 @@ function loginSuccess(res) {
 // var scene = new Scene('http://h5.eqxiu.com/s/U3srOsDl');
 var scene = new Scene('http://h5.eqxiu.com/s//TTrPggim');
 scene.loadData().then(res=>user.login().then(loginSuccess));
-// /var[\s|\w]*scene[\s|\w]*=[\s|\w]*{([\s|\w|\W]+);/
-function getText(text) {
-	var reg = /([^>]*)/;
-	var ss = '';
-	if(reg.test(text)) {
-	  ss = text.match(reg)[1];
-	}
-	if(text.indexOf('<div') == 0) {
-		if(ss) {
-			var reg1 = /style="([^"]*)/;
-			if(reg1.test(ss)) {
-			  	var mm = ss.match(reg1)[1];
-			  	var ss1 = ss.replace(mm, mm + ';padding:7px 15px;');
-			  	ss = text.replace(ss, ss1);
-			} else {
-				var append = ' style="padding:7px 15px;"'
-				ss = text.replace(ss, ss + append);
-			}
-		} else {
-			ss = '<div style="padding:7px 15px;">' + text +'</div>';
-		}	
-	} else {
-		ss = '<div style="padding:7px 15px;">' + text +'</div>';
-	}
-	
-	return ss;
-}
-
-// var tt = '<span style=\"background-color: initial; color: rgb(255, 255, 255);\">AUTO SHOW</span>';
-// console.log(getText(tt));
-
+// user.login().then(loginSuccess);
 // 
 // makaUpload();
 // rabUpload();

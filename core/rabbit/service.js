@@ -6,7 +6,8 @@ module.exports = {
 	getUserInfo: getUserInfo,
 	setHeaders: setHeaders,
 	getUploadToken: getUploadToken,
-	upload: upload
+	upload: upload,
+	test: test
 };
 
 var http = require('http');
@@ -91,5 +92,13 @@ function upload(data) {
 		url: url,
 		headers: _headers,
 		data: querystring.stringify(data)
+	});
+}
+
+function test() {
+	var url = 'http://www.rabbitpre.com/app/user/61f07188-1f33-4530-9ca7-003c5267aa3a?isAjax=true';
+	return request.get({
+		url: url,
+		headers: _headers
 	});
 }

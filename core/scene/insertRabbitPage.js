@@ -101,11 +101,6 @@ function perfectCompJson(compJson) {
 		newJson.text = getText(compJson.content);
 		newJson.style.height = 'auto';
 		newJson.style['font-family'] = '黑体';
-		// newJson.style['padding'] = '7px 15px';
-		// newJson.css.lineHeight = 1;
-		// newJson.css.width = newJson.css.width + 30;
-		// newJson.css.left = newJson.css.left - 15;
-		// newJson.css.top = newJson.css.top - 7;
 	} else if(compJson.type == 3) {
 		var url = compJson.properties.imgSrc;
 		var reg = /^http/;
@@ -135,14 +130,17 @@ function perfectCompJson(compJson) {
 	} else if(compJson.type == 'h') {
 		newJson.fill = [];
 		var url = compJson.properties.src;
+		if(url == 'group1/M00/B1/A3/yq0KXFZysi-ACYaKAAACDQH4Nes625.svg') {
+			url = 'http://wscdn.rabbitpre.com/3fe3893e-11fb-474b-b501-c753e922a3a0-3161';
+		}
 		var reg = /^http/;
 		if(!reg.test(url)) {
 			url = fileHost + url;
 		}
-		if(newJson.properties && newJson.properties.items) {
-			var items = newJson.properties.items;
-			for (var j = 0; j < items.length; j++) {
-				newJson.fill.push(items[i].file);
+		if(compJson.properties && compJson.properties.items) {
+			var items = compJson.properties.items;
+			for (var i = 0; i < items.length; i++) {
+				newJson.fill.push(items[i].fill);
 			}
 		}
 		newJson.src = url;
@@ -256,7 +254,7 @@ function uploadRes(rabbit, pages) {
 					});
 				}
 				list.push(cmp);
-			} else if(cmp.cmpType === 'shape') {
+			} else if(cmp.cmpType === 'shape' && cmp.src!='http://wscdn.rabbitpre.com/3fe3893e-11fb-474b-b501-c753e922a3a0-3161') {
 				if(urls.indexOf(cmp.src) === -1) {
 					urls.push(cmp.src);
 					imgList.push({

@@ -146,6 +146,13 @@ class Scene {
 			});
 		}
 	}
+
+	copy() {
+		for(var i = 0;i<this.pages.length;i++) {
+			
+		}
+	}
+
 	/**
 	 * [publish 保存设置并发布]
 	 * @return {[type]} [description]

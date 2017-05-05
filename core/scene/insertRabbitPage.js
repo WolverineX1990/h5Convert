@@ -30,6 +30,10 @@ function insertRabbitPage(rabbit, pages) {
 		}
 	}
 
+	if(rabbit.data.gather) {
+		rabbit.data.gather = JSON.stringify(rabbit.data.gather);
+	}
+
 	return uploadRes(rabbit, rabPages).then(res=>rabbit.save());
 }
 
@@ -58,6 +62,16 @@ function perfectPageJson(pageJson, pageNum, rabbitData) {
 			if(elements[i].type == 3) {
 				json.cmps.splice(0, 0, cmp);
 			} else {
+				try {
+					if(cmp.cmpType == 'ginput') {
+						if(!rabbitData.gather) {
+							rabbitData.gather = {id: 0, strict: {}};
+						}
+						rabbitData.gather.strict[cmp.tid] = cmp.text;
+					}
+				}catch(e) {
+					console.log(e);
+				}
 				json.cmps.push(cmp);
 			}
 		}		

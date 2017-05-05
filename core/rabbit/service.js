@@ -7,7 +7,7 @@ module.exports = {
 	setHeaders: setHeaders,
 	getUploadToken: getUploadToken,
 	upload: upload,
-	test: test
+	getTplData: getTplData
 };
 
 var http = require('http');
@@ -95,8 +95,8 @@ function upload(data) {
 	});
 }
 
-function test() {
-	var url = 'http://www.rabbitpre.com/app/user/61f07188-1f33-4530-9ca7-003c5267aa3a?isAjax=true';
+function getTplData(id) {
+	var url = serverHost + 'app/user/'+ id +'?isAjax=true';
 	return request.get({
 		url: url,
 		headers: _headers

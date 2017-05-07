@@ -1,8 +1,8 @@
 var api = require('./core/api');
 
-var rabbitpreUrl = 'http://www.rabbitpre.com/template/preview/dd1e09c5-3be0-46a4-aa25-1ba2772b5c08?mobile=1';
+var rabbitpreUrl = 'http://www.rabbitpre.com/template/preview/6daa3999-8016-42a5-89f6-e38ffcde1f40?mobile=1';
 // var eqxUrl = 'http://h5.eqxiu.com/s/U3srOsDl';
-var eqxUrl = 'http://h5.eqxiu.com/s//3frdcjav';
+var eqxUrl = 'http://h5.eqxiu.com/s//twpNBzOM';
 //http://h5.eqxiu.com/s//bgn5lUc1
 //http://h5.eqxiu.com/s//iaptgUlz
  

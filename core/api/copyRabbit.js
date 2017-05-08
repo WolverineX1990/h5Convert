@@ -26,8 +26,15 @@ function copyRabbit(url) {
 					cookie: res.cookie
 				});
 				return rabbitSevice.createTemplate(data).then(res=>{
-					// var json = JSON.parse(res);
-					// var rabbit = new Rabbit(json);
+					var json = JSON.parse(res);
+					var oriData = oriRabbit.data;//data.pages
+					json.name = oriData.name;
+					json.desc = oriData.description;
+					json.publish = true;
+					json.in = oriData.in;
+					json.imgurl = oriData.imgurl;
+					json.music = origin.music;
+					var rabbit = new Rabbit(json);
 					// return scene.toRabbit(rabbit);
 				});
 			});

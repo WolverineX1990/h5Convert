@@ -1,4 +1,6 @@
 var config = require('./../config');
+var utils = require('./../utils');
+var extend = utils.extend;
 
 var eqxConfig = config.eqx;
 var Scene = require('./../scene');
@@ -98,7 +100,13 @@ function copyEqx(url) {
 			var sceneId = JSON.parse(res).obj;
 			return sceneService.getSceneDetail(sceneId).then(res1 => {
 				var json = JSON.parse(res1).obj;
-				json.propertys = oriScene.data.propertys;
+				var originData = oriScene.data;
+				json.bgAudio = JSON.stringify(originData.bgAudio);
+				json.property = JSON.stringify(originData.property);
+				json.name = originData.name;
+				json.cover = originData.cover;
+				json.description = originData.description;
+				json.pageMode = originData.pageMode;
 				var scene = new Scene(json);
 				scene.user = eqxUser;
 			 	return scene.copy(oriScene.pages);

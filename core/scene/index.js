@@ -147,9 +147,27 @@ class Scene {
 		}
 	}
 
-	copy() {
-		for(var i = 0;i<this.pages.length;i++) {
-			
+	copy(pages) {
+		var page = pages.shift();
+		console.log('page:'+this.pages.length);
+		if(page) {
+			return this.copyPage(page).then(res=> this.copy(pages));	
+		} else {
+			return this.publish();
+		}
+	}
+
+	copyPage(page) {
+		if(this.currentPage) {
+			return this.insertPage().then(res1=>{
+				this.currentPage.elements = page.elements;
+			    return this.savePage(this.currentPage);
+			});
+		} else {
+			return this.loadPages().then(res1=>{
+				this.currentPage.elements = page.elements;
+				return this.savePage(this.currentPage);
+			});
 		}
 	}
 

@@ -98,11 +98,10 @@ function copyEqx(url) {
 			var sceneId = JSON.parse(res).obj;
 			return sceneService.getSceneDetail(sceneId).then(res1 => {
 				var json = JSON.parse(res1).obj;
-				// json.
+				json.propertys = oriScene.data.propertys;
 				var scene = new Scene(json);
-				scene.pages = oriScene.pages;
 				scene.user = eqxUser;
-			 	return scene.copy();
+			 	return scene.copy(oriScene.pages);
 			});
 		});
 	}

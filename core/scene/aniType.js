@@ -280,7 +280,7 @@ module.exports = {
 	'particles': {
 		'name': '粒子动画',
 		'0': {
-			'maka': '',
+			'maka': 'zoomOut',
 			'rabbit': 'zoomOut'
 		}
 	},

@@ -55,15 +55,7 @@ class Maka {
 	}
 
 	loadSuc(res) {
-		if(res.indexOf('Moved Temporarily') > -1) {
-	        var reg = /Moved Temporarily. Redirecting to[\s]*([\w|\s|\W]+)/;
-	        utils.getHtml(res.match(reg)[1]).then();
-	    } else {
-	    	var dataReg = /var[\s|\w]*pageData[\s|\w]*=[\s|\w]*{([\s|\w|\W]+)/;
-	        utils.getPageData(res, dataReg).then(function(res) {
 
-	        });
-	    }
 	}
 
 	/**
@@ -137,7 +129,6 @@ class Maka {
 			var header = getOssHeader(this.ossSts2, binary, resource, 'text/json');
 			var param = URL.parse(this.ossSts2.hostId);
 			var url = param.protocol + '//' + this.ossSts2.bucket + '.' + param.host + path;
-			console.log(url);
 			return service.upload(url, binary, header).then(res=> service.saveTemplate(code, {
 				version: 1,
 				thumb: this.data.thumb,

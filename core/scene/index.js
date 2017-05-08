@@ -193,6 +193,7 @@ function setMakaMeta(maka, eqxMeta) {
 		url = fileHost + url;
 	}
 	return maka.uploadImg({url: url}).then(res=>{
+		console.log(res);
 		maka.data.thumb = res;
 		if(eqxMeta.bgAudio && eqxMeta.bgAudio.url) {
 			var url = eqxMeta.bgAudio.url;

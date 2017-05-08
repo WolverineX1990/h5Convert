@@ -149,7 +149,7 @@ class Scene {
 
 	copy(pages) {
 		var page = pages.shift();
-		console.log('page:'+this.pages.length);
+		console.log('page:' + pages.length);
 		if(page) {
 			return this.copyPage(page).then(res=> this.copy(pages));	
 		} else {

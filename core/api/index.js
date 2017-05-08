@@ -90,7 +90,7 @@ function eqxToRabbit(url) {
 function copyEqx(url) {
 	var eqxUser = new EqxUser(eqxConfig.eqxName, eqxConfig.eqxPwd);
 	var oriScene = new Scene(url);
-	return oriScene.loadData().then(res=>user.login().then(loginSuccess));
+	return oriScene.loadData().then(res=>eqxUser.login().then(loginSuccess));
 
 	function loginSuccess() {
 		sceneService.setHeaders({Origin: eqxConfig.eqxOrigin, cookie: eqxUser.cookie});

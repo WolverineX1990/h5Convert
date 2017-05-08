@@ -10,6 +10,7 @@ var compTypes = {
 	'501': 'newForm',
 	'502': 'newForm',
 	'503': 'newForm',
+	'504': 'newForm',
 	'6': 'newForm',
 	'601': 'newForm',
 	'm': 'map',

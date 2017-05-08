@@ -133,6 +133,7 @@ class Rabbit {
 					var url = 'http://rabbitpre.oss-cn-shenzhen.aliyuncs.com';
 				    needle.post(url, data, {multipart: true}, function(err, resp, body) {
 				    	// console.log(resp.statusCode);
+				    	// console.log(body.toString());
 				    	resolve(token);
 					});
 				});

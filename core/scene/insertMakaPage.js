@@ -1,5 +1,6 @@
 var extend = require('./../utils').extend;
 var aniType = require('./aniType');
+var getShageUrl = require('./getMakaShageUrl');
 var fileHost = 'http://res.eqh5.com/';
 var compTypes = {
 	'4': 'pic',
@@ -304,13 +305,15 @@ function uploadRes(maka, pages) {
 				}
 				list.push(cmp);
 			} else if(cmp.type === 'pshape') {
-				if(urls.indexOf(cmp.shape) === -1) {
-					urls.push(cmp.shape);
-					imgList.push({
-						url: cmp.shape
-					});
-				}
-				list.push(cmp);
+				//目前形状上传之后还是不能用，所以先采用替换的方式
+				cmp.shape = 'tt';
+				// if(urls.indexOf(cmp.shape) === -1) {
+				// 	urls.push(cmp.shape);
+				// 	imgList.push({
+				// 		url: cmp.shape
+				// 	});
+				// }
+				// list.push(cmp);
 			}
 		}
 	}

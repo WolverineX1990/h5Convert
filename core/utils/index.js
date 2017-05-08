@@ -16,6 +16,7 @@ module.exports = {
 var http = require('http');
 var URL = require('url');
 var cheerio = require('cheerio');
+
 function getHtml(targetUrl) {
 	var promise = new Promise(function func(resolve, reject){
 		var param = URL.parse(targetUrl);
@@ -103,6 +104,11 @@ function each(object, iterFunction) {
     }
 }
 
+/**
+ * [randomStr 随机串]
+ * @param  {[type]} len [description]
+ * @return {[type]}     [description]
+ */
 function randomStr(len) {
     len = len || 32;
     var chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';

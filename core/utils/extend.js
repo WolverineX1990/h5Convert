@@ -1,3 +1,7 @@
+/**
+ * [extend 拷贝插件]
+ * @return {[type]} [description]
+ */
 function extend() {
     var options, name, src, copy, copyIsArray, clone, target = arguments[0] || {},
         i = 1,

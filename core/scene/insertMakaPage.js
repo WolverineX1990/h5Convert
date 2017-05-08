@@ -1,7 +1,7 @@
 var extend = require('./../utils').extend;
 var aniType = require('./aniType');
 var getShageUrl = require('./makaShageUrl');
-var fileHost = 'http://res.eqh5.com/';
+var fileHost = require('./../config').eqx.fileHost;
 var compTypes = {
 	'4': 'pic',
 	'3': 'pic',

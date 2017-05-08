@@ -1,7 +1,7 @@
 'use strict';
 var aniType = require('./aniType');
 var utils = require('./../utils');
-var fileHost = 'http://res.eqh5.com/';
+var fileHost = require('./../config').eqx.fileHost;
 var compTypes = {
 	'4': 'image',
 	'3': 'image',

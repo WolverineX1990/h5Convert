@@ -54,8 +54,6 @@ class RabbitUser {
 					this.cookie.push(res.cookie[i]);	
 				}
 				return this.info;
-				// console.log(this.info)
-				// return service.getSesion().then(res=>console.log(res));
 			});
 		});
 	}

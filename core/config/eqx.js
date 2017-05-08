@@ -5,5 +5,6 @@ module.exports = {
 	eqxSeverHost: 'http://service.eqxiu.com/',
 	eqxVSeverHost: 'http://vservice.eqxiu.com/',
 	eqxS1Host: 'http://s1.eqxiu.com/',
-	eqxOrigin: 'http://www.eqxiu.com'
+	eqxOrigin: 'http://www.eqxiu.com'，
+	fileHost：'http://res.eqh5.com/'
 };

@@ -1,3 +1,7 @@
+/**
+ * [_crypto 加密]
+ * @type {[type]}
+ */
 var _crypto = require('crypto');
 
 var crypto = {};

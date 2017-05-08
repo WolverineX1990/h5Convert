@@ -189,6 +189,10 @@ class Rabbit {
 		};
 		return service.createTemplate(data);
 	}
+
+	copy() {
+		
+	}
 }
 
 module.exports = Rabbit;

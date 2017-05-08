@@ -152,6 +152,10 @@ class Maka {
 			});
 		}
 	}
+
+	copy() {
+		
+	}
 }
 
 function getOssHeader(token, data, resource, contentType) {

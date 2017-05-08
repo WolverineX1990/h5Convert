@@ -80,8 +80,20 @@ module.exports = {
 	'12': {
 		'name': '翻滚进入',
 		'0': {
+			'maka': 'rotateInUpRight',
+			'rabbit': 'rotateInUpRight'
+		},
+		'1': {
 			'maka': 'rotateInDownLeft',
 			'rabbit': 'rotateInDownLeft'
+		},
+		'2': {
+			'maka': 'rotateInUpLeft',
+			'rabbit': 'rotateInUpLeft'
+		},
+		'3': {
+			'maka': 'rotateInUpLeft',
+			'rabbit': 'rotateInUpLeft'
 		}
 	},
 	'24': {
@@ -161,14 +173,14 @@ module.exports = {
 		'name': '悬摆',
 		'0': {
 			'maka': '',
-			'rabbit': ''
+			'rabbit': 'wobble'
 		}
 	},
 	'23': {
 		'name': '闪烁',
 		'0': {
 			'maka': '',
-			'rabbit': ''
+			'rabbit': 'flash'
 		}
 	},
 	'29': {
@@ -263,6 +275,13 @@ module.exports = {
 		'0': {
 			'maka': '',
 			'rabbit': ''
+		}
+	},
+	'particles': {
+		'name': '粒子动画',
+		'0': {
+			'maka': '',
+			'rabbit': 'zoomOut'
 		}
 	},
 	'31': {

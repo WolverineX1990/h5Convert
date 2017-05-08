@@ -9,6 +9,7 @@ var compTypes = {
 	'501': 'ginput',
 	'502': 'ginput',
 	'503': 'ginput',
+	'504': 'ginput',
 	'5': 'ginput',
 	'6': 'gsubmit',
 	'601': 'gsubmit',
@@ -162,9 +163,9 @@ function perfectCompJson(compJson) {
 		newJson.telNum = compJson.properties.title;
 	} else if(compJson.type == 'm') {
 		newJson.coordinate = compJson.properties.lng + ',' + compJson.properties.lat;
-	} else if(compJson.type == 5) {
+	} else if(compJson.type == 5 || compJson.type == 504) {
 		newJson.required = compJson.properties.required;
-		newJson.name = compJson.properties.placeholder;
+		newJson.text = newJson.nickname = newJson.name = compJson.properties.placeholder;
 	} else if(compJson.type == 501) {
 		newJson.required = compJson.properties.required;
 		newJson.text = newJson.nickname = newJson.name = compJson.properties.placeholder;

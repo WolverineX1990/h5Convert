@@ -15,20 +15,20 @@ var compTypes = {
 
 function insertScenePage(scene, pageJson) {
 	if(pageJson.bgimage) {
-		pageJson.cmps.push({
-				id: randomId(),
-				cmpType: 'bg',
-				style: {
-					width: 374,
-					height: 520,
-					top: -17,
-					left: -27,
-					zIndex: 0
-				},
-				properties: {
-					src: pageJson.bgimage
-				}
-			});
+		var bgCmp = {
+			id: randomId(),
+			cmpType: 'bg',
+			style: {
+				width: 374,
+				height: 520,
+				top: -17,
+				left: -27
+			},
+			properties: {
+				src: pageJson.bgimage
+			}
+		};
+		pageJson.cmps.splice(0, 0, bgCmp);
 	}
 	try {
 		if(scene.currentPage) {
@@ -51,8 +51,6 @@ function convertPage(scene, pageJson) {
 		console.log(err);
 	}
 }
-
-var base = 23.4375 / 20;
 
 function perfectJson(pageJson) {
 	var elements = pageJson.elements;

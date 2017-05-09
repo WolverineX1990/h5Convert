@@ -340,11 +340,11 @@ function uploadImgs(maka, imgList, cmps) {
 		for(var i = 0;i < cmps.length;i++) {
 			if(cmps[i].type == 'pic') {
 				if(cmps[i].picid == obj.url) {
-					cmps[i].picid = res;
+					cmps[i].picid = res.path;
 				}
 			} else if(cmps[i].type == 'pshape') {
 				if(cmps[i].shape == obj.url) {
-					cmps[i].shape = res;
+					cmps[i].shape = res.path;
 				}
 			}
 			

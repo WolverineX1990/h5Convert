@@ -27,15 +27,15 @@ function copyRabbit(url) {
 				});
 				return rabbitSevice.createTemplate(data).then(res=>{
 					var json = JSON.parse(res);
-					var oriData = oriRabbit.data;//data.pages
+					var oriData = oriRabbit.data;
 					json.name = oriData.name;
 					json.desc = oriData.description;
 					json.publish = true;
 					json.in = oriData.in;
 					json.imgurl = oriData.imgurl;
-					json.music = origin.music;
+					json.music = oriData.music;
 					var rabbit = new Rabbit(json);
-					// return scene.toRabbit(rabbit);
+					return rabbit.copy(oriData.pages);
 				});
 			});
 		});

@@ -60,7 +60,7 @@ module.exports = {
 		'name': '翻转进入',
 		'0': {
 			'maka': 'flipInY',
-			'rabbit': ''
+			'rabbit': 'rotate2d'
 		}
 	},
 	'3': {

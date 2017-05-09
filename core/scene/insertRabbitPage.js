@@ -181,6 +181,7 @@ function perfectCompJson(compJson) {
 	} else if(compJson.type == 6) {
 		newJson.text = compJson.properties.title;
 		newJson.message = compJson.properties.text;
+		newJson.style['text-align'] = 'center';
 	} else if(compJson.type == 601) {
 		newJson.text = compJson.properties.title;
 		newJson.message = compJson.properties.text;

@@ -42,32 +42,24 @@ function perfectPageJson(pageJson, pageNum, rabbitData) {
 		bgtop: 0,
 		cmps: []
 	};
-	var elements = pageJson.elements.sort((a, b)=>{
-		var aIndex = a.css.zIndex;
-		var bIndex = b.css.zIndex;
-		return aIndex - bIndex;
-	});
+	var elements = pageJson.content;
 	for(var i = 0;i<elements.length;i++) {
 		if(elements[i].type == 'newForm') {
 			var cmps = getFormCmps(elements[i]);
 		} else {
 			var cmp = perfectCompJson(elements[i]);
 			if(cmp) {
-				if(elements[i].type == 3) {
-					json.cmps.splice(0, 0, cmp);
-				} else {
-					try {
-						if(cmp.cmpType == 'ginput') {
-							if(!rabbitData.gather) {
-								rabbitData.gather = {id: 0, strict: {}};
-							}
-							rabbitData.gather.strict[cmp.tid] = cmp.text;
+				try {
+					if(cmp.cmpType == 'ginput') {
+						if(!rabbitData.gather) {
+							rabbitData.gather = {id: 0, strict: {}};
 						}
-					}catch(e) {
-						console.log(e);
+						rabbitData.gather.strict[cmp.tid] = cmp.text;
 					}
-					json.cmps.push(cmp);
+				}catch(e) {
+					console.log(e);
 				}
+				json.cmps.push(cmp);
 			}
 		}
 	}

@@ -3,7 +3,9 @@ var utils = require('./../utils');
 var service = require('./service');
 var URL = require('url');
 var sign = require('./sign');
+var insertRabbitPage = require('./insertRabbitPage');
 var crypto = utils.crypto;
+var fileHost = 'http://res3.maka.im/';
 
 /**
  * MAKA场景
@@ -46,16 +48,29 @@ class Maka {
 		});
 	}
 
-	toRabbitpre() {
-		console.log(1);	
+	toRabbit(rabbit) {
+		return setRabMeta(rabbit, this.data).then(res=>insertRabbitPage(rabbit, this.pages));
 	}
 
 	loadData() {
-		utils.getHtml(this.dataUrl).then(res=>this.loadSuc(res));
+		return utils.getHtml(this.dataUrl).then(res=>this.loadSuc(res));
 	}
 
 	loadSuc(res) {
+		var dataReg = /window.projectVersion[\s|\w]*=[\s|\w]*{([\s|\w|\W]+)/;
+        return utils.getPageData(res, dataReg).then(res => {
+        	this.data = JSON.parse(res);
+        	return this.loadViewPages();
+        }, error=>console.log(error));
+	}
 
+	loadViewPages(){
+		return service.getViewData(this.data.uid, this.data.id, this.data.p_version).then(res=>{
+			var data = JSON.parse(res).data.pdata;
+			this.pages = data.json;
+			this.data.music = data.music;
+			return this;
+		});
 	}
 
 	/**
@@ -186,3 +201,21 @@ function getOssHeader(token, data, resource, contentType) {
 }
 
 module.exports = Maka;
+
+function setRabMeta(rabbit, makaMeta) {
+	rabbit.data.name = makaMeta.title;
+	rabbit.data.desc = makaMeta.content;
+	rabbit.data.publish = true;
+	var reg = /^http/;
+	return rabbit.setCover(makaMeta.thumb).then(res=> {
+		if(makaMeta.music && makaMeta.music.id) {
+			var audio = makaMeta.music.id;
+			if(!reg.test(audio)) {
+				audio = fileHost + audio;
+			}
+			return rabbit.setBgAudio(audio);
+		} else {
+			return res;
+		}
+	});
+}

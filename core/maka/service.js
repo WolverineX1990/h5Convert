@@ -4,7 +4,8 @@ module.exports = {
 	getTemplate: getTemplate,
 	getOssSts2: getOssSts2,
 	upload: upload,
-	saveTemplate: saveTemplate
+	saveTemplate: saveTemplate,
+	getViewData: getViewData
 };
 
 var http = require('http');
@@ -88,4 +89,10 @@ function upload(path, data, headers) {
 		headers: headers,
 		data: data
 	});
+}
+
+function getViewData(uid, id, version) {
+	var url = 'http://res.maka.im/user/'+ uid +'/template/'+ id +'/'+ id +'_v'+ version +'.json';
+	console.log(url);
+	return request.get({url: url});
 }

@@ -145,8 +145,26 @@ class Maka {
 		}
 	}
 
-	copy() {
-		
+	copy(pages) {
+		this.data.pages[0].deleted = true;
+		for(var i = 0;i<pages.length;i++) {
+			var page = pages[i];
+			var json = {
+				appid: this.data.id,
+				row: page.row,
+				col: page.col,
+				in: page.in,
+				out: page.out,
+				bgcol: page.bgcol,
+				bgimage: page.bgimage,
+				bgserver: page.bgserver,
+				bgleft: page.bgleft,
+				bgtop: page.bgtop,
+				cmps: page.cmps
+			};
+			this.data.pages.push(json);
+		}
+		return this.save();
 	}
 }
 

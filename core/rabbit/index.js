@@ -210,7 +210,6 @@ class Rabbit {
 			};
 			this.data.pages.push(json);
 		}
-		console.log(2)
 		return this.save();
 	}
 }

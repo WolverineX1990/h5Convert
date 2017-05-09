@@ -70,31 +70,25 @@ function perfectPageJson(pageJson, pageNum, rabbitData) {
 function perfectCompJson(compJson) {
 	var newJson = {
 		tid: randomId(),
-		style: getStyle(compJson.css, compJson.type),
+		style: getStyle(compJson, compJson.type),
 		trigger: [],
 		animation: [],
 		cmpType: compTypes[compJson.type]
 	};
 
-	if(compJson.properties && compJson.properties.anim) {
-		var anims = compJson.properties.anim;
-		for (var i = 0; i <anims.length; i++) {
-			if(aniType[anims[i].type]) {
-				var animObj = aniType[anims[i].type][anims[i].direction];
-				if(animObj && animObj.rabbit) {
-					var count = anims[i].count == 1 ? 'infinite' : anims[i].countNum;
-					var anim = {
-						name: animObj.rabbit,
-						count: count,
-						delay: anims[i].delay
-					};
-					newJson.animation.push(anim);
-				} else {
-					console.log('id:' + compJson.id + '-anim:'+aniType[anims[i].type].name+'direction-'+anims[i].direction+'not found!');	
-				}
-			} else {
-				console.log('id:' + compJson.id + '-anim-type-direction'+anims[i].type+'-'+anims[i].direction+'not found!');
-			}
+	if(compJson.elementAnimations && compJson.elementAnimations.animation_in) {
+		var animation = compJson.elementAnimations.animation_in;
+		var animObj = aniType[animation.show];
+		if(animObj && animObj.rabbit) {
+			var count = animation.count == 1 ? 'infinite' : anims[i].countNum;
+			var anim = {
+				name: animObj.rabbit,
+				count: count,
+				delay: animation.delay
+			};
+			newJson.animation.push(anim);
+		} else {
+			console.log('id:' + compJson.id + '-anim:'+animation.show+' not found!');	
 		}
 	}
 
@@ -138,15 +132,15 @@ function perfectCompJson(compJson) {
 	return newJson;
 }
 
-function getStyle(css, type) {
+function getStyle(json, type) {
 	var style = {
-		height: css.height,
-		width: css.width,
-		top: css.top,
-		left: css.left,
+		height: json.h,
+		width: json.w,
+		top: json.top,
+		left: json.left,
 		rotate: css.rotate,
 		transform: css.transform,
-		opacity: css.opacity,
+		opacity: json.opacity,
 		color: css.color
 	};
 
@@ -154,8 +148,8 @@ function getStyle(css, type) {
 		style['line-height'] = css.lineHeight;
 	}
 
-	if(css.textAlign) {
-		style['text-align'] = css.textAlign;
+	if(json.textalign) {
+		style['text-align'] = json.textalign;
 	}
 
 	if(css.backgroundColor) {

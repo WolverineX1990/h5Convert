@@ -205,6 +205,7 @@ module.exports = Maka;
 function setRabMeta(rabbit, makaMeta) {
 	rabbit.data.name = makaMeta.title;
 	rabbit.data.desc = makaMeta.content;
+	rabbit.data.in = 'move';
 	rabbit.data.publish = true;
 	var reg = /^http/;
 	return rabbit.setCover(makaMeta.thumb).then(res=> {

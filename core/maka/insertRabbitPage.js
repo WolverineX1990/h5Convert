@@ -2,6 +2,7 @@
 var aniType = require('./aniType');
 var utils = require('./../utils');
 var fileHost = 'http://res2.maka.im/';
+var imgHost = 'http://img2.maka.im/';
 var compTypes = {
 	'pic': 'image',
 	'pshape': 'shape',
@@ -97,9 +98,14 @@ function perfectCompJson(compJson) {
 		newJson.style.height = 'auto';
 		newJson.style['font-family'] = '黑体';
 	} else if(compJson.type == 'pic') {
+		var url = compJson.picid;
+		var reg = /^http/;
+		if(!reg.test(url)) {
+			url = imgHost + url;
+		}
 		newJson.file = {
-			url: compJson.picid,
-			key: compJson.picid,
+			url: url,
+			key: url,
 			server: 'Q'
 		};
 	} else if(compJson.type == 'pshape') {
@@ -222,6 +228,7 @@ function uploadRes(rabbit, pages) {
 }
 
 function uploadImgs(rabbit, imgList, cmps) {
+	console.log('imglen:' + imgList.length);
 	var obj = imgList.shift();
 	if(!obj) {
 		var promise = new Promise(function func(resolve, reject){

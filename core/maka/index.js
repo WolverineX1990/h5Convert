@@ -36,8 +36,18 @@ class Maka {
 		return this._user;
 	}
 	
-	toScene() {
-
+	toScene(scene) {
+		scene.propertys = {
+			name: this.data.title,
+			description: this.data.content
+		};
+		var page = this.pages.shift();
+		console.log('page:'+this.pages.length);
+		if(page) {
+			return insertScenePage(scene, page).then(res=> this.toScene(scene));	
+		} else {
+			return setEqxMeta(scene, this.data);
+		}
 	}
 
 	getJson() {
@@ -219,4 +229,49 @@ function setRabMeta(rabbit, makaMeta) {
 			return res;
 		}
 	});
+}
+
+/**
+ * [setEqxMeta 设置易企秀场景属性]
+ * @param {[type]} data  [description]
+ * @param {[type]} scene [description]
+ */
+function setEqxMeta(scene, makaMeta) {
+	if(data.imgurl){
+		return scene.uploadImg({
+			type: 'image',
+			url: data.imgPath
+		}).then(res=> {
+			var key = JSON.parse(res).key;
+			scene.propertys = {
+				cover: key
+			};
+			if(data.musicPath) {
+				return scene.uploadAudio(data.musicPath).then(res1=>{
+					var key = JSON.parse(res1).key;
+					scene.propertys = {
+						bgAudio: JSON.stringify({
+							name: data.musicname,
+							url: key
+						})
+					};
+				 	return scene.publish();
+				});
+			} else {
+				return scene.publish();
+			}
+		});
+	} else if(data.musicPath) {
+		return scene.uploadAudio(data.musicPath).then(res1=>{
+			scene.propertys = {
+				bgAudio: {
+					name: data.musicname,
+					url: key
+				}
+			};
+		 	return scene.publish();
+		});
+	} else {
+		return scene.publish();
+	}
 }

@@ -1,16 +1,16 @@
 var config = require('./../config');
+var Maka = require('./../maka');
 var eqxConfig = config.eqx;
 var Scene = require('./../scene');
 var sceneService = require('./../scene/services');
 var EqxUser = require('./../user/eqxUser');
-var Rabbit = require('./../rabbit');
 
-function rabToEqx(url) {
+function makaToEqx(url) {
 	var eqxUser = new EqxUser(eqxConfig.eqxName, eqxConfig.eqxPwd);
-	var rabbit = new Rabbit(url);
-	return rabbit.loadData().then(res=>eqxUser.login().then(loginSuccess));
+	var maka = new Maka(url);
+	return maka.loadData().then(res=>eqxUser.login().then(loginSuccess));
 
-	function loginSuccess() {
+	function loginSuccess(res) {
 		sceneService.setHeaders({Origin: eqxConfig.eqxOrigin, cookie: eqxUser.cookie});
 		return sceneService.createScene().then(res=> {
 			var sceneId = JSON.parse(res).obj;
@@ -18,10 +18,10 @@ function rabToEqx(url) {
 				var json = JSON.parse(res1).obj;
 				var scene = new Scene(json);
 				scene.user = eqxUser;
-			 	return rabbit.toScene(scene);
+			 	return maka.toScene(scene);
 			});
 		});
 	}
 }
 
-module.exports = rabToEqx;
+module.exports = makaToEqx;

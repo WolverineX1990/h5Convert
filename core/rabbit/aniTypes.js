@@ -67,7 +67,7 @@ module.exports = {
 	'bounceInLeft': {
 		type: 2,
 		direction: 0,
-		name: '从左到右弹入'
+		name: '从左到右移入'
 	},
 	'bounceInDown': {
 		type: 1,

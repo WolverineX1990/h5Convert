@@ -1,12 +1,7 @@
 module.exports = {
-	'fadeIn': {
-		name: '淡入',
-		rabbit: '',
-		eqx: ''
-	},
 	'fadeInNormal': {
 		name: '淡入',
-		rabbit: '',
+		rabbit: 'fadeIn',
 		eqx: ''
 	},
 	'rotateInDownLeft': {
@@ -21,57 +16,57 @@ module.exports = {
 	},
 	'zoomIn': {
 		name: '放大',
-		rabbit: '',
+		rabbit: 'zoomIn',
 		eqx: ''
 	},
 	'zoomInDown': {
 		name: '下落放大',
-		rabbit: '',
+		rabbit: 'zoomIn',
 		eqx: ''
 	},
 	'fadeIn': {
 		name: '弹性放大',
-		rabbit: '',
+		rabbit: 'bounceOut',
 		eqx: ''
 	},
 	'expandOpen': {
 		name: '弹性缩小',
-		rabbit: '',
+		rabbit: 'zoomOut',
 		eqx: ''
 	},
 	'fadeInLeft': {
 		name: '向右飞入',
-		rabbit: '',
+		rabbit: 'slideRight',
 		eqx: ''
 	},
 	'fadeInRight': {
 		name: '向左飞入',
-		rabbit: '',
+		rabbit: 'slideLeft',
 		eqx: ''
 	},
 	'fadeInUp': {
 		name: '向上飞入',
-		rabbit: '',
+		rabbit: 'slideUp',
 		eqx: ''
 	},
 	'fadeInDown': {
 		name: '向下飞入',
-		rabbit: '',
+		rabbit: 'slideDown',
 		eqx: ''
 	},
 	'rotateIn': {
 		name: '旋转出现',
-		rabbit: '',
+		rabbit: 'translate',
 		eqx: ''
 	},
 	'flipInY': {
 		name: '左右翻转',
-		rabbit: '',
+		rabbit: 'rotate2d',
 		eqx: ''
 	},
 	'flipInX': {
 		name :'上下翻转',
-		rabbit: '',
+		rabbit: 'rotate2d',
 		eqx: ''
 	},
 	'lightSpeedIn': {
@@ -81,22 +76,22 @@ module.exports = {
 	},
 	'slideRight': {
 		name: '向右滑入',
-		rabbit: '',
+		rabbit: 'bounceInLeft',
 		eqx: ''
 	},
 	'slideLeft': {
 		name: '向左滑入',
-		rabbit: '',
+		rabbit: 'bounceInRight',
 		eqx: ''
 	},
 	'slideUp': {
 		name: '向上滑入',
-		rabbit: '',
+		rabbit: 'bounceInDown',
 		eqx: ''
 	},
 	'slideDown': {
 		name: '向下滑入',
-		rabbit: '',
+		rabbit: 'bounceInUp',
 		eqx: ''
 	},
 	'stretchRight': {

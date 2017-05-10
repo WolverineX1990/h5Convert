@@ -81,7 +81,8 @@ function perfectCompJson(compJson) {
 		var animation = compJson.elementAnimations.animation_in;
 		var animObj = aniType[animation.show];
 		if(animObj && animObj.rabbit) {
-			var count = animation.count == 1 ? 'infinite' : anims[i].countNum;
+			// var count = animation.count == 1 ? 'infinite' : animation.countNum;
+			var count = 1;
 			var anim = {
 				name: animObj.rabbit,
 				count: count,
@@ -110,7 +111,7 @@ function perfectCompJson(compJson) {
 		};
 	} else if(compJson.type == 'pshape') {
 		newJson.fill = [];
-		var url = shape;
+		var url = compJson.shape;
 		if(url == 'group1/M00/B1/A3/yq0KXFZysi-ACYaKAAACDQH4Nes625.svg') {
 			url = 'http://wscdn.rabbitpre.com/3fe3893e-11fb-474b-b501-c753e922a3a0-3161';
 		}
@@ -228,7 +229,6 @@ function uploadRes(rabbit, pages) {
 }
 
 function uploadImgs(rabbit, imgList, cmps) {
-	console.log('imglen:' + imgList.length);
 	var obj = imgList.shift();
 	if(!obj) {
 		var promise = new Promise(function func(resolve, reject){

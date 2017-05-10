@@ -89,7 +89,7 @@ function perfectCompJson(compJson) {
 			};
 			newJson.animation.push(anim);
 		} else {
-			console.log('id:' + compJson.id + '-anim:'+animation.show+' not found!');	
+			console.log('anim:'+animation.show+' not found!');	
 		}
 	}
 

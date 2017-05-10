@@ -93,6 +93,5 @@ function upload(path, data, headers) {
 
 function getViewData(uid, id, version) {
 	var url = 'http://res.maka.im/user/'+ uid +'/template/'+ id +'/'+ id +'_v'+ version +'.json';
-	console.log(url);
 	return request.get({url: url});
 }

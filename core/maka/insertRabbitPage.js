@@ -1,7 +1,7 @@
 'use strict';
 var aniType = require('./aniType');
 var utils = require('./../utils');
-var fileHost = '';
+var fileHost = 'http://res2.maka.im/';
 var compTypes = {
 	'pic': 'image',
 	'pshape': 'shape',
@@ -97,19 +97,14 @@ function perfectCompJson(compJson) {
 		newJson.style.height = 'auto';
 		newJson.style['font-family'] = '黑体';
 	} else if(compJson.type == 'pic') {
-		var url = compJson.properties.src;
-		var reg = /^http/;
-		if(!reg.test(url)) {
-			url = fileHost + url;
-		}
 		newJson.file = {
-			url: url,
-			key: url,
+			url: compJson.picid,
+			key: compJson.picid,
 			server: 'Q'
 		};
 	} else if(compJson.type == 'pshape') {
 		newJson.fill = [];
-		var url = compJson.properties.src;
+		var url = shape;
 		if(url == 'group1/M00/B1/A3/yq0KXFZysi-ACYaKAAACDQH4Nes625.svg') {
 			url = 'http://wscdn.rabbitpre.com/3fe3893e-11fb-474b-b501-c753e922a3a0-3161';
 		}
@@ -117,10 +112,9 @@ function perfectCompJson(compJson) {
 		if(!reg.test(url)) {
 			url = fileHost + url;
 		}
-		if(compJson.properties && compJson.properties.items) {
-			var items = compJson.properties.items;
-			for (var i = 0; i < items.length; i++) {
-				newJson.fill.push(items[i].fill);
+		if(compJson.colorScheme) {;
+			for (var key in compJson.colorScheme) {
+				newJson.fill.push(compJson.colorScheme[key]);
 			}
 		}
 		newJson.src = url;
@@ -138,43 +132,41 @@ function getStyle(json, type) {
 		width: json.w,
 		top: json.top,
 		left: json.left,
-		rotate: css.rotate,
-		transform: css.transform,
-		opacity: json.opacity,
-		color: css.color
+		rotate: json.rotate,
+		// transform: css.transform,
+		opacity: json.opacity//,
+		// color: css.color
 	};
 
-	if(css.lineHeight && type!=2) {
-		style['line-height'] = css.lineHeight;
-	}
+	// if(css.lineHeight && type!=2) {
+	// 	style['line-height'] = css.lineHeight;
+	// }
 
 	if(json.textalign) {
 		style['text-align'] = json.textalign;
 	}
 
-	if(css.backgroundColor) {
-		style['background-color'] = css.backgroundColor;
+	// if(css.backgroundColor) {
+	// 	style['background-color'] = css.backgroundColor;
+	// }
+
+	if(json.borderradius) {
+		style['border-radius'] = json.borderradius;
 	}
 
-	if(css.borderRadius) {
-		style['border-radius'] = css.borderRadius;
+	if(json.rotate) {
+		style.transform = getRotateStr(json.rotate);
 	}
 
-	if(css.transform) {
-		var rotate = utils.parseTransform(css.transform).rotate;
-		style.rotate = rotate;
-		style.transform = getRotateStr(rotate);
-	}
+	// if(css.borderStyle && css.borderWidth && css.borderColor) {
+	// 	style['border-style'] = css.borderStyle;
+	// 	style['border-color'] = css.borderColor;
+	// 	style['border-width'] = css.borderWidth;
+	// }
 
-	if(css.borderStyle && css.borderWidth && css.borderColor) {
-		style['border-style'] = css.borderStyle;
-		style['border-color'] = css.borderColor;
-		style['border-width'] = css.borderWidth;
-	}
-
-	if(css.fontSize) {
-		style['font-size'] = css.fontSize;
-	}
+	// if(css.fontSize) {
+	// 	style['font-size'] = css.fontSize;
+	// }
 
 	return style;
 }

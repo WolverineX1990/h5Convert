@@ -152,14 +152,14 @@ module.exports = {
 		'name': '摇摆',
 		'0': {
 			'maka': 'rotateIn',
-			'rabbit': ''
+			'rabbit': 'wobble'
 		}
 	},
 	'5': {
 		'name': '抖动',
 		'0': {
 			'maka': '',
-			'rabbit': ''
+			'rabbit': 'tada'
 		}
 	},
 	'7': {

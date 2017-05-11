@@ -212,6 +212,16 @@ class Rabbit {
 		}
 		return this.save();
 	}
+
+	setCmpId(cmp) {
+		var data = {
+			isAjax: true
+		};
+		return service.getCmpId(data).then(res=>{
+			cmp.cmp_id = JSON.parse(res).data.cmp_id;
+			return cmp;
+		});
+	}
 }
 
 module.exports = Rabbit;

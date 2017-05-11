@@ -5,3 +5,4 @@ var mydb = require('./mydb');
 // updateRabbit();
 // makaUpload();
 // rabUpload();
+mydb();

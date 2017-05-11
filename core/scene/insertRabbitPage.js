@@ -16,7 +16,8 @@ var compTypes = {
 	'm': 'map',
 	'2': 'text',
 	'8': 'onecall',
-	'l': 'text'
+	'l': 'text',
+	'i': 'praise'
 };
 
 function insertRabbitPage(rabbit, pages) {
@@ -35,7 +36,35 @@ function insertRabbitPage(rabbit, pages) {
 		rabbit.data.gather = JSON.stringify(rabbit.data.gather);
 	}
 
-	return uploadRes(rabbit, rabPages).then(res=>rabbit.save());
+	return uploadRes(rabbit, rabPages)
+			.then(res=>setComps(rabbit))
+			.then(res=>rabbit.save());
+}
+
+function setComps(rabbit) {
+	var praiseCmps = [];
+	var rabPages = rabbit.data.pages;
+	for(var i = 0;i<rabPages.length;i++) {
+		var cmps = rabPages[i].cmps;
+		for(var j = 0;j<cmps.length;j++) {
+			if(cmps[j].cmpType == 'praise') {
+				praiseCmps.push(cmps[j]);
+			}
+		}
+	}
+	if(praiseCmps.length) {
+		return setCompsId(praiseCmps, rabbit);
+	}
+	return rabPages;
+}
+
+function setCompsId(praiseCmps, rabbit) {
+	var cmp = praiseCmps.shift();
+	if(cmp) {
+		rabbit.setCmpId(cmp).then(res=>setCompsId(praiseCmps));
+	} else {
+		return rabbit;
+	}
 }
 
 function perfectPageJson(pageJson, pageNum, rabbitData) {
@@ -108,7 +137,7 @@ function perfectCompJson(compJson) {
 					console.log('id:' + compJson.id + '-anim:'+aniType[anims[i].type].name+'direction-'+anims[i].direction+'not found!');	
 				}
 			} else {
-				if(anims[i].type ! = -1) {
+				if(anims[i].type != -1) {
 					console.log('id:' + compJson.id + '-anim-type-direction'+anims[i].type+'-'+anims[i].direction+'not found!');
 				}
 			}
@@ -190,6 +219,15 @@ function perfectCompJson(compJson) {
 		newJson.message = compJson.properties.text;
 	} else if(compJson.type == 'l') {
 		newJson.text = '<a href="'+compJson.properties.url+'">'+compJson.properties.title+'</a>';
+	} else if(compJson.type == 'i') {
+		newJson.content = {
+			icon: 'diao',
+			img: '',
+			num: 0,
+			state: 'icon'
+		};
+		newJson.layout = 'landscape';
+		newJson.style.height = 'auto';
 	} else {
 		console.log(compJson.type + ' not found');
 		return null;

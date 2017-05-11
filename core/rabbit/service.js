@@ -7,7 +7,8 @@ module.exports = {
 	setHeaders: setHeaders,
 	getUploadToken: getUploadToken,
 	upload: upload,
-	getTplData: getTplData
+	getTplData: getTplData,
+	getCmpId: getCmpId
 };
 
 var http = require('http');
@@ -100,5 +101,13 @@ function getTplData(id) {
 	return request.get({
 		url: url,
 		headers: _headers
+	});
+}
+
+function getCmpId(data) {
+	return request.put({
+		url: serverHost + 'cmp',
+		headers: _headers,
+		data: querystring.stringify(data)
 	});
 }

@@ -21,6 +21,11 @@ function loginSuccess() {
 			});
 			// console.log(user.info);
 			// console.log(res.cookie);
+			var tt = {
+				isAjax: true
+			};
+			rabSevice.getCmpId(tt).then(res=>console.log(res));
+			return;
 			var data = {
 				serverType: 'A',
 				type: 'IMAGE',

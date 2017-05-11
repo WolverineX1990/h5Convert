@@ -1,7 +1,7 @@
 'use strict';
 var aniTypes = require('./aniTypes');
 var utils = require('./../utils');
-var fileHost = 'http://res2.maka.im/';
+var fileHost = 'http://res2.maka.im/shapeSVG/';
 var imgHost = 'http://img2.maka.im/';
 var compTypes = {
 	'pic': 'image',

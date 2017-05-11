@@ -36,8 +36,8 @@ function eqxToRabbit(url) {
 					var json = JSON.parse(res);
 					var rabbit = new Rabbit(json);
 					return scene.toRabbit(rabbit);
-				})
-				.then(res=>db.put('eqx-rab-' + scene.data.id, url));
+				});
+				// .then(res=>db.put('eqx-rab-' + scene.data.id, url));
 }
 
 module.exports = eqxToRabbit;

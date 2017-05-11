@@ -170,11 +170,8 @@ function getStyle(style) {
 		css.borderRadius = style['border-radius'];
 	}
 
-	if(style['border-style']) {
+	if(style['border-style'] && style['border-width']) {
 		css.borderStyle = style['border-style'];
-	}
-
-	if(style['border-width']) {
 		css.borderWidth = style['border-width'];
 	}
 

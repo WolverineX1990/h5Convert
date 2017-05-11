@@ -97,19 +97,20 @@ function perfectCompJson(compJson) {
 				var animObj = aniType[anims[i].type][anims[i].direction];
 				if(animObj && animObj.rabbit) {
 					var count = anims[i].count == 1 ? 'infinite' : anims[i].countNum;
-					//duration
 					var anim = {
 						name: animObj.rabbit,
 						count: count,
-						delay: anims[i].delay
-						duration: anim[i].duration || 1
+						delay: anims[i].delay,
+						duration: anims[i].duration || 1
 					};
 					newJson.animation.push(anim);
 				} else {
 					console.log('id:' + compJson.id + '-anim:'+aniType[anims[i].type].name+'direction-'+anims[i].direction+'not found!');	
 				}
 			} else {
-				console.log('id:' + compJson.id + '-anim-type-direction'+anims[i].type+'-'+anims[i].direction+'not found!');
+				if(anims[i].type ! = -1) {
+					console.log('id:' + compJson.id + '-anim-type-direction'+anims[i].type+'-'+anims[i].direction+'not found!');
+				}
 			}
 		}
 	}

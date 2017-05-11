@@ -63,6 +63,13 @@ module.exports = {
 			'rabbit': 'rotate2d'
 		}
 	},
+	"8": {
+		'name': '翻转',
+		'0': {
+			'maka': 'flipInY',
+			'rabbit': 'rotate2d'
+		}
+	},
 	'3': {
 		'name': '中心弹入',
 		'0': {
@@ -73,6 +80,18 @@ module.exports = {
 	'4': {
 		'name': '中心放大',
 		'0': {
+			'maka': 'zoomIn',
+			'rabbit': 'zoomIn'
+		},
+		'1': {
+			'maka': 'zoomIn',
+			'rabbit': 'zoomIn'
+		},
+		'2': {
+			'maka': 'zoomIn',
+			'rabbit': 'zoomIn'
+		},
+		'3': {
 			'maka': 'zoomIn',
 			'rabbit': 'zoomIn'
 		}

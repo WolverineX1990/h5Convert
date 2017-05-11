@@ -26,7 +26,7 @@ function loginSuccess() {
 				type: 'IMAGE',
 				count: 1,
 				files: JSON.stringify([{"name":"upload.svg"}]),
-				appid: 'd2905dec-68a7-4f0c-997b-05d00aea181f', //场景相关信息
+				appid: '1d149230-e81b-43da-8f29-02b2f491a240', //场景相关信息
 				userfolder: -1,
 				isAjax: true
 			};
@@ -34,8 +34,6 @@ function loginSuccess() {
 				var token = JSON.parse(res)[0];
 				// console.log('http://tenc1.rabbitpre.com/' + token.key);
 				// console.log(token)
-				// return;
-				token.key = token.key + '.svg'
 				var data = {
 					'OSSAccessKeyId': token.accessKey,
 					'policy': token.policy,
@@ -62,8 +60,8 @@ function loginSuccess() {
 					var url = 'http://rabbitpre.oss-cn-shenzhen.aliyuncs.com';
 				    needle.post(url, data, options, function(err, resp, body) {
 				    	console.log(url + '/' + data.key);
-				    	console.log(body.toString());
-					  	console.log(resp.statusCode);
+				    	// console.log(body.toString());
+					  	// console.log(resp.statusCode);
 					});
 				});
 			});

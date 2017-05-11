@@ -171,6 +171,12 @@ function checkExist(key) {
         if(res) {
             throw new Error(res + 'exist');
         }
-        return true;
+        return false;
+    }, err=>{
+        if(err.type == 'NotFoundError') {
+            return false;
+        } else {
+            throw err;
+        }
     });
 }

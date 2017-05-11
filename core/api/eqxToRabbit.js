@@ -1,6 +1,7 @@
 var config = require('./../config');
 var Scene = require('./../scene');
 var db = require('./../db');
+var utils = require('./../utils');
 var rabConfig = config.rabbit;
 var Rabbit = require('./../rabbit');
 var RabbitUser = require('./../user/rabbitUser');

@@ -4,6 +4,7 @@ var service = require('./service');
 var URL = require('url');
 var sign = require('./sign');
 var insertRabbitPage = require('./insertRabbitPage');
+var insertScenePage = require('./insertScenePage');
 var crypto = utils.crypto;
 var fileHost = 'http://res3.maka.im/';
 
@@ -237,21 +238,25 @@ function setRabMeta(rabbit, makaMeta) {
  * @param {[type]} scene [description]
  */
 function setEqxMeta(scene, makaMeta) {
-	if(data.imgurl){
+	if(makaMeta.thumb){
 		return scene.uploadImg({
 			type: 'image',
-			url: data.imgPath
+			url: makaMeta.thumb
 		}).then(res=> {
 			var key = JSON.parse(res).key;
 			scene.propertys = {
 				cover: key
 			};
-			if(data.musicPath) {
-				return scene.uploadAudio(data.musicPath).then(res1=>{
+			if(makaMeta.music.id) {
+				var audio = makaMeta.music.id;
+				if(!reg.test(audio)) {
+					audio = fileHost + audio;
+				}
+				return scene.uploadAudio(audio).then(res1=>{
 					var key = JSON.parse(res1).key;
 					scene.propertys = {
 						bgAudio: JSON.stringify({
-							name: data.musicname,
+							name: '',
 							url: key
 						})
 					};
@@ -261,11 +266,15 @@ function setEqxMeta(scene, makaMeta) {
 				return scene.publish();
 			}
 		});
-	} else if(data.musicPath) {
-		return scene.uploadAudio(data.musicPath).then(res1=>{
+	} else if(makaMeta.music.id) {
+		var audio = makaMeta.music.id;
+		if(!reg.test(audio)) {
+			audio = fileHost + audio;
+		}
+		return scene.uploadAudio(audio).then(res1=>{
 			scene.propertys = {
 				bgAudio: {
-					name: data.musicname,
+					name: '',
 					url: key
 				}
 			};

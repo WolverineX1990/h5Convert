@@ -248,7 +248,7 @@ function uploadRes(scene, pageJson) {
 	var imgList = [];
 	var urls = [];
 	for(var i = 0;i<elements.length;i++) {
-		if(elements[i].type == 4 && elements[i].properties.src.indexOf('rabbitpre') > -1) {
+		if(elements[i].type == 4) {
 			if(urls.indexOf(elements[i].properties.src) == -1) {
 				imgList.push({
 					url: elements[i].properties.src,
@@ -257,22 +257,13 @@ function uploadRes(scene, pageJson) {
 				urls.push(elements[i].properties.src);
 			}
 			list.push(elements[i]);
-		} else if(elements[i].type == 'h' && elements[i].properties.src.indexOf('rabbitpre') > -1) {
+		} else if(elements[i].type == 'h') {
 			if(urls.indexOf(elements[i].properties.src) == -1) {
 				imgList.push({
 					url: elements[i].properties.src,
 					type: 'svg'
 				});
 				urls.push(elements[i].properties.src);
-			}
-			list.push(elements[i]);
-		} else if(elements[i].type == 3) {
-			if(urls.indexOf(elements[i].properties.imgSrc) == -1) {
-				imgList.push({
-					url: elements[i].properties.imgSrc,
-					type: 'image'
-				});
-				urls.push(elements[i].properties.imgSrc);
 			}
 			list.push(elements[i]);
 		}

@@ -1,5 +1,5 @@
 'use strict';
-var aniType = require('./aniType');
+var aniType = require('./aniTypes');
 var utils = require('./../utils');
 var fileHost = 'http://res2.maka.im/';
 var imgHost = 'http://img2.maka.im/';

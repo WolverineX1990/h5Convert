@@ -97,10 +97,12 @@ function perfectCompJson(compJson) {
 				var animObj = aniType[anims[i].type][anims[i].direction];
 				if(animObj && animObj.rabbit) {
 					var count = anims[i].count == 1 ? 'infinite' : anims[i].countNum;
+					//duration
 					var anim = {
 						name: animObj.rabbit,
 						count: count,
 						delay: anims[i].delay
+						duration: anim[i].duration || 1
 					};
 					newJson.animation.push(anim);
 				} else {

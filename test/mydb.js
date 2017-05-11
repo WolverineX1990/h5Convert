@@ -1,18 +1,13 @@
 var levelup = require('levelup')
-var db = levelup('./mydb')
-function mydb() {
-	// db.put('name', 'LevelUP', function (err) {
-	// 	if (err) return console.log('Ooops!', err) // likely the key was not found
-	// });
-	db.get('name', function (err, value) {
-    	if (err) return console.log('Ooops!', err) // likely the key was not found
+var db = require('./../core/db');
+var utils = require('./../core/utils');
 
-    	// ta da!
-    	console.log('name=' + value)
-  	});
-  	// db.del('name', function (error) {
-   //      if (error) return console.log('Ooops!', error) // likely the key was not found
-   //  })
+function mydb() {
+  // db.put('name',{url:'111'}).then(res=>console.log(res));
+  // db.get('name').then(res=>console.log(res), err=>console.log('err'+err));
+  utils.checkExist('name').then(res=>console.log(res))
+  		.then(res=>console.log(1))
+  		.catch(err=>console.log(err));
 }
 
 module.exports = mydb;

@@ -1,6 +1,7 @@
 'use strict';
 var extend = require('./extend');
 var crypto = require('./crypto');
+var db = require('./../db');
 module.exports = {
 	getHtml: getHtml,
 	getPageData: getPageData,
@@ -10,7 +11,8 @@ module.exports = {
 	crypto: crypto,
 	randomStr: randomStr,
 	toInt: toInt,
-	parseTransform: parseTransform
+	parseTransform: parseTransform,
+    checkExist: checkExist
 };
 
 var http = require('http');
@@ -162,4 +164,13 @@ function parseTransform(str) {
     });
 
     return obj;
+}
+
+function checkExist(key) {
+    return db.get(key).then(res=>{
+        if(res) {
+            throw new Error(res + 'exist');
+        }
+        return true;
+    });
 }

@@ -1,5 +1,5 @@
 'use strict';
-var aniType = require('./aniTypes');
+var aniTypes = require('./aniTypes');
 var utils = require('./../utils');
 var fileHost = 'http://res2.maka.im/';
 var imgHost = 'http://img2.maka.im/';
@@ -79,7 +79,7 @@ function perfectCompJson(compJson) {
 
 	if(compJson.elementAnimations && compJson.elementAnimations.animation_in) {
 		var animation = compJson.elementAnimations.animation_in;
-		var animObj = aniType[animation.show];
+		var animObj = aniTypes[animation.show];
 		if(animObj && animObj.rabbit) {
 			// var count = animation.count == 1 ? 'infinite' : animation.countNum;
 			var count = 1;

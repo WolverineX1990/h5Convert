@@ -75,7 +75,7 @@ function perfectJson(pageJson) {
 						};
 					} else if(eleJson.type == 'ptext') {
 						// var fontFamilyReg = /font-family: 微软雅黑/;
-						newJson.css.height = eleJson.style['line-height'] + 14;
+						// newJson.css.height = eleJson.style['line-height'] + 14;
 						// var text = eleJson.text.replace(fontFamilyReg, '');
 						newJson.content = eleJson.con;
 						newJson.css.lineHeight = 1;
@@ -93,7 +93,8 @@ function perfectJson(pageJson) {
 						newJson.properties = {
 							src: url
 						};
-						if(eleJson.colorScheme) {;
+						if(eleJson.colorScheme) {
+							newJson.properties.items = [];
 							for (var key in eleJson.colorScheme) {
 								newJson.properties.items.push({
 									fill: eleJson.colorScheme[key]
@@ -167,7 +168,7 @@ function extendComJson(comJson, makaJson) {
 	var anims = comJson.properties.anim = [];
 	if(makaJson.elementAnimations && makaJson.elementAnimations.animation_in) {
 		var animation = makaJson.elementAnimations.animation_in;
-		var animObj = aniType[animation.show];
+		var animObj = aniTypes[animation.show];
 		if(animObj && animObj.eqx) {
 			var anim = {
 				count: 1,

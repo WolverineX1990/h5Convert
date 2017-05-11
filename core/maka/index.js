@@ -238,6 +238,7 @@ function setRabMeta(rabbit, makaMeta) {
  * @param {[type]} scene [description]
  */
 function setEqxMeta(scene, makaMeta) {
+	var reg = /^http/;
 	if(makaMeta.thumb){
 		return scene.uploadImg({
 			type: 'image',

@@ -1,5 +1,5 @@
 var urlMap = {
-
+	'http://res.eqh5.com/group1/M00/B2/1E/yq0KXVZysSmAJnUxAAACRsXlJSU636.svg': 'http://res2.maka.im/shapeSVG/svg/Default/SVG/shape03.svg'
 };
 
 function getShapeUrl(url) {

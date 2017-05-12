@@ -185,7 +185,7 @@ class Scene {
 module.exports = Scene;
 
 function setMakaMeta(maka, eqxMeta) {
-	maka.data.title = eqxMeta.name;
+	maka.data.title = '言击术';//eqxMeta.name;
 	maka.data.content = eqxMeta.description;
 	var url = eqxMeta.cover;
 	var reg = /^http/;

@@ -224,7 +224,18 @@ function perfectCompJson(compJson) {
 		newJson.text = compJson.properties.title;
 		newJson.message = compJson.properties.text;
 	} else if(compJson.type == 'l') {
-		newJson.text = '<a href="'+compJson.properties.url+'">'+compJson.properties.title+'</a>';
+		newJson.style['line-height'] = compJson.css.height;
+		newJson.text = '<div>'+compJson.properties.title+'</div>';
+		newJson.trigger = [{
+							event: 'click',
+							go: '',
+							link: compJson.properties.url,
+							prehide: false,
+							tips: false,
+							toggle: '',
+							toggle: '',
+							type: 'link'
+						}];
 	} else if(compJson.type == 'i') {
 		console.log(compJson);
 		newJson.content = {

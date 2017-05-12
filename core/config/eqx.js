@@ -1,6 +1,6 @@
 module.exports = {
 	eqxName: '18519203764',
-	eqxPwd: '19900325x',
+	eqxPwd: 'eqxiuzcj',
 	// eqxName: '1248198090@qq.com',
 	// eqxPwd: '111111',
 	eqxSeverHost: 'http://service.eqxiu.com/',

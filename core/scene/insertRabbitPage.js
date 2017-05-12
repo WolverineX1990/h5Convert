@@ -61,7 +61,7 @@ function setComps(rabbit) {
 function setCompsId(praiseCmps, rabbit) {
 	var cmp = praiseCmps.shift();
 	if(cmp) {
-		rabbit.setCmpId(cmp).then(res=>setCompsId(praiseCmps));
+		return rabbit.setCmpId(cmp).then(res=>setCompsId(praiseCmps, rabbit));
 	} else {
 		return rabbit;
 	}

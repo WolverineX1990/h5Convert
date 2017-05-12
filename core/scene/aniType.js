@@ -220,7 +220,7 @@ module.exports = {
 		'name': '放大抖动',
 		'0': {
 			'maka': '',
-			'rabbit': ''
+			'rabbit': 'tada'
 		}
 	},
 	'22': {
@@ -340,14 +340,14 @@ module.exports = {
 		'name': '光速退出',
 		'0': {
 			'maka': '',
-			'rabbit': ''
+			'rabbit': 'fadeOut'
 		}
 	},
 	'28': {
 		'name': '放大退出',
 		'0': {
 			'maka': '',
-			'rabbit': ''
+			'rabbit': 'fadeOut'
 		}
 	}
 };

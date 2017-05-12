@@ -137,7 +137,7 @@ module.exports = {
 	'tada': {
 		type: 6,
 		direction: 0,
-		name: '摇摆'
+		name: 'Q版抖动'
 	},
 	'fadeOut': {
 		type: 10,

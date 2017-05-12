@@ -129,10 +129,10 @@ function getFormCmps() {
 
 function getStyle(json, type) {
 	var css = {
-		height: json.h,
-		width: json.w,
-		top: json.top,
-		left: json.left,
+		height: json.h/2,
+		width: json.w/2,
+		top: json.top/2,
+		left: json.left/2,
 		rotate: json.rotate,
 		opacity: json.opacity
 	};

@@ -90,7 +90,11 @@ function perfectPageJson(pageJson, pageNum, rabbitData) {
 		var cmp = perfectCompJson(elements[i]);
 		if(cmp) {
 			if(elements[i].type == 3) {
-				json.cmps.splice(0, 0, cmp);
+				if(elements[i].properties.bgColor) {
+					pageJson.bgcol = elements[i].properties.bgColor;
+				} else {
+					json.cmps.splice(0, 0, cmp);
+				}
 			} else {
 				try {
 					if(cmp.cmpType == 'ginput') {
@@ -179,6 +183,8 @@ function perfectCompJson(compJson) {
 		var url = compJson.properties.src;
 		if(url == 'group1/M00/B1/A3/yq0KXFZysi-ACYaKAAACDQH4Nes625.svg') {
 			url = 'http://wscdn.rabbitpre.com/3fe3893e-11fb-474b-b501-c753e922a3a0-3161';
+		} else if(url == 'group1/M00/B1/A3/yq0KXFZysi2AWB5GAAACGXEBTuA328.svg') {
+			url = 'http://wscdn.rabbitpre.com/e77a9116-c5a4-4f28-bbce-5fbc40c75432-6656';
 		}
 		var reg = /^http/;
 		if(!reg.test(url)) {
@@ -311,7 +317,7 @@ function uploadRes(rabbit, pages) {
 					});
 				}
 				list.push(cmp);
-			} else if(cmp.cmpType === 'shape' && cmp.src!='http://wscdn.rabbitpre.com/3fe3893e-11fb-474b-b501-c753e922a3a0-3161') {
+			} else if(cmp.cmpType === 'shape' && cmp.src.indexOf('wscdn.rabbitpre.com') == -1) {
 				if(urls.indexOf(cmp.src) === -1) {
 					urls.push(cmp.src);
 					imgList.push({

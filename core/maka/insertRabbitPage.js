@@ -135,10 +135,10 @@ function perfectCompJson(compJson) {
 
 function getStyle(json, type) {
 	var style = {
-		height: json.h,
-		width: json.w,
-		top: json.top,
-		left: json.left,
+		height: json.h/2,
+		width: json.w/2,
+		top: json.top/2,
+		left: json.left/2,
 		rotate: json.rotate,
 		// transform: css.transform,
 		opacity: json.opacity//,

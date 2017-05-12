@@ -9,6 +9,7 @@ function rabToEqx(url) {
 	var eqxUser = new EqxUser(eqxConfig.eqxName, eqxConfig.eqxPwd);
 	var rabbit = new Rabbit(url);
 	return rabbit.loadData().then(res=>eqxUser.login())
+				.then(res=>utils.checkExist('rab-eqx-' + rabbit.data.id))
 				.then(res=>{
 					sceneService.setHeaders({Origin: eqxConfig.eqxOrigin, cookie: eqxUser.cookie});
 					return sceneService.createScene();
@@ -22,7 +23,8 @@ function rabToEqx(url) {
 					var scene = new Scene(json);
 					scene.user = eqxUser;
 				 	return rabbit.toScene(scene);
-				 });
+				 })
+				.then(res=>db.put('rab-eqx-' + rabbit.data.id, url));
 }
 
 module.exports = rabToEqx;

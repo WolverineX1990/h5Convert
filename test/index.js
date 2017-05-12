@@ -9,4 +9,8 @@ var convertpath = require('./convertpath');
 // rabUpload();
 // mydb();
 // cryptoTest();
-convertpath();
+// convertpath();
+
+var RabbitUser = require('./../core/user/rabbitUser');
+var user = new RabbitUser('18519203764', 'rabbit-zcj');
+user.login().then(res=>console.log(res));

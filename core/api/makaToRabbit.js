@@ -4,6 +4,8 @@ var rabConfig = config.rabbit;
 var Rabbit = require('./../rabbit');
 var RabbitUser = require('./../user/rabbitUser');
 var rabbitSevice = require('./../rabbit/service');
+var db = require('./../db');
+var utils = require('./../utils');
 
 function makaToRabbit(url) {
 	var user = new RabbitUser(rabConfig.userName, rabConfig.userPwd);

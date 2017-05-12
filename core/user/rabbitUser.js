@@ -1,12 +1,12 @@
 'use strict';
-var request = require('./../request');
 var querystring = require('querystring');
 var config = require('./../config').rabbit;
 var service = require('./../rabbit/service');
-class RabbitUser {
+var User = require('./user');
+
+class RabbitUser extends User {
 	constructor(name, pwd) {
-		this.name = name;
-		this.pwd = pwd;
+		super(name, pwd);
 		this.url = 'http://eps.rabbitpre.com/api/user/login';
 	}
 
@@ -21,25 +21,12 @@ class RabbitUser {
 			remember: false,
 			devkey: config.devKey
 		});
-		var that = this;
-		var promise = new Promise(function func(resolve, reject){
-			request.post({
-				url: that.url,
-				data: postData,
-				headers: {
-					Origin: config.origin
-				}
-			}, {
-				getCookie: true
-			}).then(function(res) {
-				that.cookie = res.cookie;
-				that.info = JSON.parse(res.data).result;
-				resolve(that.info);
-			}, function(err) {
-				reject(err);
+		return this.submit(postData, {Origin: config.origin})
+			.then(res=>{
+				this.cookie = res.cookie;
+				this.info = JSON.parse(res.data).result;
+				return this;
 			});
-		});
-		return promise;
 	}
 
 	getSession() {

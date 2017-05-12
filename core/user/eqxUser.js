@@ -1,11 +1,11 @@
 'use strict';
-var request = require('./../request');
 var querystring = require('querystring');
 var config = require('./../config').eqx;
-class EqxUser {
+var User = require('./user');
+
+class EqxUser extends User {
 	constructor(name, pwd) {
-		this.name = name;
-		this.pwd = pwd;
+		super(name, pwd);
 		this.url = config.eqxSeverHost + 'login';
 	}
 
@@ -18,26 +18,14 @@ class EqxUser {
 			username: this.name,
 			password: this.pwd
 		});
-		var that = this;
-		var promise = new Promise(function func(resolve, reject){
-			request.post({
-				url: that.url,
-				data: postData,
-				headers: {
-					Origin: config.eqxOrigin
-				}
-			}, {
-				getCookie: true
-			}).then(function(res) {
-				that.cookie = res.cookie;
+
+		return this.submit(postData, {Origin: config.eqxOrigin})
+			.then(res=>{
+				this.cookie = res.cookie;
 				var data = JSON.parse(res.data);
-				that.info = data.obj;
-				resolve(that.info);
-			}, function(err) {
-				reject(err);
+				this.info = data.obj;
+				return this;
 			});
-		});
-		return promise;
 	}
 }
 

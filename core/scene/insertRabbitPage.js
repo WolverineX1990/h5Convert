@@ -226,6 +226,7 @@ function perfectCompJson(compJson) {
 	} else if(compJson.type == 'l') {
 		newJson.text = '<a href="'+compJson.properties.url+'">'+compJson.properties.title+'</a>';
 	} else if(compJson.type == 'i') {
+		console.log(compJson);
 		newJson.content = {
 			icon: 'diao',
 			img: '',

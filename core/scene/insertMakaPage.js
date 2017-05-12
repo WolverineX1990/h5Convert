@@ -307,14 +307,18 @@ function uploadRes(maka, pages) {
 				list.push(cmp);
 			} else if(cmp.type === 'pshape') {
 				//目前形状上传之后还是不能用，所以先采用替换的方式
-				cmp.shape = getShageUrl(cmp.shape);
-				// if(urls.indexOf(cmp.shape) === -1) {
-				// 	urls.push(cmp.shape);
-				// 	imgList.push({
-				// 		url: cmp.shape
-				// 	});
-				// }
-				// list.push(cmp);
+				var url = getShageUrl(cmp.shape);
+				if(url) {
+					cmp.shape = url;	
+				} else {
+					if(urls.indexOf(cmp.shape) === -1) {
+						urls.push(cmp.shape);
+						imgList.push({
+							url: cmp.shape
+						});
+					}
+					list.push(cmp);
+				}
 			}
 		}
 	}
@@ -344,7 +348,7 @@ function uploadImgs(maka, imgList, cmps) {
 				}
 			} else if(cmps[i].type == 'pshape') {
 				if(cmps[i].shape == obj.url) {
-					cmps[i].shape = res.path;
+					cmps[i].shape = '../../../../..' + res.path;
 				}
 			}
 			

@@ -100,7 +100,6 @@ class Maka {
 				var type = 'image/jpeg';
 				if(suffixName.indexOf('svg') > -1) {
 					type = 'image/svg+xml';
-					path = '/shapeSVG/svg/Default/SVG/' + utils.randomStr() + suffixName;
 					// path = '/' + this.ossSts2.uploadPath +'shapeSVG/' + utils.randomStr() + suffixName;
 				} else if(suffixName=='png'){
 					type = 'image/png';

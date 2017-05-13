@@ -120,8 +120,7 @@ class Scene {
 					var result = res.match(reg)[1];
 					var arr = result.split(' ');
 					var svg = res.replace('<svg', '<svg width="'+arr[2]+'" height="'+ arr[3] +'"');
-					console.log(svg);
-					var base64 = new Buffer(res, 'binary').toString('base64');
+					var base64 = new Buffer(svg, 'binary').toString('base64');
 					return uploader.upload(base64, this.imageToken);
 				});
 			}

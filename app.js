@@ -1,6 +1,6 @@
 var api = require('./core/api');
 
-var rabbitpreUrl = 'http://www.rabbitpre.com/template/preview/45561cde-251a-4527-b1dd-19c1cdae3088?mobile=1';
+var rabbitpreUrl = 'http://www.rabbitpre.com/template/preview/3f592c86-f705-426d-9c1c-fbca9959fe55?mobile=1';
 // var eqxUrl = 'http://h5.eqxiu.com/s//lje2U4Zq';
 var eqxUrl = 'http://h5.eqxiu.com/s//2llzhv6S';
 var makaUrl = 'http://viewer.maka.im/pcviewer/T_BJIPAXSV?mode=storeTemplate&TempAdmode=true';

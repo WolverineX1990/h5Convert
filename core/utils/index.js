@@ -169,7 +169,7 @@ function parseTransform(str) {
 function checkExist(key) {
     return db.get(key).then(res=>{
         if(res) {
-            throw new Error(res + 'exist');
+            throw new Error(key + ':' + res + ' exist');
         }
         return false;
     }, err=>{

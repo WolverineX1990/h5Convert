@@ -5,6 +5,7 @@ var sceneService = require('./../scene/services');
 var EqxUser = require('./../user/eqxUser');
 var Rabbit = require('./../rabbit');
 var utils = require('./../utils');
+var db = require('./../db');
 
 function rabToEqx(url) {
 	var eqxUser = new EqxUser(eqxConfig.eqxName, eqxConfig.eqxPwd);

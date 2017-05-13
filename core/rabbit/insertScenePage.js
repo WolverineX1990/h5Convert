@@ -6,6 +6,7 @@ var compTypes = {
 	'onecall': 8,
 	'map': 'm',
 	'bg': 4,
+	'bgColor': 3,
 	'btn': 2, //没有按钮 只有提交按钮，用text代替
 	'ginput': 5,
 	'gsubmit': 6,
@@ -29,6 +30,16 @@ function insertScenePage(scene, pageJson) {
 			}
 		};
 		pageJson.cmps.splice(0, 0, bgCmp);
+	} else if(pageJson.bgcol) {
+		var bgCmp = {
+			id: randomId(),
+			cmpType: 'bgColor',
+			style: {},
+			properties: {
+				bgColor: pageJson.bgcol
+			}
+		};
+		pageJson.cmps.push(bgCmp);
 	}
 	try {
 		if(scene.currentPage) {
@@ -121,6 +132,10 @@ function perfectJson(pageJson) {
 					} else if(eleJson.cmpType == 'bg') {
 						newJson.properties = {
 							src: eleJson.properties.src
+						};
+					} else if(eleJson.cmpType == 'bgColor') {
+						newJson.properties = {
+							bgColor: eleJson.properties.bgColor
 						};
 					}
 					extendComJson(newJson, eleJson);

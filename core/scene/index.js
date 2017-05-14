@@ -46,7 +46,7 @@ class Scene {
 	}
 	
 	toRabbit(rabbit) {
-		return setRabMeta(rabbit, this.data).then(res=>insertRabbitPage(rabbit, this.pages));
+		return setRabMeta(rabbit, this.data).then(res=>insertRabbitPage(rabbit, this.pages, this.data.pageMode));
 	}
 
 	toMaka(maka) {		
@@ -220,7 +220,7 @@ function setRabMeta(rabbit, eqxMeta) {
 	if(eqxMeta.pageMode == 6) {
 		rabbit.data.in = 'cvbe';
 	} else {
-		rabbit.data.in = 'move';	
+		rabbit.data.in = 'move';
 	}
 	
 	var cover = eqxMeta.cover;

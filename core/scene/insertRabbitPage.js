@@ -20,12 +20,15 @@ var compTypes = {
 	'i': 'praise'
 };
 
-function insertRabbitPage(rabbit, pages) {
+var upDownPageModes = [];
+
+function insertRabbitPage(rabbit, pages, pageMode) {
 	var rabPages = rabbit.data.pages;
 	rabPages[0].deleted = true;
 	for(var i = 0;i<pages.length;i++) {
 		try{
-			var page = perfectPageJson(pages[i], i, rabbit.data);
+			var direction = upDownPageModes.indexOf(pageMode) == -1;
+			var page = perfectPageJson(pages[i], i, rabbit.data, direction);
 			rabPages.push(page);
 		} catch(e) {
 			console.log(e);
@@ -67,11 +70,11 @@ function setCompsId(praiseCmps, rabbit) {
 	}
 }
 
-function perfectPageJson(pageJson, pageNum, rabbitData) {
+function perfectPageJson(pageJson, pageNum, rabbitData, direction) {
 	var json = {
 		appid: rabbitData.id,
-		row: pageNum,
-		col: 0,
+		row: (direction ? pageNum : 0),
+		col: (direction ? 0 : pageNum),
 		in: null,
 		out: null,
 		bgcol: null,

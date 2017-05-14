@@ -1,12 +1,12 @@
 var api = require('./core/api');
 
-var rabbitpreUrl = 'http://www.rabbitpre.com/template/preview/3f592c86-f705-426d-9c1c-fbca9959fe55?mobile=1';
-// var eqxUrl = 'http://h5.eqxiu.com/s//lje2U4Zq';
-var eqxUrl = 'http://h5.eqxiu.com/s//2llzhv6S';
+var rabbitpreUrl = 'http://www.rabbitpre.com/template/preview/a8a19453-2a69-4ce0-8501-d192e02a6939?mobile=1';
+var eqxUrl = '';
 var makaUrl = 'http://viewer.maka.im/pcviewer/T_BJIPAXSV?mode=storeTemplate&TempAdmode=true';
 // api.makaToRabbit(makaUrl).then(res=>console.log('convert success'));
-api.rabToEqx(rabbitpreUrl).then(res=>console.log('convert success'));
-// api.eqxToRabbit('http://h5.eqxiu.com/s//ompGe2e2')
+api.rabToEqx(rabbitpreUrl).then(res=>console.log('convert success'))
+    .catch(err=>console.log(err));
+// api.eqxToRabbit(eqxUrl)
 // 	.then(res=>console.log('convert success'))
 // 	.catch(err=>console.log(err));
 // api.makaToEqx(makaUrl).then(res=>console.log('convert success'));

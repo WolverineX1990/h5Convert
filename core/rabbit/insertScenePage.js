@@ -82,6 +82,10 @@ function perfectJson(pageJson) {
 						newJson.properties = {
 							src: eleJson.file.url || eleJson.file.key
 						};
+						if(!newJson.properties.src) {
+							elements.splice(i,1);
+							i--;
+						}
 					} else if(eleJson.cmpType == 'text') {
 						var fontFamilyReg = /font-family: 微软雅黑/;
 						newJson.css.height = eleJson.style['line-height'] + 14;

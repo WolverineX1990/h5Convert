@@ -4,16 +4,16 @@ var Scene = require('./../scene');
 var sceneService = require('./../scene/services');
 var EqxUser = require('./../user/eqxUser');
 var Rabbit = require('./../rabbit');
-var utils = require('./../utils');
-var db = require('./../db');
+var logger = require('./../core/logger');
 
 function rabToEqx(url) {
+	// type 2
 	var reg = /preview\/([^?]+)/;	
 	var key = url.match(reg)[1];
 	var eqxUser = new EqxUser(eqxConfig.eqxName, eqxConfig.eqxPwd);
 	var rabbit = new Rabbit(url);
 	return rabbit.loadData().then(res=>eqxUser.login())
-				.then(res=>utils.checkExist('rab-eqx-' + key))
+				.then(res=>logger.checkExist(key, 2))
 				.then(res=>{
 					sceneService.setHeaders({Origin: eqxConfig.eqxOrigin, cookie: eqxUser.cookie});
 					return sceneService.createScene();
@@ -28,7 +28,7 @@ function rabToEqx(url) {
 					scene.user = eqxUser;
 				 	return rabbit.toScene(scene);
 				 })
-				.then(res=>db.put('rab-eqx-' + key));
+				.then(res=>logger.insert(key, 2, url));
 }
 
 module.exports = rabToEqx;

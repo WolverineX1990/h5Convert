@@ -5,8 +5,7 @@
   "main": "app.js",
   "dependencies": {
     "cheerio": "^0.22.0",
-    "leveldown": "^1.6.0",
-    "levelup": "^1.3.6",
+    "mysql": "^2.13.0",
     "needle": "^1.6.0"
   },
   "devDependencies": {},

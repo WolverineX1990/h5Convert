@@ -18,7 +18,7 @@ var URL = require('url');
 var cheerio = require('cheerio');
 
 function getHtml(targetUrl) {
-	var promise = new Promise(function func(resolve, reject){
+	var promise = new Promise(function(resolve, reject){
 		var param = URL.parse(targetUrl);
 		var options = {
 			host: param.host,
@@ -70,7 +70,7 @@ function getPageData(html, dataReg) {
  */
 function getResource(url) {
     var param = URL.parse(url);
-    var promise = new Promise(function func(resolve, reject){
+    var promise = new Promise(function(resolve, reject){
         var options = {
             host: param.host,
             path: param.path,

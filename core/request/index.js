@@ -17,7 +17,7 @@ var querystring = require('querystring');
 function get(params, config) {
 	try {
 		var param = URL.parse(params.url);
-		var promise = new Promise(function func(resolve, reject){
+		var promise = new Promise(function(resolve, reject){
 			if(params.data) {
 				param.path = param.path + (/\?/.test(param.path) ? '&' : '?') + querystring.stringify(params.data);
 			}
@@ -81,7 +81,7 @@ function post(params, config) {
 			}
 		}
 
-		var promise = new Promise(function func(resolve, reject){
+		var promise = new Promise(function(resolve, reject){
 			var options = {
 				host: param.host,
 				path: param.path,
@@ -144,7 +144,7 @@ function put(params, config) {
 			}
 		}
 
-		var promise = new Promise(function func(resolve, reject){
+		var promise = new Promise(function(resolve, reject){
 			var options = {
 				host: param.host,
 				path: param.path,

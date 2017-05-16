@@ -17,7 +17,7 @@ class Db {
 
 	execute(sql) {
 		var that = this;
-		var promise = new Promise(function func(resolve, reject){
+		var promise = new Promise(function(resolve, reject){
 			that.client.query(sql, function(err, rows, fields) {
 				if(err) {
 					reject(err);
@@ -31,7 +31,7 @@ class Db {
 
 	destory() {
 		var that = this;
-		var promise = new Promise(function func(resolve, reject){
+		var promise = new Promise(function(resolve, reject){
 			that.client.end();
 			resolve();
 		});

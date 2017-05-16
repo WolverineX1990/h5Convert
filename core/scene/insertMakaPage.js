@@ -325,7 +325,7 @@ function uploadRes(maka, pages) {
 	if(list.length) {
 		return uploadImgs(maka, imgList, list);
 	} else {
-		var promise = new Promise(function func(resolve, reject){
+		var promise = new Promise(function(resolve, reject){
 			resolve();
 		});
 		return promise;
@@ -335,7 +335,7 @@ function uploadRes(maka, pages) {
 function uploadImgs(maka, imgList, cmps) {
 	var obj = imgList.shift();
   	if(!obj) {
-		var promise = new Promise(function func(resolve, reject){
+		var promise = new Promise(function(resolve, reject){
 			resolve();
 		});
 		return promise;

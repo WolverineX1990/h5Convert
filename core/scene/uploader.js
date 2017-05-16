@@ -15,7 +15,7 @@ var http = require('http');
  */
 function getBase64(url) {
     var param = URL.parse(url);
-    var promise = new Promise(function func(resolve, reject){
+    var promise = new Promise(function(resolve, reject){
         var options = {
             host: param.host,
             path: param.path,
@@ -47,7 +47,7 @@ function getBase64(url) {
  */
 function getSvg(url) {
     var param = URL.parse(url);
-    var promise = new Promise(function func(resolve, reject){
+    var promise = new Promise(function(resolve, reject){
         var options = {
             host: param.host,
             path: param.path,

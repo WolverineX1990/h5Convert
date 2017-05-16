@@ -12,7 +12,7 @@ class User {
 	 */
 	submit(postData, headers) {
 		var that = this;
-		var promise = new Promise(function func(resolve, reject){
+		var promise = new Promise(function(resolve, reject){
 			request.post({
 				url: that.url,
 				data: postData,

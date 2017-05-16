@@ -225,10 +225,23 @@ function setRabMeta(rabbit, eqxMeta) {
 	
 	var cover = eqxMeta.cover;
 	var reg = /^http/;
-	if(!reg.test(cover)) {
-		cover = fileHost + cover;
-	}
-	return rabbit.setCover(cover).then(res=> {
+	//默认logo
+	if(cover && cover!='group2/M00/7F/9B/yq0KXlZNGfWAbZo_AAAdI0Feqt0138.png') {
+		if(!reg.test(cover)) {
+			cover = fileHost + cover;
+		}
+		return rabbit.setCover(cover).then(res=> {
+			if(eqxMeta.bgAudio && eqxMeta.bgAudio.url) {
+				var audio = eqxMeta.bgAudio.url;
+				if(!reg.test(audio)) {
+					audio = fileHost + audio;
+				}
+				return rabbit.setBgAudio(audio);
+			} else {
+				return res;
+			}
+		});
+	} else {
 		if(eqxMeta.bgAudio && eqxMeta.bgAudio.url) {
 			var audio = eqxMeta.bgAudio.url;
 			if(!reg.test(audio)) {
@@ -236,7 +249,10 @@ function setRabMeta(rabbit, eqxMeta) {
 			}
 			return rabbit.setBgAudio(audio);
 		} else {
-			return res;
+			var pormise = new Promise(function(resolve, reject){
+				resolve();
+			});
+			return pormise;
 		}
-	});
+	}
 }

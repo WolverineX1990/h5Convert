@@ -357,7 +357,7 @@ function uploadRes(rabbit, pages) {
 	if(list.length) {
 		return uploadImgs(rabbit, imgList, list);
 	} else {
-		var promise = new Promise(function func(resolve, reject){
+		var promise = new Promise(function(resolve, reject){
 			resolve();
 		});
 		return promise;
@@ -367,7 +367,7 @@ function uploadRes(rabbit, pages) {
 function uploadImgs(rabbit, imgList, cmps) {
 	var obj = imgList.shift();
 	if(!obj) {
-		var promise = new Promise(function func(resolve, reject){
+		var promise = new Promise(function(resolve, reject){
 			resolve();
 		});
 		return promise;

@@ -107,7 +107,7 @@ class Rabbit {
 
 	uploadRes(obj) {
 		var that = this;
-		var promise = new Promise(function func(resolve, reject){
+		var promise = new Promise(function(resolve, reject){
 			var type = 'IMAGE';
 			var fileName = 'upload.png';
 			var contentType = 'image/png';

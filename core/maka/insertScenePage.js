@@ -51,7 +51,7 @@ function convertPage(scene, pageJson) {
 
 function perfectJson(pageJson) {
 	var elements = pageJson.elements;
-	var promise = new Promise(function func(resolve, reject){
+	var promise = new Promise(function(resolve, reject){
 		try {
 			for(var i = 0;i < elements.length;i++) {
 				var eleJson = elements[i];
@@ -215,7 +215,7 @@ function uploadRes(scene, pageJson) {
 	if(list.length) {
 		return uploadImgs(scene, imgList, list);
 	} else {
-		var promise = new Promise(function func(resolve, reject){
+		var promise = new Promise(function(resolve, reject){
 			resolve(pageJson);
 		});
 		return promise;
@@ -225,7 +225,7 @@ function uploadRes(scene, pageJson) {
 function uploadImgs(scene, imgList, cmps) {
 	var obj = imgList.shift();
 	if(!obj) {
-		var promise = new Promise(function func(resolve, reject){
+		var promise = new Promise(function(resolve, reject){
 			resolve(scene.currentPage);
 		});
 		return promise;

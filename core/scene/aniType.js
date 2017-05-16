@@ -260,19 +260,19 @@ module.exports = {
 		'name': '弹出',
 		'0': {
 			'maka': '',
-			'rabbit': ''
+			'rabbit': 'slideRight'
 		},
 		'1': {
 			'maka': '',
-			'rabbit': ''
+			'rabbit': 'slideDown'
 		},
 		'2': {
 			'maka': '',
-			'rabbit': ''
+			'rabbit': 'slideLeft'
 		},
 		'3': {
 			'maka': '',
-			'rabbit': ''
+			'rabbit': 'slideUp'
 		}
 	},
 	'11': {

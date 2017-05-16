@@ -17,7 +17,8 @@ var compTypes = {
 	'2': 'text',
 	'8': 'onecall',
 	'l': 'text',
-	'i': 'praise'
+	'i': 'praise',
+	'z': 'gselect'
 };
 
 var upDownPageModes = [];
@@ -100,7 +101,8 @@ function perfectPageJson(pageJson, pageNum, rabbitData, direction) {
 				}
 			} else {
 				try {
-					if(cmp.cmpType == 'ginput') {
+					var inputTypes = ['ginput', 'gselect'];
+					if(inputTypes.indexOf(cmp.cmpType)!=-1) {
 						if(!rabbitData.gather) {
 							rabbitData.gather = {id: 0, strict: {}};
 						}
@@ -219,6 +221,15 @@ function perfectCompJson(compJson) {
 		newJson.required = compJson.properties.required;
 		newJson.text = newJson.nickname = newJson.name = compJson.properties.placeholder;
 		newJson.inptype = 'email';
+	} else if(compJson.type == 'z') {
+		newJson.required =false;
+		newJson.nickname = newJson.name = compJson.showText;
+		var items = [];
+		var choices = JSON.parse(compJson.choices).options;
+		for(var i = 0;i< choices.length;i++) {
+			items.push({value:choices[i].label, name: choices[i].label, children:[]});
+		}
+		newJson.selector = JSON.stringify({label: compJson.showText,options: items});
 	} else if(compJson.type == 6) {
 		newJson.text = compJson.properties.title;
 		newJson.message = compJson.properties.text;
@@ -235,7 +246,6 @@ function perfectCompJson(compJson) {
 							link: compJson.properties.url,
 							prehide: false,
 							tips: false,
-							toggle: '',
 							toggle: '',
 							type: 'link'
 						}];

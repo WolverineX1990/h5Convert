@@ -12,12 +12,12 @@ class Db {
 				password: this.pwd,
 				database: this.database
 			});
+		this.client.connect();
 	}
 
 	execute(sql) {
 		var that = this;
 		var promise = new Promise(function func(resolve, reject){
-			that.client.connect();
 			that.client.query(sql, function(err, rows, fields) {
 				if(err) {
 					reject(err);
@@ -25,7 +25,15 @@ class Db {
 					resolve(rows)
 				}
 			});
+		});
+		return promise;
+	}
+
+	destory() {
+		var that = this;
+		var promise = new Promise(function func(resolve, reject){
 			that.client.end();
+			resolve();
 		});
 		return promise;
 	}

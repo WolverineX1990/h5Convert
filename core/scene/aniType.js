@@ -38,7 +38,7 @@ module.exports = {
 		}
 	},
 	'2': {
-		'name': '从左向右弹入',
+		'name': '弹入',
 		'0': {
 			'maka': 'slideLeft',
 			'rabbit': 'slideRight'
@@ -126,38 +126,38 @@ module.exports = {
 		'name': '光速进入',
 		'0': {
 			'maka': 'slideRight',
-			'rabbit': ''
+			'rabbit': 'slideRight'
 		},
 		'1': {
 			'maka': 'slideDown',
-			'rabbit': ''
+			'rabbit': 'slideDown'
 		},
 		'2': {
 			'maka': 'slideLeft',
-			'rabbit': ''
+			'rabbit': 'slideLeft'
 		},
 		'3': {
 			'maka': 'slideUp',
-			'rabbit': ''
+			'rabbit': 'slideUp'
 		}
 	},
 	'26': {
 		'name': '魔幻进入',
 		'0': {
 			'maka': 'rotateInDownLeft',
-			'rabbit': ''
+			'rabbit': 'rotateInDownLeft'
 		},
 		'1': {
 			'maka': 'rotateInDownRight',
-			'rabbit': ''
+			'rabbit': 'rotateInDownRight'
 		},
 		'2': {
-			'maka': 'rotateInDownRight',
-			'rabbit': ''
+			'maka': 'rotateInUpRight',
+			'rabbit': 'rotateInUpRight'
 		},
 		'3': {
 			'maka': 'rotateInDownLeft',
-			'rabbit': ''
+			'rabbit': 'rotateInDownRight'
 		}
 	},
 	'27': {

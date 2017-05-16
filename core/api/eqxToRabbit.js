@@ -1,6 +1,6 @@
 var config = require('./../config');
 var Scene = require('./../scene');
-var logger = require('./../core/logger');
+var logger = require('./../logger');
 var rabConfig = config.rabbit;
 var Rabbit = require('./../rabbit');
 var RabbitUser = require('./../user/rabbitUser');
@@ -36,7 +36,8 @@ function eqxToRabbit(url) {
 					var rabbit = new Rabbit(json);
 					return scene.toRabbit(rabbit);
 				})
-				.then(res=>logger.insert(scene.data.id, 1, url));
+				.then(res=>logger.insert(scene.data.id, 1, url))
+				.then(res=>logger.close());
 }
 
 module.exports = eqxToRabbit;

@@ -4,7 +4,7 @@ var Scene = require('./../scene');
 var sceneService = require('./../scene/services');
 var EqxUser = require('./../user/eqxUser');
 var Rabbit = require('./../rabbit');
-var logger = require('./../core/logger');
+var logger = require('./../logger');
 
 function rabToEqx(url) {
 	// type 2
@@ -28,7 +28,8 @@ function rabToEqx(url) {
 					scene.user = eqxUser;
 				 	return rabbit.toScene(scene);
 				 })
-				.then(res=>logger.insert(key, 2, url));
+				.then(res=>logger.insert(key, 2, url))
+				.then(res=>logger.close());
 }
 
 module.exports = rabToEqx;

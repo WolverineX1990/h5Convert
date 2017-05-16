@@ -4,6 +4,7 @@ var makaConfig = config.maka;
 var Maka = require('./../maka');
 var makaService = require('./../maka/service');
 var MakaUser = require('./../user/makaUser');
+// var logger = require('./../logger');
 
 function eqxToMaka(url) {
 	var user = new MakaUser(makaConfig.userName, makaConfig.userPwd);

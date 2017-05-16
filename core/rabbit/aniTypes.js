@@ -27,22 +27,22 @@ module.exports = {
 	'rotateInUpLeft': {
 		type: 12,
 		direction: 0,
-		name: '翻滚进入'
+		name: '右下旋入'
 	},
 	'rotateInUpRight': {
 		type: 12,
 		direction: 0,
-		name: '翻滚进入'
+		name: '左下旋入'
 	},
 	'rotateInDownRight': {
 		type: 12,
 		direction: 0,
-		name: '翻滚进入'
+		name: '右上旋入'
 	},
 	'rotateInDownLeft': {
 		type: 12,
 		direction: 0,
-		name: '翻滚进入'
+		name: '左上旋入'
 	},
 	'slideLeft': {
 		type: 2,

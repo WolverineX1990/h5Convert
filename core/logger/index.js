@@ -22,8 +22,13 @@ function del(id) {
 	return db.execute(sql);
 }
 
+function close() {
+	return db.destory();
+}
+
 module.exports = {
 	checkExist: checkExist,
 	insert: insert,
-	del: del
+	del: del,
+	close: close
 };

@@ -120,6 +120,18 @@ module.exports = {
 		'0': {
 			'maka': 'flipInX',
 			'rabbit': 'translate'
+		},
+		'1': {
+			'maka': 'flipInX',
+			'rabbit': 'translate'
+		},
+		'2': {
+			'maka': 'flipInX',
+			'rabbit': 'translate'
+		},
+		'3': {
+			'maka': 'flipInX',
+			'rabbit': 'translate'
 		}
 	},
 	'13': {

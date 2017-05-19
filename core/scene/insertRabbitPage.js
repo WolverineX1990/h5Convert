@@ -414,6 +414,8 @@ function getText(text) {
 	} else {
 		ss = '<div style="padding:7px 15px;">' + text +'</div>';
 	}
+
+	ss = ss.replace(/易企秀/g,'XXX');
 	
 	return ss;
 }

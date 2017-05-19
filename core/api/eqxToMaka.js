@@ -9,6 +9,7 @@ var MakaUser = require('./../user/makaUser');
 function eqxToMaka(url) {
 	var user = new MakaUser(makaConfig.userName, makaConfig.userPwd);
 	var scene = new Scene(url);
+	var maka;
 	return scene.loadData().then(res=>user.login())
 				.then(res=>{
 					makaService.setHeaders({
@@ -20,7 +21,7 @@ function eqxToMaka(url) {
 				.then(res=>makaService.getTemplate(res.split('=')[1]))
 				.then(res=>{
 					var json = JSON.parse(res).data;
-					var maka = new Maka(json);
+					maka = new Maka(json);
 					maka.user = user;
 					return maka.getJson();
 				})

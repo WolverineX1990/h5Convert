@@ -30,3 +30,6 @@ var options = {
     db_port: 27017,
     db_name: "myblog"
 };
+
+
+http://www.cnblogs.com/qintangtao/archive/2013/03/01/2938887.html

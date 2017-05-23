@@ -1,7 +1,7 @@
 var api = require('./core/api');
 
-var rabbitpreUrl = 'http://www.rabbitpre.com/template/preview/86b8ec97-c994-4fab-a222-51fb464401eb?mobile=1';
-var eqxUrl = 'http://h5.eqxiu.com/s//J3JaXGHj';
+var rabbitpreUrl = 'http://www.rabbitpre.com/template/preview/2a5c1752-193d-4447-b3db-f528bcf86a32?mobile=1';
+var eqxUrl = 'http://h5.eqxiu.com/s//ty4hrGpU';
 var makaUrl = 'http://viewer.maka.im/pcviewer/T_BJIPAXSV?mode=storeTemplate&TempAdmode=true';
 // api.makaToRabbit(makaUrl).then(res=>console.log('convert success'));
 // api.rabToEqx(rabbitpreUrl)

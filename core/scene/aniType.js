@@ -239,7 +239,7 @@ module.exports = {
 		'name': '倾斜摆动',
 		'0': {
 			'maka': '',
-			'rabbit': ''
+			'rabbit': 'animate-tada'
 		}
 	},
 	'10': {

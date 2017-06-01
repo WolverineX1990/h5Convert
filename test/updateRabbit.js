@@ -19,7 +19,6 @@ function loginSuccess(res) {
 			var id = '3147dda6-eb93-4388-b15f-c10ce42c2d9a';
 			rabSevice.getTplData(id).then(res=>{
 				var json = JSON.parse(res).data;
-				// json.gather = '{"id":0,"strict":{"1375595490":"手机","3639691088":"电话","3790068711":"购买意向"}}'
 				var pages = json.pages;
 				for(var i=0;i<pages.length;i++) {
 					var cmps = pages[i].cmps;

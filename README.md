@@ -26,4 +26,13 @@ var options = {
 };
 
 
-http://www.cnblogs.com/qintangtao/archive/2013/03/01/2938887.html
+http://www.cnblogs.com/qintangtao/archive/2013/03/01/2938887.html\
+
+
+性能优化
+https://cnodejs.org/topic/55e31bd6898f6bdc7e5551ac
+
+https://cnodejs.org/topic/55a25700419f1e8a23a64372
+
+canvas效果
+http://maroslaw.github.io/rainyday.js/demo012_4.html

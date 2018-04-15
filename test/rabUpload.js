@@ -20,12 +20,12 @@ function loginSuccess() {
 				cookie: res.cookie
 			});
 			// console.log(user.info);
-			// console.log(res.cookie);
-			var tt = {
-				isAjax: true
-			};
-			rabSevice.getCmpId(tt).then(res=>console.log(res));
-			return;
+			// console.log(res);
+			// var tt = {
+			// 	isAjax: true
+			// };
+			// rabSevice.getCmpId(tt).then(res=>console.log(res));
+			// return;
 			var data = {
 				serverType: 'A',
 				type: 'IMAGE',
@@ -38,7 +38,7 @@ function loginSuccess() {
 			rabSevice.getUploadToken(data).then(res=>{
 				var token = JSON.parse(res)[0];
 				// console.log('http://tenc1.rabbitpre.com/' + token.key);
-				// console.log(token)
+				console.log(token)
 				var data = {
 					'OSSAccessKeyId': token.accessKey,
 					'policy': token.policy,
@@ -52,11 +52,16 @@ function loginSuccess() {
 					'x-oss-meta-serverType': token.xparams.serverType,
 					'x-oss-meta-bucket': token.xparams.bucket
 				};
-				utils.getResource('http://res1.eqh5.com/3e06ffaa-992c-4830-ab3d-b07f95fe557c.svg').then(res=> {
+				var url = 'http://res1.eqh5.com/3e06ffaa-992c-4830-ab3d-b07f95fe557c.svg';
+				// var url = 'http://wscdn.rabbitpre.com/fdf5a06d-e600-4195-a580-4ec3899251fa-7285';
+				utils.getResource(url).then(res=> {
 					data.file = {
 						buffer: new Buffer(res, 'binary'),
-					    filename: 'a.svg',
-					    content_type: 'image/svg+xml'
+					    filename: 'upload.svg',
+					    // content_type: 'application/svg'
+					    content_type: 'application/octet-stream'
+					    // content_type: 'image/png'
+					    // content_type: 'image/svg+xml'
 					};
 
 					var options = {
@@ -65,8 +70,8 @@ function loginSuccess() {
 					var url = 'http://rabbitpre.oss-cn-shenzhen.aliyuncs.com';
 				    needle.post(url, data, options, function(err, resp, body) {
 				    	console.log(url + '/' + data.key);
-				    	// console.log(body.toString());
-					  	// console.log(resp.statusCode);
+				    	console.log(body.toString());
+					  	// console.log(resp);
 					});
 				});
 			});

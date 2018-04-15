@@ -1,6 +1,7 @@
 'use strict';
 var aniType = require('./aniType');
 var utils = require('./../utils');
+var cheerio = require('cheerio');
 var fileHost = require('./../config').eqx.fileHost;
 var compTypes = {
 	'4': 'image',
@@ -157,6 +158,8 @@ function perfectCompJson(compJson) {
 		newJson.text = getText(compJson.content);
 		newJson.style.height = 'auto';
 		newJson.style['font-family'] = '黑体';
+		var reg = /font-family:[^\:]*?\;/;
+		newJson.text = newJson.text.replace(reg, '');
 	} else if(compJson.type == 3) {
 		var url = compJson.properties.imgSrc;
 		var reg = /^http/;
@@ -397,7 +400,8 @@ function getText(text) {
 	if(reg.test(text)) {
 	  ss = text.match(reg)[1];
 	}
-	if(text.indexOf('<div') == 0) {
+	var $ = cheerio.load(text);
+	if($('div').length == 1) {
 		if(ss) {
 			var reg1 = /style="([^"]*)/;
 			if(reg1.test(ss)) {
@@ -415,7 +419,10 @@ function getText(text) {
 		ss = '<div style="padding:7px 15px;">' + text +'</div>';
 	}
 
-	ss = ss.replace(/易企秀/g,'XXX');
+	ss = ss.replace(/秀秀/g,'我们');
+	ss = ss.replace(/中网易企秀/g,'XXX');
+	ss = ss.replace(/易企秀/g,'兔展');
+	ss = ss.replace(/www.eqxiu.com/, 'www.rabbit.com');
 	
 	return ss;
 }

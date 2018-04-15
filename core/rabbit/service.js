@@ -8,7 +8,8 @@ module.exports = {
 	getUploadToken: getUploadToken,
 	upload: upload,
 	getTplData: getTplData,
-	getCmpId: getCmpId
+	getCmpId: getCmpId,
+	createPoster: createPoster
 };
 
 var http = require('http');
@@ -63,6 +64,18 @@ function getUserInfo(headers) {
 function createTemplate(data) {
 	return request.post({
 		url: serverHost + 'app',
+		headers: _headers,
+		data: querystring.stringify(data)
+	});
+}
+
+/**
+ * [createTemplate description]
+ * @return {[type]} [description]
+ */
+function createPoster(data) {
+	return request.post({
+		url: serverHost + 'spa',
 		headers: _headers,
 		data: querystring.stringify(data)
 	});

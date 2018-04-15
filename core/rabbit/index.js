@@ -80,7 +80,13 @@ class Rabbit {
 				xparams: JSON.stringify(xparams),
 				isAjax: true
 			};
-			return service.upload(data).then(res=>this.data.imgurl=JSON.parse(res).file.id);
+			return service.upload(data).then(res=>{
+				var data = JSON.parse(res);
+				this.data.imgurl = data.file.id;
+				this.data.img_path = data.file.url;
+				console.log(this.data.imgurl)
+				return true;
+			});
 		});
 	}
 
@@ -119,7 +125,8 @@ class Rabbit {
 				contentType = 'audio/mp3';
 			}else if(obj.type == 'svg') {
 				fileName = 'upload.svg';
-				contentType = 'image/svg+xml';
+				// contentType = 'image/svg+xml';
+				contentType = 'application/octet-stream';
 			}
 			that.getUploadToken(type, fileName).then(token=>{
 				utils.getResource(obj.url).then(res=> {
@@ -132,15 +139,79 @@ class Rabbit {
 
 					var url = 'http://rabbitpre.oss-cn-shenzhen.aliyuncs.com';
 				    needle.post(url, data, {multipart: true}, function(err, resp, body) {
-				    	// console.log(resp.statusCode);
-				    	// console.log(body.toString());
+				    	if(fileName == 'upload.svg') {
+				    		// console.log(resp.statusCode); 
+				    		// console.log('http://tenc1.rabbitpre.com/' + token.key);	
+				    	}
+				    	
 				    	resolve(token);
 					});
 				});
 			});
 		});
 		return promise;
-		
+	}
+
+	uploadQiniu(obj) {
+		var that = this;
+		var promise = new Promise(function(resolve, reject){
+			var type = 'IMAGE';
+			var fileName = 'upload.png';
+			var contentType = 'image/png';
+			if(obj.type == 'cover') {
+				type = 'FILE';	
+			} else if(obj.type == 'audio') {
+				type = 'MUSIC';
+				fileName = 'upload.mp3';
+				contentType = 'audio/mp3';
+			}else if(obj.type == 'svg') {
+				fileName = 'upload.svg';
+				contentType = 'image/svg+xml';
+			}
+			that.getUploadToken(type, fileName).then(token=>{
+				utils.getResource(obj.url).then(res=> {
+					var data = extend({}, token);
+					data.file = {
+						buffer: new Buffer(res, 'binary'),
+					    filename: fileName,
+					    content_type: contentType
+					};
+
+					var url = 'http://upload.qiniu.com/';
+				    needle.post(url, data, {multipart: true}, function(err, resp, body) {
+				    	console.log(resp.statusCode);
+				    	console.log(body.toString());
+				    	resolve(token);
+					});
+				});
+			});
+		});
+		return promise;
+	}
+
+	uploadSvg(svgDom) {
+		var fileName = 'upload.svg';
+		var contentType = 'image/svg+xml';
+		var that = this;
+		var promise = new Promise(function(resolve, reject){
+			that.getUploadToken('IMAGE', fileName).then(token=>{
+				var data = extend({}, token);
+				data.file = {
+					buffer: new Buffer(svgDom, 'binary'),
+				    filename: fileName,
+				    content_type: contentType
+				};
+
+				var url = 'http://rabbitpre.oss-cn-shenzhen.aliyuncs.com';
+			    needle.post(url, data, {multipart: true}, function(err, resp, body) {
+			    	// console.log(resp.statusCode);
+			    	// console.log(body.toString());
+			    	resolve(token);
+				});
+			});
+		});
+
+		return promise;
 	}
 
 	getUploadToken(type, fileName) {
@@ -232,7 +303,8 @@ module.exports = Rabbit;
  * @param {[type]} scene [description]
  */
 function setEqxMeta(data, scene) {
-	if(data.imgurl){
+	data.musicPath = (/^http/.test(data.musicPath) ? data.musicPath : 'http:' + data.musicPath);
+	if(data.imgPath){
 		return scene.uploadImg({
 			type: 'image',
 			url: data.imgPath
@@ -242,30 +314,13 @@ function setEqxMeta(data, scene) {
 				cover: key
 			};
 			if(data.musicPath) {
-				return scene.uploadAudio(data.musicPath).then(res1=>{
-					var key = JSON.parse(res1).key;
-					scene.propertys = {
-						bgAudio: JSON.stringify({
-							name: data.musicname,
-							url: key
-						})
-					};
-				 	return scene.publish();
-				});
+				return scene.uploadAudio(data.musicPath).then(()=>scene.publish());
 			} else {
 				return scene.publish();
 			}
 		});
 	} else if(data.musicPath) {
-		return scene.uploadAudio(data.musicPath).then(res1=>{
-			scene.propertys = {
-				bgAudio: {
-					name: data.musicname,
-					url: key
-				}
-			};
-		 	return scene.publish();
-		});
+		return scene.uploadAudio(data.musicPath).then(()=>scene.publish());
 	} else {
 		return scene.publish();
 	}

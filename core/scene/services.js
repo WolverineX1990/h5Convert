@@ -8,7 +8,8 @@ module.exports = {
 	setHeaders: setHeaders,
 	getSceneDetail: getSceneDetail,
 	getUpToken: getUpToken,
-	saveSetting: saveSetting
+	saveSetting: saveSetting,
+	setBgAudio: setBgAudio
 };
 
 var http = require('http');
@@ -106,13 +107,25 @@ function publish(sceneId, checkType) {
  * @return {[type]}      [description]
  */
 function saveSetting(meta) {
-	var url = serverHost + 'm/scene/saveSettings';
+	var url = serverHost + 'm/scene/setting/save';
 	var data = {
 		data: JSON.stringify(meta),
 		url: url,
 		headers: _headers
 	};
 	// data.headers['Content-Type'] = 'text/plain; charset=UTF-8';
+	return request.post(data);
+}
+
+function setBgAudio(bgAudio) {
+	var url = serverHost + 'm/scene/audio/set';
+	var data = {
+		data: JSON.stringify(bgAudio),
+		url: url,
+		headers: _headers
+	};
+	data.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+
 	return request.post(data);
 }
 

@@ -5,8 +5,10 @@ var URL = require('url');
 var sign = require('./sign');
 var insertRabbitPage = require('./insertRabbitPage');
 var insertScenePage = require('./insertScenePage');
+var insertRabbitPoster = require('./insertRabbitPoster');
 var crypto = utils.crypto;
 var fileHost = 'http://res3.maka.im/';
+var cheerio = require('cheerio');
 
 /**
  * MAKA场景
@@ -63,15 +65,25 @@ class Maka {
 		return setRabMeta(rabbit, this.data).then(res=>insertRabbitPage(rabbit, this.pages));
 	}
 
+	toRabbitPoster(rabbit) {
+		return setRabMeta(rabbit, this.data).then(res=>insertRabbitPoster(rabbit, this.pages));
+	}
+
 	loadData() {
 		return utils.getHtml(this.dataUrl).then(res=>this.loadSuc(res));
 	}
 
-	loadSuc(res) {
-		var dataReg = /window.projectVersion[\s|\w]*=[\s|\w]*{([\s|\w|\W]+)/;
-        return utils.getPageData(res, dataReg).then(res => {
+	loadSuc(html) {
+		// var dataReg = /window.projectVersion[\s|\w]*=[\s|\w]*{([\s|\w|\W]+)/;
+		var dataReg = /versionData[\s|\w]*=[\s|\w]*{([\s|\w|\W]+)$/;
+        return utils.getPageData(html, dataReg).then(res => {
+        	var index = res.indexOf('window.loadJson');
+        	res = res.substring(0, index);
         	this.data = JSON.parse(res);
-        	return this.loadViewPages();
+        	// return this.loadViewPages();
+        	var $ = cheerio.load(html);
+        	this.data.cover = $('#thumb').attr('lazysrc');
+        	return this.loadContent();
         }, error=>console.log(error));
 	}
 
@@ -80,6 +92,17 @@ class Maka {
 			var data = JSON.parse(res).data.pdata;
 			this.pages = data.json;
 			this.data.music = data.music;
+			return this;
+		});
+	}
+
+	loadContent(){
+		return service.getViewData(this.data.uid, this.data.id, this.data.p_version).then(res=>{
+			var data = JSON.parse(res).data;
+			this.pages = [data.content];
+			this.data.music = data.music;
+			this.data.height = data.canvasSize.height;
+			this.data.background = data.background;
 			return this;
 		});
 	}
@@ -217,8 +240,9 @@ function setRabMeta(rabbit, makaMeta) {
 	rabbit.data.desc = makaMeta.content;
 	rabbit.data.in = 'move';
 	rabbit.data.publish = true;
+	rabbit.data.height = makaMeta.height/2;
 	var reg = /^http/;
-	return rabbit.setCover(makaMeta.thumb).then(res=> {
+	return rabbit.setCover(makaMeta.cover).then(res=> {
 		if(makaMeta.music && makaMeta.music.id) {
 			var audio = makaMeta.music.id;
 			if(!reg.test(audio)) {

@@ -113,9 +113,11 @@ class Scene {
 	uploadImg(obj) {
 		if(this.imageToken) {
 			if(obj.type == 'image') {
-				return uploader.getBase64(obj.url).then(res=> uploader.upload(res, this.imageToken));
+				var url = /^http/.test(obj.url) ? obj.url : 'http:' + obj.url;
+				return uploader.getBase64(url).then(res=> uploader.upload(res, this.imageToken));
 			} else if(obj.type == 'svg') {
-				return uploader.getSvg(obj.url).then(res=> {
+				var url = /^http/.test(obj.url) ? obj.url : 'http:' + obj.url;
+				return uploader.getSvg(url).then(res=> {
 					var reg = /viewBox="([\s|\d]*)"/;
 					var result = res.match(reg)[1];
 					var arr = result.split(' ');
@@ -142,7 +144,17 @@ class Scene {
 		} else {
 			return services.getUpToken('audio').then(res=>{
 				this.audioToken = JSON.parse(res).map.token;
-				return this.uploadAudio(url);
+				return this.uploadAudio(url).then(res=>{
+					var key = JSON.parse(res).key;
+					var data = {
+						bgAudio: JSON.stringify({
+								name: 'test',
+								url: key
+							})
+					};
+
+					return services.setBgAudio(data);
+				});
 			});
 		}
 	}

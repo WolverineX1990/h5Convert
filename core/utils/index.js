@@ -1,6 +1,7 @@
 'use strict';
 var extend = require('./extend');
 var crypto = require('./crypto');
+var convertpath = require('./convertpath');
 module.exports = {
 	getHtml: getHtml,
 	getPageData: getPageData,
@@ -10,7 +11,8 @@ module.exports = {
 	crypto: crypto,
 	randomStr: randomStr,
 	toInt: toInt,
-	parseTransform: parseTransform
+	parseTransform: parseTransform,
+    convertpath: convertpath
 };
 
 var http = require('http');
@@ -24,12 +26,13 @@ function getHtml(targetUrl) {
 			host: param.host,
 			path: param.path,
 			headers: {
-				'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
+				'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
 			}
 		};
 	    var req = http.get(options, function (response) {
 		    response.setEncoding('utf-8');  //二进制binary
-	    	var data = '';
+            var data = '';
+            // console.log(response.statusCode);
 		    response.on('data', function (res) {    //加载到内存
 		        data += res;
 		    }).on('end', function () {
@@ -50,7 +53,12 @@ function getPageData(html, dataReg) {
 		$('script').each(function(index, script) {
 			context = $(script).html();
 			if(dataReg.test(context)) {
-				var res = '{' + context.match(dataReg)[1];
+                var res = context.match(dataReg)[1];
+                if(res.indexOf(';')>-1) {
+                    res = '{' + res.split(';')[0];
+                } else {
+                    res = '{' + res;
+                }
 				resolve(res);
 				return false;
 			}

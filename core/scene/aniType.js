@@ -60,14 +60,14 @@ module.exports = {
 		'name': '翻转进入',
 		'0': {
 			'maka': 'flipInY',
-			'rabbit': 'rotate2d'
+			'rabbit': 'translate'
 		}
 	},
 	"8": {
 		'name': '翻转',
 		'0': {
 			'maka': 'flipInY',
-			'rabbit': 'rotate2d'
+			'rabbit': 'translate'
 		}
 	},
 	'3': {
@@ -177,6 +177,10 @@ module.exports = {
 		'0': {
 			'maka': 'expandOpen',
 			'rabbit': 'zoomOut'
+		},
+		'3': {
+			'maka': 'expandOpen',
+			'rabbit': 'zoomOut'
 		}
 	},
 	'6': {
@@ -253,38 +257,38 @@ module.exports = {
 		'name': '移出',
 		'0': {
 			'maka': '',
-			'rabbit': 'fadeOutRight'
+			'rabbit': 'fadeOutLeft'
 		},
 		'1': {
 			'maka': '',
-			'rabbit': 'fadeOutDown'
+			'rabbit': 'fadeOutUp'
 		},
 		'2': {
 			'maka': '',
-			'rabbit': 'fadeOutLeft'
+			'rabbit': 'fadeOutRight'
 		},
 		'3': {
 			'maka': '',
-			'rabbit': 'fadeOutUp'
+			'rabbit': 'fadeOutDown'
 		}
 	},
 	'19': {
 		'name': '弹出',
 		'0': {
 			'maka': '',
-			'rabbit': 'slideRight'
+			'rabbit': 'slideLeft'
 		},
 		'1': {
 			'maka': '',
-			'rabbit': 'slideDown'
+			'rabbit': 'slideUp'
 		},
 		'2': {
 			'maka': '',
-			'rabbit': 'slideLeft'
+			'rabbit': 'slideRight'
 		},
 		'3': {
 			'maka': '',
-			'rabbit': 'slideUp'
+			'rabbit': 'slideDown'
 		}
 	},
 	'11': {

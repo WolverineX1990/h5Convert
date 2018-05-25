@@ -2,6 +2,10 @@
 
 1、needle 拆件里修改了lib/multipart.js 注释了第45行代码-------稍后抽时间研究下needle，将needle删除
 
+秀客
+http://showker.eqxiu.com/showker/shop/pc.html?showkerid=ff80808154eb2a0e015505b731182eda
+http://showker.eqxiu.com/showker/shop/pc.html?showkerid=ff80808154e83b400154fff013003e66
+
 
 =============================
 未完成
@@ -36,3 +40,8 @@ https://cnodejs.org/topic/55a25700419f1e8a23a64372
 
 canvas效果
 http://maroslaw.github.io/rainyday.js/demo012_4.html
+
+InvalidArgument有可能是是needle的问题
+
+
+https://juejin.im/post/5afb8d63f265da0b9c10cce5?utm_source=gold_browser_extension#heading-0

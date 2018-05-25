@@ -133,6 +133,9 @@ function perfectCompJson(compJson) {
 		var anims = compJson.properties.anim;
 		for (var i = 0; i <anims.length; i++) {
 			if(aniType[anims[i].type]) {
+				if(!anims[i].direction) {
+					anims[i].direction = 0;
+				}
 				var animObj = aniType[anims[i].type][anims[i].direction];
 				if(animObj && animObj.rabbit) {
 					var count = anims[i].count == 1 ? 'infinite' : anims[i].countNum;

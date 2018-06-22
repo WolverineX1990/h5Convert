@@ -1,7 +1,7 @@
 'use strict';
 var extend = require('./extend');
 var crypto = require('./crypto');
-var convertpath = require('./convertpath');
+// var convertpath = require('./convertpath');
 module.exports = {
 	getHtml: getHtml,
 	getPageData: getPageData,
@@ -12,7 +12,7 @@ module.exports = {
 	randomStr: randomStr,
 	toInt: toInt,
 	parseTransform: parseTransform,
-    convertpath: convertpath
+    // convertpath: convertpath
 };
 
 var http = require('http');

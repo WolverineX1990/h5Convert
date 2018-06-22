@@ -1,13 +1,14 @@
 'use strict';
-var querystring = require('querystring');
 var config = require('./../config').rabbit;
 var service = require('./../rabbit/service');
 var User = require('./user');
+var fetch = require('node-fetch');
 
 class RabbitUser extends User {
 	constructor(name, pwd) {
 		super(name, pwd);
-		this.url = 'http://eps.rabbitpre.com/api/user/login';
+		// this.url = 'http://eps.rabbitpre.com/api/user/login';
+		this.url = 'https://passport.rabbitpre.com/api/sso/login';
 	}
 
 	/**
@@ -15,34 +16,48 @@ class RabbitUser extends User {
 	 * @return {[type]} [description]
 	 */
 	login() {
-		var postData = querystring.stringify({
+		var body = {
 			account: this.name,
-			password: this.pwd,
-			remember: false,
-			devkey: config.devKey
+			password: this.pwd
+		};
+
+		return fetch(this.url, { 
+			method: 'POST',
+			body: JSON.stringify(body),
+			headers: { 'Content-Type': 'application/json' },
+		})
+		.then(res => {
+			this.cookie = [res.headers.get('set-cookie')];
+			return res.json();
+		})
+		.then(json => {
+			this.info = json.data;
+			return json;
 		});
-		return this.submit(postData, {Origin: config.origin})
-			.then(res=>{
-				this.cookie = res.cookie;
-				this.info = JSON.parse(res.data).result;
-				return this;
-			});
 	}
 
 	getSession() {
-		return service.getSso({'x-jwt-token': this.info.token}).then(res=>{
-			for(var i = 0;i<res.cookie.length;i++) {
-				this.cookie.push(res.cookie[i]);	
-			}
-			
-			var url = JSON.parse(res.data).data.url;
-			return service.getTicket(url).then(res=>{
-				for(var i = 0;i<res.cookie.length;i++) {
-					this.cookie.push(res.cookie[i]);	
-				}
-				return this.info;
-			});
-		});
+		return service.getUserInfo()
+							.then(res=>{
+								this.cookie.push(res.headers.get('set-cookie'));
+								return res.json();
+							})/*.then(()=>service.getSid())
+							.then(res1=>{
+								this.cookie.push(res1.headers.get('set-cookie'));
+								return res1.json();
+							})*/
+		// return service.getSso().then(res=>{
+		// 	for(var i = 0;i<res.cookie.length;i++) {
+		// 		this.cookie.push(res.cookie[i]);	
+		// 	}
+			// var url = JSON.parse(res.data).data.url;
+			// return service.getTicket(url).then(res=>{
+			// 	for(var i = 0;i<res.cookie.length;i++) {
+			// 		this.cookie.push(res.cookie[i]);	
+			// 	}
+			// 	return this.info;
+			// });
+		// });
 	}
 }
 

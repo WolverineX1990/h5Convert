@@ -75,16 +75,25 @@ class Rabbit {
 					'bucket': res['x-oss-meta-bucket'],
 					'filename': 'upload.png'
 				};
+
 			var data = {
-				key: res.key,
-				xparams: JSON.stringify(xparams),
-				isAjax: true
-			};
+				file: {
+					bucket: xparams.bucket,
+					key: res.key,
+					keyprev: xparams.keyprev,
+					name: xparams.filename,
+					path: '//tenc.rabbitpre.com/' + res.key,
+					server: xparams.serverType,
+					size: 100,
+					type: xparams.type,
+					userfolder: -1,
+					userid: '19d9e8bf-60f0-41f7-8865-9c6846c8da27'
+				}
+			}
 			return service.upload(data).then(res=>{
-				var data = JSON.parse(res);
-				this.data.imgurl = data.file.id;
-				this.data.img_path = data.file.url;
-				console.log(this.data.imgurl)
+				var data = res.data;
+				this.data.imgurl = data.id;
+				this.data.img_path = data.path;
 				return true;
 			});
 		});
@@ -102,12 +111,26 @@ class Rabbit {
 				'bucket': res['x-oss-meta-bucket'],
 				'filename': 'upload.mp3'
 			};
+			// var data = {
+			// 	key: res.key,
+			// 	xparams: JSON.stringify(xparams),
+			// 	isAjax: true
+			// };
 			var data = {
-				key: res.key,
-				xparams: JSON.stringify(xparams),
-				isAjax: true
-			};
-			return service.upload(data).then(res=>this.data.music=JSON.parse(res).file.id);
+				file: {
+					bucket: xparams.bucket,
+					key: res.key,
+					keyprev: xparams.keyprev,
+					name: xparams.filename,
+					path: '//tenc.rabbitpre.com/' + res.key,
+					server: xparams.serverType,
+					size: 100,
+					type: xparams.type,
+					userfolder: -1,
+					userid: res['x-oss-meta-userid']
+				}
+			}
+			return service.upload(data).then(res=>this.data.music=res.data.id);
 		});
 	}
 
@@ -254,12 +277,7 @@ class Rabbit {
 	}
 
 	save() {
-		this.data.publish = true;
-		var data = {
-			data: JSON.stringify(this.data),
-			isAjax: true
-		};
-		return service.createTemplate(data);
+		return service.saveTemplate(this.data);
 	}
 
 	copy(pages) {

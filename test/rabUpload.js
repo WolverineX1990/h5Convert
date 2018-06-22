@@ -30,15 +30,24 @@ function loginSuccess() {
 				serverType: 'A',
 				type: 'IMAGE',
 				count: 1,
-				files: JSON.stringify([{"name":"upload.svg"}]),
-				appid: '1d149230-e81b-43da-8f29-02b2f491a240', //场景相关信息
+				files: JSON.stringify([{"name":"a.jpg"}]),
+				appid: '820819b3-9390-4bdc-a62d-1fe67e3411ef', //场景相关信息
 				userfolder: -1,
 				isAjax: true
 			};
+
+			var data1 = {
+				count: 1,
+				type: 'IMAGE',
+				needCallback: true,
+				isUserFile: true,
+				userfolder: -1
+			};
 			rabSevice.getUploadToken(data).then(res=>{
+				console.log(JSON.parse(res))
 				var token = JSON.parse(res)[0];
 				// console.log('http://tenc1.rabbitpre.com/' + token.key);
-				console.log(token)
+				// console.log(token)
 				var data = {
 					'OSSAccessKeyId': token.accessKey,
 					'policy': token.policy,
@@ -52,15 +61,15 @@ function loginSuccess() {
 					'x-oss-meta-serverType': token.xparams.serverType,
 					'x-oss-meta-bucket': token.xparams.bucket
 				};
-				var url = 'http://res1.eqh5.com/3e06ffaa-992c-4830-ab3d-b07f95fe557c.svg';
-				// var url = 'http://wscdn.rabbitpre.com/fdf5a06d-e600-4195-a580-4ec3899251fa-7285';
+				// var url = 'http://res1.eqh5.com/3e06ffaa-992c-4830-ab3d-b07f95fe557c.svg';
+				var url = 'http://wscdn.rabbitpre.com/fdf5a06d-e600-4195-a580-4ec3899251fa-7285';
 				utils.getResource(url).then(res=> {
 					data.file = {
 						buffer: new Buffer(res, 'binary'),
-					    filename: 'upload.svg',
+					    filename: 'a.jpg',
 					    // content_type: 'application/svg'
-					    content_type: 'application/octet-stream'
-					    // content_type: 'image/png'
+					    // content_type: 'application/octet-stream'
+					    content_type: 'image/jpeg'
 					    // content_type: 'image/svg+xml'
 					};
 
@@ -68,10 +77,13 @@ function loginSuccess() {
 						multipart: true
 					}
 					var url = 'http://rabbitpre.oss-cn-shenzhen.aliyuncs.com';
+					console.log(data)
 				    needle.post(url, data, options, function(err, resp, body) {
 				    	console.log(url + '/' + data.key);
+				    	console.log('#####################################');
 				    	console.log(body.toString());
 					  	// console.log(resp);
+					  	// console.log(err)
 					});
 				});
 			});

@@ -5,12 +5,12 @@
   "main": "app.js",
   "dependencies": {
     "cheerio": "^0.22.0",
-    "convertpath": "^1.0.2",
-    "mysql": "^2.13.0",
-    "needle": "^1.6.0"
+    "needle": "^1.6.0",
+    "node-fetch": "^2.1.2"
   },
   "devDependencies": {},
   "scripts": {
+    "start": "node app",
     "test": "node test"
   },
   "author": "zcj",

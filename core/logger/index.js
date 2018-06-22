@@ -1,6 +1,6 @@
 'use strict';
 var Db = require('./db');
-var db = new Db('db4free.net', 'h5converzcj', 'h5conver', 'h5conver');
+// var db = new Db('db4free.net', 'h5converzcj', 'h5conver', 'h5conver');
 
 function checkExist(id, type) {
 	var sql = `select * from conver_scene where scene_id='${id}' and type = ${type}`;

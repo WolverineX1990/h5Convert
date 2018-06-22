@@ -1,5 +1,5 @@
 'use strict';
-var mysql = require('mysql');
+// var mysql = require('mysql');
 class Db {
 	constructor(host, database, user, pwd) {
 		this.host = host;

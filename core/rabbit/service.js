@@ -9,7 +9,10 @@ module.exports = {
 	upload: upload,
 	getTplData: getTplData,
 	getCmpId: getCmpId,
-	createPoster: createPoster
+	createPoster: createPoster,
+	getUploadTokenNew: getUploadTokenNew,
+	getSid: getSid,
+	saveTemplate: saveTemplate
 };
 
 var http = require('http');
@@ -17,7 +20,9 @@ var querystring= require('querystring');
 var request = require('./../request');
 var config = require('./../config').rabbit;
 var serverHost = config.severHost;
+var editServerHost = config.editServerHost;
 var extend = require('./../utils').extend;
+var fetch = require('node-fetch');
 
 var _headers;
 
@@ -31,7 +36,7 @@ function setHeaders(headers) {
 
 function getSso(headers) {
 	return request.get({
-		url: serverHost + 'user/syncsso',
+		url: serverHost + 'user/syncnewsso?isAjax=true',
 		headers: extend(headers, _headers)
 	}, {getCookie: true});
 }
@@ -51,10 +56,20 @@ function getSesion() {
 }
 
 function getUserInfo(headers) {
-	return request.get({
-		url: serverHost + 'user/info',
-		headers: extend(headers, _headers)
-	}, {getCookie: true});
+	// return request.get({
+	// 	url: serverHost + 'user/info',
+	// 	headers: extend(headers, _headers)
+	// }, {getCookie: true});
+	
+	return fetch(editServerHost + 'api/user/newinfo', {
+		headers: _headers,
+	});
+}
+
+function getSid() {
+	return fetch(editServerHost + 'api/org/package', {
+		headers: _headers,
+	});
 }
 
 /**
@@ -62,10 +77,26 @@ function getUserInfo(headers) {
  * @return {[type]} [description]
  */
 function createTemplate(data) {
-	return request.post({
-		url: serverHost + 'app',
+	return fetch(editServerHost + 'api/app', { 
+		method: 'POST',
+		body: JSON.stringify(data),
 		headers: _headers,
-		data: querystring.stringify(data)
+	}).then(res=>{
+		return res.json()
+	});
+}
+
+/**
+ * 保存模板
+ * @param {*} data 
+ */
+function saveTemplate(data) {
+	return fetch(editServerHost + 'api/app/' + data.appExtId, { 
+		method: 'POST',
+		body: JSON.stringify(data),
+		headers: _headers,
+	}).then(res=>{
+		return res.json()
 	});
 }
 
@@ -82,7 +113,7 @@ function createPoster(data) {
 }
 
 /**
- * [getUploadToken ]
+ * [getUploadToken 上传token]
  * @param  {[type]} userToken [description]
  * @return {[type]}           [description]
  */
@@ -96,16 +127,38 @@ function getUploadToken(data) {
 }
 
 /**
+ * [getUploadTokenNew 上传token新]
+ * @param  {[type]} userToken [description]
+ * @return {[type]}           [description]
+ */
+function getUploadTokenNew(data) {
+	var url = editServerHost + 'api/upload/token';
+	return request.get({
+		url: url,
+		headers: _headers,
+		data: data
+	});
+}
+
+
+/**
  * [upload 上传]
  * @param  {[type]} userToken [description]
  * @return {[type]}           [description]
  */
 function upload(data) {
-	var url = serverHost + 'upload/uploaded';
-	return request.post({
-		url: url,
+	// var url = serverHost + 'upload/uploaded';
+	// return request.post({
+	// 	url: url,
+	// 	headers: _headers,
+	// 	data: querystring.stringify(data)
+	// });
+	return fetch(editServerHost + 'api/upload/uploaded', { 
+		method: 'POST',
+		body: JSON.stringify(data),
 		headers: _headers,
-		data: querystring.stringify(data)
+	}).then(res=>{
+		return res.json()
 	});
 }
 

@@ -7,7 +7,7 @@ module.exports = {
 	"previewUrl": "",
 	"domainUrl": "",
 	"templateId": "",
-	"type": "2",
+	"type": "1",
 	"level": "0",
 	"state": "1",
 	"width": 320,

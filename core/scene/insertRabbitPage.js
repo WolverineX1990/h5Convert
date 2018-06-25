@@ -52,7 +52,7 @@ function setComps(rabbit) {
 	for(var i = 0;i<rabPages.length;i++) {
 		var cmps = rabPages[i].cmps;
 		for(var j = 0;j<cmps.length;j++) {
-			if(cmps[j].cmpType == 'praise') {
+			if(cmps[j].type == 'praise') {
 				praiseCmps.push(cmps[j]);
 			}
 		}
@@ -74,18 +74,49 @@ function setCompsId(praiseCmps, rabbit) {
 
 function perfectPageJson(pageJson, pageNum, rabbitData, direction) {
 	var json = {
-		appid: rabbitData.id,
+		appId: rabbitData.id,
 		row: (direction ? pageNum : 0),
 		col: (direction ? 0 : pageNum),
 		in: null,
 		out: null,
-		bgcol: null,
-		bgimage: null,
-		bgserver: null,
-		bgleft: 0,
-		bgtop: 0,
+		bgCol: '#fff',
+		bgImage: null,
+		bgServer: null,
+		bgLeft: 0,
+		bgTop: 0,
 		cmps: []
 	};
+	if(pageNum == 0 && rabbitData.bgmusic) {
+		var bgmusic = rabbitData.bgmusic;
+		json.cmps.push({
+			id: randomId(),
+			type: 'bgmusic',
+			trigger: [],
+			triggers: [],
+			animations: [],
+			autoPlay: true,
+			musicBucket: bgmusic.musicBucket,
+			musicKey: bgmusic.musicKey,
+			musicName: bgmusic.musicName,
+			musicServer: bgmusic.musicServer,
+			musickId: bgmusic.musickId,
+			switchOn: true,
+			src: bgmusic.src,
+			loopPlay: true,
+			visible: true,
+			style: {
+				borderColor: "#000",
+				borderStyle: "solid",
+				borderWidth: 0,
+				height: 30,
+				left: 276,
+				opacity: 1,
+				rotate: 0,
+				top: 14,
+				width:30
+			}
+		});
+	}
 	var elements = pageJson.elements.sort((a, b)=>{
 		var aIndex = a.css.zIndex;
 		var bIndex = b.css.zIndex;
@@ -103,11 +134,11 @@ function perfectPageJson(pageJson, pageNum, rabbitData, direction) {
 			} else {
 				try {
 					var inputTypes = ['ginput', 'gselect'];
-					if(inputTypes.indexOf(cmp.cmpType)!=-1) {
+					if(inputTypes.indexOf(cmp.type)!=-1) {
 						if(!rabbitData.gather) {
 							rabbitData.gather = {id: 0, strict: {}};
 						}
-						rabbitData.gather.strict[cmp.tid] = cmp.text;
+						rabbitData.gather.strict[cmp.id] = cmp.text;
 					}
 				}catch(e) {
 					console.log(e);
@@ -122,11 +153,13 @@ function perfectPageJson(pageJson, pageNum, rabbitData, direction) {
 
 function perfectCompJson(compJson) {
 	var newJson = {
-		tid: randomId(),
+		id: randomId(),
 		style: getStyle(compJson.css, compJson.type),
 		trigger: [],
-		animation: [],
-		cmpType: compTypes[compJson.type]
+		triggers: [],
+		animations: [],
+		type: compTypes[compJson.type],
+		visible: true
 	};
 
 	if(compJson.properties && compJson.properties.anim) {
@@ -138,14 +171,19 @@ function perfectCompJson(compJson) {
 				}
 				var animObj = aniType[anims[i].type][anims[i].direction];
 				if(animObj && animObj.rabbit) {
-					var count = anims[i].count == 1 ? 'infinite' : anims[i].countNum;
+					var count = anims[i].count == 1 ? 'Infinity' : anims[i].countNum;
 					var anim = {
-						name: animObj.rabbit,
+						animate: animObj.rabbit,
 						count: count,
 						delay: anims[i].delay,
-						duration: anims[i].duration || 1
+						duration: anims[i].duration || 1,
+						isActive: true,
+						interval: 0,
+						isCompose: false,
+						name: animObj.rabbit,
+						order: 'normal'
 					};
-					newJson.animation.push(anim);
+					newJson.animations.push(anim);
 				} else {
 					console.log('id:' + compJson.id + '-anim:'+aniType[anims[i].type].name+'direction-'+anims[i].direction+'not found!');	
 				}
@@ -155,9 +193,11 @@ function perfectCompJson(compJson) {
 				}
 			}
 		}
+
 	}
 
 	if(compJson.type == 2) {
+		newJson.isRichText = true;
 		newJson.text = getText(compJson.content);
 		newJson.style.height = 'auto';
 		newJson.style['font-family'] = '黑体';
@@ -169,26 +209,45 @@ function perfectCompJson(compJson) {
 		if(!reg.test(url)) {
 			url = fileHost + url;
 		}
-		newJson.file = {
-			url: url,
-			key: url,
-			server: 'Q'
-		};
+		newJson.src = url;
 		newJson.style.left = -14;
 		newJson.style.top = -9;
 		newJson.style.width = 348;
 		newJson.style.height = 524;
+
+		newJson.crop = newJson.display = {
+			left: 0,
+			top: 0,
+			right: 0,
+			bottom: 0,
+			width: newJson.style.width,
+			height: newJson.style.height
+		};
+
+		newJson.fullSize = {
+			width: newJson.style.width,
+			height: newJson.style.height
+		};
 	} else if(compJson.type == 4) {
 		var url = compJson.properties.src;
 		var reg = /^http/;
 		if(!reg.test(url)) {
 			url = fileHost + url;
 		}
-		newJson.file = {
-			url: url,
-			key: url,
-			server: 'Q'
+		newJson.crop = newJson.display = {
+			left: 0,
+			top: 0,
+			right: 0,
+			bottom: 0,
+			width: newJson.style.width,
+			height: newJson.style.height
 		};
+
+		newJson.fullSize = {
+			width: newJson.style.width,
+			height: newJson.style.height
+		};
+		newJson.src = url;
 	} else if(compJson.type == 'h') {
 		newJson.fill = [];
 		var url = compJson.properties.src;
@@ -339,16 +398,16 @@ function uploadRes(rabbit, pages) {
 		var cmps = pages[i].cmps;
 		for(var j = 0;j<cmps.length;j++) {
 			var cmp = cmps[j];
-			if(cmp.cmpType === 'image') {
-				if(urls.indexOf(cmp.file.key) === -1) {
-					urls.push(cmp.file.key);
+			if(cmp.type === 'image') {
+				if(urls.indexOf(cmp.src) === -1) {
+					urls.push(cmp.src);
 					imgList.push({
-						url: cmp.file.key,
+						url: cmp.src,
 						type: 'image'
 					});
 				}
 				list.push(cmp);
-			} else if(cmp.cmpType === 'shape' && cmp.src.indexOf('wscdn.rabbitpre.com') == -1) {
+			} else if(cmp.type === 'shape' && cmp.src.indexOf('wscdn.rabbitpre.com') == -1) {
 				if(urls.indexOf(cmp.src) === -1) {
 					urls.push(cmp.src);
 					imgList.push({
@@ -379,14 +438,13 @@ function uploadImgs(rabbit, imgList, cmps) {
 		return promise;
 	}
 	return rabbit.uploadRes(obj).then(res => {
-		var url = 'http://tenc1.rabbitpre.com/' + res.key;
+		var url = '//tenc1.rabbitpre.com/' + res.key;
 		for(var i = 0;i < cmps.length;i++) {
-			if(cmps[i].cmpType == 'image') {
-				if(cmps[i].file.key == obj.url) {
-					cmps[i].file.key = url;
-					cmps[i].file.url = res.key;
+			if(cmps[i].type == 'image') {
+				if(cmps[i].src == obj.url) {
+					cmps[i].src = url;
 				}
-			} else if(cmps[i].cmpType == 'shape') {
+			} else if(cmps[i].type == 'shape') {
 				if(cmps[i].src == obj.url) {
 					cmps[i].src = url;
 				}

@@ -12,7 +12,9 @@ module.exports = {
 	createPoster: createPoster,
 	getUploadTokenNew: getUploadTokenNew,
 	getSid: getSid,
-	saveTemplate: saveTemplate
+	saveTemplate: saveTemplate,
+	publishTpl: publishTpl,
+	uploadMusic: uploadMusic
 };
 
 var http = require('http');
@@ -100,6 +102,16 @@ function saveTemplate(data) {
 	});
 }
 
+function publishTpl(data) {
+	return fetch(editServerHost + 'api/app/publish/ ' + data.appExtId, { 
+		method: 'POST',
+		body: JSON.stringify(data),
+		headers: _headers,
+	}).then(res=>{
+		return res.json()
+	});
+}
+
 /**
  * [createTemplate description]
  * @return {[type]} [description]
@@ -147,13 +159,17 @@ function getUploadTokenNew(data) {
  * @return {[type]}           [description]
  */
 function upload(data) {
-	// var url = serverHost + 'upload/uploaded';
-	// return request.post({
-	// 	url: url,
-	// 	headers: _headers,
-	// 	data: querystring.stringify(data)
-	// });
 	return fetch(editServerHost + 'api/upload/uploaded', { 
+		method: 'POST',
+		body: JSON.stringify(data),
+		headers: _headers,
+	}).then(res=>{
+		return res.json()
+	});
+}
+
+function uploadMusic(data) {
+	return fetch(editServerHost + 'api/upload/uploadedByUser', { 
 		method: 'POST',
 		body: JSON.stringify(data),
 		headers: _headers,

@@ -46,7 +46,26 @@ class Scene {
 	}
 	
 	toRabbit(rabbit) {
-		return setRabMeta(rabbit, this.data).then(res=>insertRabbitPage(rabbit, this.pages, this.data.pageMode));
+		rabbit.data.name = this.data.name;
+		rabbit.data.desc = this.data.description;
+		if(this.data.pageMode == 6) {
+			rabbit.data.in = 'cvbe';
+		} else {
+			rabbit.data.in = 'move';
+		}
+		if(this.data.bgAudio && this.data.bgAudio.url) {
+			var audio = this.data.bgAudio.url;
+			var reg = /^http/;
+			if(!reg.test(audio)) {
+				audio = fileHost + audio;
+			}
+			return rabbit.setBgAudio(audio)
+								.then(()=>insertRabbitPage(rabbit, this.pages, this.data.pageMode))
+			 					.then(() => setRabMeta(rabbit, this.data));
+		} else {
+			return insertRabbitPage(rabbit, this.pages, this.data.pageMode)
+						.then(res => setRabMeta(rabbit, this.data));
+		}
 	}
 
 	toMaka(maka) {		
@@ -226,15 +245,6 @@ function setMakaMeta(maka, eqxMeta) {
 }
 
 function setRabMeta(rabbit, eqxMeta) {
-	rabbit.data.name = eqxMeta.name;
-	rabbit.data.desc = eqxMeta.description;
-	rabbit.data.publish = true;
-	if(eqxMeta.pageMode == 6) {
-		rabbit.data.in = 'cvbe';
-	} else {
-		rabbit.data.in = 'move';
-	}
-	
 	var cover = eqxMeta.cover;
 	var reg = /^http/;
 	//默认logo
@@ -242,18 +252,20 @@ function setRabMeta(rabbit, eqxMeta) {
 		if(!reg.test(cover)) {
 			cover = fileHost + cover;
 		}
-		return rabbit.setCover(cover).then(res=> {
-			if(eqxMeta.bgAudio && eqxMeta.bgAudio.url) {
-				var audio = eqxMeta.bgAudio.url;
-				if(!reg.test(audio)) {
-					audio = fileHost + audio;
-				}
-				return rabbit.setBgAudio(audio);
-			} else {
-				return res;
-			}
-		});
-	} else {
+		return rabbit.setCover(cover)
+							.then(() => rabbit.publish());
+		//.then(res=> {
+			// if(eqxMeta.bgAudio && eqxMeta.bgAudio.url) {
+			// 	var audio = eqxMeta.bgAudio.url;
+			// 	if(!reg.test(audio)) {
+			// 		audio = fileHost + audio;
+			// 	}
+			// 	return rabbit.setBgAudio(audio);
+			// } else {
+		// 		return res;
+		// 	// }
+		// });
+	} /*else {
 		if(eqxMeta.bgAudio && eqxMeta.bgAudio.url) {
 			var audio = eqxMeta.bgAudio.url;
 			if(!reg.test(audio)) {
@@ -266,5 +278,5 @@ function setRabMeta(rabbit, eqxMeta) {
 			});
 			return pormise;
 		}
-	}
+	}*/
 }

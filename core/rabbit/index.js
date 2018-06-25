@@ -66,6 +66,10 @@ class Rabbit {
 	    }
 	}
 
+	publish() {
+		return service.publishTpl(this.data);
+	}
+
 	setCover(url) {
 		return this.uploadRes({url: url, type: 'cover'}).then(res=>{
 			var xparams = {
@@ -90,10 +94,13 @@ class Rabbit {
 					userid: '19d9e8bf-60f0-41f7-8865-9c6846c8da27'
 				}
 			}
+			this.data.imgKey = res.key;
+			this.data.imgServer = xparams.serverType;
 			return service.upload(data).then(res=>{
 				var data = res.data;
-				this.data.imgurl = data.id;
-				this.data.img_path = data.path;
+				this.data.imgId = data.id;
+				this.data.imgBucket = xparams.bucket;
+				this.data.imgPath = data.path;
 				return true;
 			});
 		});
@@ -130,7 +137,17 @@ class Rabbit {
 					userid: res['x-oss-meta-userid']
 				}
 			}
-			return service.upload(data).then(res=>this.data.music=res.data.id);
+			return service.uploadMusic(data).then(json=>{
+				this.data.bgmusic = {
+					musicBucket: xparams.bucket,
+					musicKey: res.key,
+					musicName: xparams.filename,
+					musicServer: xparams.serverType,
+					musickId: json.data.id,
+					src: json.data.path
+				};
+				return this.data.music=json.data.id;
+			});
 		});
 	}
 
@@ -277,6 +294,7 @@ class Rabbit {
 	}
 
 	save() {
+		this.data.publish = true;
 		return service.saveTemplate(this.data);
 	}
 

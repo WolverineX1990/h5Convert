@@ -11,7 +11,7 @@ var header = require('./../request/header');
 function upload(file, postData, url) {
 	var param = URL.parse(url);
 	var headers = {
-			'User-Agent': header.UserAgent
+		'User-Agent': header.UserAgent
 	};
 	var options = {
 		host: param.host,

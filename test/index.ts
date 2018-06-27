@@ -6,8 +6,8 @@
 // var eqxCrawler = require('./eqxCrawler');
 // var uploadTest = require('./uploadTest');
 // var convertpath = require('./convertpath');
-var rabLogin = require('./rabLogin');
-rabLogin();
+// var rabLogin = require('./rabLogin');
+// rabLogin();
 // updateRabbit();
 // makaUpload();
 // rabUpload();
@@ -16,3 +16,13 @@ rabLogin();
 // convertpath();
 // eqxCrawler();
 // uploadTest();
+
+function test(obj) {
+
+}
+
+test(1)
+
+function mm() {
+
+}

@@ -162,9 +162,9 @@ function put(params, config) {
 			});
 			req.on('error', function(err) {
 				console.log(err);
-		    	reject(err);
-		    });
-		    req.write(params.data);
+		    reject(err);
+		  });
+		  req.write(params.data);
 			req.end();
 		});
 	} catch(err) {

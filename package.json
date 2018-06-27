@@ -1,17 +1,24 @@
 {
-  "name": "h5Convert",
+  "name": "h5convert",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "app.ts",
   "dependencies": {
+    "@types/needle": "^2.0.2",
     "cheerio": "^0.22.0",
     "needle": "^1.6.0",
     "node-fetch": "^2.1.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/node": "^10.3.6",
+    "ts-node": "^7.0.0",
+    "typescript": "^2.9.2",
+    "@types/cheerio": "^0.22.8"
+  },
   "scripts": {
-    "start": "node app",
-    "test": "node test"
+    "start": "ts-node app.ts",
+    "tsc": "tsc",
+    "test": "ts-node test/index.ts"
   },
   "author": "zcj",
   "license": "MIT"

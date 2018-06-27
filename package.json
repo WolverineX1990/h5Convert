@@ -4,7 +4,6 @@
   "description": "",
   "main": "app.ts",
   "dependencies": {
-    "@types/needle": "^2.0.2",
     "cheerio": "^0.22.0",
     "needle": "^1.6.0",
     "node-fetch": "^2.1.2"
@@ -13,7 +12,8 @@
     "@types/node": "^10.3.6",
     "ts-node": "^7.0.0",
     "typescript": "^2.9.2",
-    "@types/cheerio": "^0.22.8"
+    "@types/cheerio": "^0.22.8",
+    "@types/needle": "^2.0.2"
   },
   "scripts": {
     "start": "ts-node app.ts",

@@ -1,13 +1,14 @@
 import fetch from 'node-fetch';
 import { stringify } from 'querystring';
-import { get } from './../request/index';
 import CONFIG from './../const/CONFIG';
 
 const { editServerHost, severHost } = CONFIG;
 
 export function getViewData(sceneId: string, sceneCode: string, publishTime: string): Promise<any> {
 	let url = `${CONFIG.eqxS1Host}eqs/page/${sceneId}?code=${sceneCode}&time=${publishTime}`;
-	return get({url: url});
+	return fetch(url, { 
+		method: 'GET'
+	}).then(res => res.json());
 }
 
 export function createRabAlbum(data, headers) {
@@ -15,27 +16,23 @@ export function createRabAlbum(data, headers) {
 		method: 'POST',
 		body: JSON.stringify(data),
 		headers,
-	}).then(res=>{
-		return res.json()
-	});
+	}).then(res => res.json());
 }
 
 export function saveRabAlbum(data, headers) {
-	return fetch(editServerHost + 'api/app/' + data.appExtId, { 
+	return fetch(editServerHost + 'api/app/' + data.id, { 
 		method: 'POST',
 		body: JSON.stringify(data),
 		headers: headers,
-	}).then(res=>{
-		return res.json()
-	});
+	}).then(res => res.json());
 }
 
-export function getUploadToken(type: string, headers) {
+export function getUploadToken(type: string, isUserFile: Boolean, headers) {
 	let data = {
 		type,
 		count: 1,
 		needCallback: true,
-		isUserFile: true,
+		isUserFile: isUserFile,
 		userfolder: -1
 	};
 
@@ -43,9 +40,7 @@ export function getUploadToken(type: string, headers) {
 	return fetch(editServerHost + 'api/upload/token?' + stringify(data), { 
 		method: 'GET',
 		headers,
-	}).then(res=>{
-		return res.json()
-	});
+	}).then(res => res.json());
 }
 
 export function uploadMusic(data, headers) {
@@ -53,9 +48,7 @@ export function uploadMusic(data, headers) {
 		method: 'POST',
 		body: JSON.stringify(data),
 		headers,
-	}).then(res=>{
-		return res.json()
-	});
+	}).then(res => res.json());
 }
 
 export function upload(data, headers) {
@@ -63,17 +56,13 @@ export function upload(data, headers) {
 		method: 'POST',
 		headers,
 		body: JSON.stringify(data),
-	}).then(res=>{
-		return res.json()
-	});
+	}).then(res => res.json());
 }
 
 export function publishTpl(data, headers) {
-	return fetch(editServerHost + 'api/app/publish/ ' + data.appExtId, { 
+	return fetch(editServerHost + 'api/app/publish/ ' + data.id, { 
 		method: 'POST',
 		body: JSON.stringify(data),
 		headers: headers,
-	}).then(res=>{
-		return res.json()
-	});
+	}).then(res => res.json());
 }

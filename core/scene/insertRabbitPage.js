@@ -120,7 +120,7 @@ function perfectPageJson(pageJson, pageNum, rabbitData, direction) {
 	var elements = pageJson.elements.sort((a, b)=>{
 		var aIndex = a.css.zIndex;
 		var bIndex = b.css.zIndex;
-		return aIndex - bIndex;
+		return bIndex - aIndex;
 	});
 	for(var i = 0;i<elements.length;i++) {
 		var cmp = perfectCompJson(elements[i]);

@@ -30,9 +30,7 @@ export default class Scene {
   }
 
   loadViewPages(): Promise<Scene> {
-    return getViewData(this.data['id'], this.data['code'], this.data['publishTime']).then(res=>{
-      console.log(res.data)
-      let json: Object = JSON.parse(res.data);
+    return getViewData(this.data['id'], this.data['code'], this.data['publishTime']).then(json=>{
       if(!json['success']) {
         throw new Error('Class:Scene->method:getViewData fail');
       }
@@ -53,7 +51,7 @@ export default class Scene {
     return rabbit.setBgAudio(getBgAudio(this.data))
               .then(() => insertRabbitPages(rabbit, this.pages, this.data['pageMode']))
               .then(() => rabbit.save())
-              .then(res => setRabMeta(rabbit, this.data))
+              .then(res => setRabMeta(rabbit, this.data));
   }
 }
 
@@ -62,8 +60,9 @@ function insertRabbitPages(rabbit: Rabbit, pages: Array<Object>, pageMode: strin
   rabPages[0].deleted = true;
   let promises = [];
   for(let i = 0;i<pages.length;i++) {
-    promises.push(new Page(pages[i]).getRabJson(rabbit, i)
-            .then(res => rabPages.push(res)));
+    promises.push(new Page(pages[i])
+                  .getRabJson(rabbit, i)
+                  .then(res => rabPages.push(res)));
   }
   return Promise.all(promises);
 }

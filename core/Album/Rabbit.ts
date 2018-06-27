@@ -59,7 +59,7 @@ export default class Rabbit {
     if(!audioPath) {
       return Promise.resolve();
     }
-    return getUploadToken(FileType.Music, this._httpHeader)
+    return getUploadToken(FileType.Music, true, this._httpHeader)
             .then(res => uploadRes(res.data[0], audioPath, FileType.Music))
             .then(token => {
 
@@ -93,7 +93,7 @@ export default class Rabbit {
   }
 
   setCover(imgPath: string) {
-    return getUploadToken(FileType.Image, this._httpHeader)
+    return getUploadToken(FileType.Svg, false, this._httpHeader)
             .then(res => uploadRes(res.data[0], imgPath, FileType.Image))
             .then(token => {
 
@@ -103,7 +103,7 @@ export default class Rabbit {
                   key: token.key,
                   keyprev: token.xparams.keyprev,
                   name: 'file',
-                  path: token.key,
+                  path: token.path,
                   server: token.xparams.server,
                   size: 100,
                   type: token.xparams.type,
@@ -125,12 +125,12 @@ export default class Rabbit {
   }
 
   uploadImg(filePath: string) {
-    return getUploadToken(FileType.Image, this._httpHeader)
+    return getUploadToken(FileType.Image, true, this._httpHeader)
               .then(res => uploadRes(res.data[0], filePath, FileType.Image))
   }
 
   uploadSvg(filePath: string) {
-    return getUploadToken(FileType.Svg, this._httpHeader)
+    return getUploadToken(FileType.Svg, false, this._httpHeader)
               .then(res => uploadRes(res.data[0], filePath, FileType.Svg))
   }
 }
@@ -182,7 +182,7 @@ function uploadRes(token, url, type) {
         filename: param.fileName,
         content_type: param.contentType
       };
-      console.log(param.fileName+'###'+token.url+'###'+url);
+      // console.log(param.fileName+'###'+token.url+'###'+url);
       needlePost(token.url, data, {multipart: true}, function(err, resp, body) {
         if (err) {
           throw new Error(JSON.stringify(err));

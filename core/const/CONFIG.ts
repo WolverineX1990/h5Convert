@@ -1,6 +1,6 @@
 const CONFIG = {
   userName: '18519203764',
-	userPwd: '19900325x',
+	userPwd: '11',
 	origin: 'http://www.rabbitpre.com',
 	severHost: 'http://www.rabbitpre.com/',
 	editServerHost: 'http://editor.rabbitpre.com/',

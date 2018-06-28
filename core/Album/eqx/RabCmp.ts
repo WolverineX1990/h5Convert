@@ -13,7 +13,8 @@ function getJson(json) {
 		triggers: [], 
 		animations: getAnis(json.properties),
     visible: true,
-    type: exqCmpTypes[json.type]
+    type: exqCmpTypes[json.type],
+    cmpIndex: json.cmpIndex
   }
   
   return newJson;
@@ -49,6 +50,10 @@ function getAnis(json) {
           name: animObj.rabbit,
           order: 'normal'
         };
+        //打字机动画
+        if (anim.animate == 'typewriter') {
+          anim.isCompose = true;
+        }
         animations.push(anim);
       } else {
         console.log('id:' + json.id + '-anim:'+aniType[anims[i].type].name+'direction-'+anims[i].direction+'not found!');	

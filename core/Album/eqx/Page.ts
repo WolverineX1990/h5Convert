@@ -20,7 +20,8 @@ export default class Page {
     this.data = data;
     this.addFilter(exqCmpTypes.image, rabImgFilter);
     this.addFilter(exqCmpTypes["image-1"], rabBgFilter);
-    this.addFilter(exqCmpTypes.text1, rabTextFilter);
+    this.addFilter(exqCmpTypes["text-1"], rabLinkFilter);
+    this.addFilter(exqCmpTypes["text-2"], rabTextFilter);
     this.addFilter(exqCmpTypes.text, rabRichTextFilter);
     this.addFilter(exqCmpTypes.ginput, rabInputFilter);
     this.addFilter(exqCmpTypes["ginput-"], rabInputFilter);
@@ -56,26 +57,29 @@ export default class Page {
       cmps: []
     };
 
-    if(rabbitData['bgmusic']) {
+    if(rabbitData['bgmusic'] && row === 0) {
       json.cmps.push(rabMusicFilter(rabbitData['bgmusic']));
     }
 
-    var elements = this.data['elements'].sort((a, b)=>{
-      var aIndex = a.css.zIndex;
-      var bIndex = b.css.zIndex;
+    let elements = this.data['elements'].sort((a, b)=>{
+      let aIndex = a.css.zIndex;
+      let bIndex = b.css.zIndex;
       return aIndex - bIndex;
     });
 
     let promises = [];
-    for(var i = 0;i<elements.length;i++) {
+    for(let i = 0;i<elements.length;i++) {
       let obj = elements[i];
       if(obj.type == exqCmpTypes["image-1"] && obj.properties.bgColor) {
-        json['bgcol'] = obj.properties.bgColor;
+        json['bgCol'] = obj.properties.bgColor;
+        elements.splice(i, 1);
+        i--;
         continue;
       }
+      obj.cmpIndex = i;
       let filter = this._filters[obj.type];
       if(filter) {
-        promises.push(filter(obj, rabbit).then(res=>json.cmps.push(res)))
+        promises.push(filter(obj, rabbit).then(res=>json.cmps[res.cmpIndex] = res))
       } else {
         console.log(`${obj.type} not fond filter`);
       }

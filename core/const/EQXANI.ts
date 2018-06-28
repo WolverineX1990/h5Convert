@@ -60,7 +60,7 @@ const types = {
 		'name': '翻转进入',
 		'0': {
 			'maka': 'flipInY',
-			'rabbit': 'translate'
+			'rabbit': 'flipInY'
 		}
 	},
 	"8": {
@@ -100,19 +100,19 @@ const types = {
 		'name': '翻滚进入',
 		'0': {
 			'maka': 'rotateInUpRight',
-			'rabbit': 'rotateInUpRight'
+			'rabbit': 'stretchLeft'
 		},
 		'1': {
 			'maka': 'rotateInDownLeft',
-			'rabbit': 'rotateInDownLeft'
+			'rabbit': 'pullDown'
 		},
 		'2': {
 			'maka': 'rotateInUpLeft',
-			'rabbit': 'rotateInUpLeft'
+			'rabbit': 'stretchRight'
 		},
 		'3': {
 			'maka': 'rotateInUpLeft',
-			'rabbit': 'rotateInUpLeft'
+			'rabbit': 'pullUp'
 		}
 	},
 	'24': {
@@ -276,40 +276,40 @@ const types = {
 		'name': '弹出',
 		'0': {
 			'maka': '',
-			'rabbit': 'slideLeft'
+			'rabbit': 'bounceOutLeft'
 		},
 		'1': {
 			'maka': '',
-			'rabbit': 'slideUp'
+			'rabbit': 'bounceOutUp'
 		},
 		'2': {
 			'maka': '',
-			'rabbit': 'slideRight'
+			'rabbit': 'bounceOutRight'
 		},
 		'3': {
 			'maka': '',
-			'rabbit': 'slideDown'
+			'rabbit': 'bounceOutDown'
 		}
 	},
 	'11': {
 		'name': '翻转消失',
 		'0': {
 			'maka': '',
-			'rabbit': ''
+			'rabbit': 'flipOutY'
 		}
 	},
 	'14': {
 		'name': '中心消失',
 		'0': {
 			'maka': '',
-			'rabbit': ''
+			'rabbit': 'zoomSmallLeave'
 		}
 	},
 	'18': {
 		'name': '中心缩小',
 		'0': {
 			'maka': '',
-			'rabbit': ''
+			'rabbit': 'zoomSmallLeave'
 		}
 	},
 	'particles': {
@@ -349,14 +349,14 @@ const types = {
 		'name': '翻开消失',
 		'0': {
 			'maka': '',
-			'rabbit': ''
+			'rabbit': 'flipOutX'
 		}
 	},
 	'16': {
 		'name': '光速退出',
 		'0': {
 			'maka': '',
-			'rabbit': 'fadeOut'
+			'rabbit': 'lightSpeedOut'
 		}
 	},
 	'28': {
@@ -364,6 +364,12 @@ const types = {
 		'0': {
 			'maka': '',
 			'rabbit': 'fadeOut'
+		}
+	},
+	'typer': {
+		'name': '打字机',
+		'0': {
+			'rabbit': 'typewriter'
 		}
 	}
 };

@@ -11,8 +11,10 @@ enum types {
   'gsubmit-'= 601,
   map= 'm',
   text= 2,
+  'text-1'= 'l',
+  'text-2'= 7,
   onecall= 8,
-  text1= 'l',
+  
   praise= 'i',
   gselect= 'z'
 }

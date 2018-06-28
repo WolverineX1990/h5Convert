@@ -14,4 +14,4 @@ promise.then(() => {
     return rabbit.createAlbum();
   })
   .then(rabbit => scene.toRabbit(rabbit))
-  .then(res => console.log(res));
+  .then(res => console.log('success'));

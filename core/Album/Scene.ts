@@ -18,25 +18,18 @@ export default class Scene {
   }
 
   loadData(): Promise<Scene> {
-    return getHtml(this.dataUrl).then(res=>this.loadSuc(res));
-  }
-
-  loadSuc(data: string): Promise<Scene> {
-      let dataReg: RegExp = /var[\s|\w]*scene[\s|\w]*=[\s|\w]*{([\s|\w|\W]+);/;
-      return getPageData(data, dataReg).then(res => {
-        this.data = eval("("+res+")");
-        return this.loadViewPages();
-      });
-  }
-
-  loadViewPages(): Promise<Scene> {
-    return getViewData(this.data['id'], this.data['code'], this.data['publishTime']).then(json=>{
-      if(!json['success']) {
-        throw new Error('Class:Scene->method:getViewData fail');
-      }
-			this.pages = json['list'];
-			return this;
-		});
+    return getHtml(this.dataUrl).then(res => loadSuc(res))
+              .then(res => {
+                this.data = eval("("+res+")");
+                return getViewData(this.data['id'], this.data['code'], this.data['publishTime']);
+              })
+              .then(json => {
+                if(!json['success']) {
+                  throw new Error('Class:Scene->method:getViewData fail');
+                }
+                this.pages = json['list'];
+                return this;
+              });
   }
 
   toRabbit(rabbit: Rabbit) {
@@ -55,6 +48,11 @@ export default class Scene {
   }
 }
 
+function loadSuc(data: string){
+  let dataReg: RegExp = /var[\s|\w]*scene[\s|\w]*=[\s|\w]*{([\s|\w|\W]+);/;
+  return getPageData(data, dataReg);
+}
+
 function insertRabbitPages(rabbit: Rabbit, pages: Array<Object>, pageMode: string) {
   let rabPages = rabbit.data['pages'];
   rabPages[0].deleted = true;
@@ -62,7 +60,7 @@ function insertRabbitPages(rabbit: Rabbit, pages: Array<Object>, pageMode: strin
   for(let i = 0;i<pages.length;i++) {
     promises.push(new Page(pages[i])
                   .getRabJson(rabbit, i)
-                  .then(res => rabPages.push(res)));
+                  .then(res => rabPages[res.row + 1] = res));
   }
   return Promise.all(promises);
 }

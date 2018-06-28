@@ -62,23 +62,7 @@ export default class Rabbit {
     return getUploadToken(FileType.Music, true, this._httpHeader)
             .then(res => uploadRes(res.data[0], audioPath, FileType.Music))
             .then(token => {
-
-              var data = {
-                file: {
-                  bucket: token.xparams.bucket,
-                  key: token.key,
-                  keyprev: token.xparams.keyprev,
-                  name: 'file',
-                  path: token.key,
-                  server: token.xparams.server,
-                  size: 100,
-                  type: token.xparams.type,
-                  userfolder: token.xparams.userfolder,
-                  userid: token.userid
-                }
-              }
-              
-              return uploadMusic(data, this._httpHeader).then(json=>{
+              return uploadMusic(getUpParam(token), this._httpHeader).then(json=>{
                 this.data['bgmusic'] = {
                   musicBucket: token.xparams.bucket,
                   musicKey: token.key,
@@ -96,23 +80,7 @@ export default class Rabbit {
     return getUploadToken(FileType.Svg, false, this._httpHeader)
             .then(res => uploadRes(res.data[0], imgPath, FileType.Image))
             .then(token => {
-
-              var data = {
-                file: {
-                  bucket: token.xparams.bucket,
-                  key: token.key,
-                  keyprev: token.xparams.keyprev,
-                  name: 'file',
-                  path: token.path,
-                  server: token.xparams.server,
-                  size: 100,
-                  type: token.xparams.type,
-                  userfolder: token.xparams.userfolder,
-                  userid: token.userid
-                }
-              }
-              
-              return upload(data, this._httpHeader).then(json=>{
+              return upload(getUpParam(token), this._httpHeader).then(json=>{
                 var data = json.data;
                 this.data['imgKey'] = token.key;
 			          this.data['imgServer'] = token.xparams.server;
@@ -133,6 +101,25 @@ export default class Rabbit {
     return getUploadToken(FileType.Svg, false, this._httpHeader)
               .then(res => uploadRes(res.data[0], filePath, FileType.Svg))
   }
+}
+
+function getUpParam(token) {
+  let data = {
+    file: {
+      bucket: token.xparams.bucket,
+      key: token.key,
+      keyprev: token.xparams.keyprev,
+      name: 'file',
+      path: token.path,
+      server: token.xparams.server,
+      size: 100,
+      type: token.xparams.type,
+      userfolder: token.xparams.userfolder,
+      userid: token.userid
+    }
+  };
+
+  return data;
 }
 
 function getFileParam(type) {
@@ -174,7 +161,6 @@ function uploadRes(token, url, type) {
         'x-oss-meta-userfolder': token.xparams.userfolder,
         'x-oss-meta-bucket': token.xparams.bucket,
         'x-oss-meta-server': token.xparams.server
-        // 'x-oss-meta-appid': token.xparams.appid,
       };
 
       data['file'] = {

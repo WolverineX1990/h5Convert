@@ -12,6 +12,7 @@ import rabSelectFilter from './rabSelectFilter';
 import rabMusicFilter from './rabMusicFilter';
 import rabBgFilter from './rabBgFilter';
 import rabRichTextFilter from './rabRichTextFilter';
+import rabLinkFilter from './rabLinkFilter';
 
 export default class Page {
   data: Object;

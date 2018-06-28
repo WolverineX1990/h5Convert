@@ -168,9 +168,9 @@ function uploadRes(token, url, type) {
         filename: param.fileName,
         content_type: param.contentType
       };
-      // console.log(param.fileName+'###'+token.url+'###'+url);
       needlePost(token.url, data, {multipart: true}, function(err, resp, body) {
         if (err) {
+          console.log(param.fileName+'###'+token.url+'###'+url);
           throw new Error(JSON.stringify(err));
         } else {
           resolve(token);

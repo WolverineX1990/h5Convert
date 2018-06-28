@@ -342,7 +342,19 @@ const types = {
 		'name': '翻滚退出',
 		'0': {
 			'maka': '',
-			'rabbit': ''
+			'rabbit': 'rotateOutUpRight'
+		},
+		'1': {
+			'maka': '',
+			'rabbit': 'rotateOutDownRight'
+		},
+		'2': {
+			'maka': '',
+			'rabbit': 'rotateOutUpLeft'
+		},
+		'3': {
+			'maka': '',
+			'rabbit': 'rotateOutUpRight'
 		}
 	},
 	'25': {

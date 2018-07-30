@@ -5,6 +5,7 @@ import Rabbit from "../Rabbit";
 export default function(data, rabbit: Rabbit) {
   let json = getJson(data);
   json['fill'] = [];
+  json.type = 'shape';
 
   if(data.properties && data.properties.items) {
     var items = data.properties.items;

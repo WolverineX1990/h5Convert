@@ -9,6 +9,7 @@ export default function(data) {
   for(var i = 0;i< choices.length;i++) {
     items.push({value:choices[i].label, name: choices[i].label, children:[]});
   }
+  json.type = 'gselect';
 	json['selector'] = JSON.stringify({label: data.showText,options: items});
   return Promise.resolve(json);
 }

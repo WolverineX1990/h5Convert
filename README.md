@@ -1,6 +1,9 @@
 # h5Convert
 
 1、needle 拆件里修改了lib/multipart.js 注释了第45行代码-------稍后抽时间研究下needle，将needle删除
+2、单次保存提示信息过大
+3、上传文件一次可能不能上传成功
+
 
 秀客
 http://showker.eqxiu.com/showker/shop/pc.html?showkerid=ff80808154eb2a0e015505b731182eda

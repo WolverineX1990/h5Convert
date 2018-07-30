@@ -13,13 +13,14 @@ import rabMusicFilter from './rabMusicFilter';
 import rabBgFilter from './rabBgFilter';
 import rabRichTextFilter from './rabRichTextFilter';
 import rabLinkFilter from './rabLinkFilter';
+import rabCommentFilter from './rabCommentFilter';
 
 export default class Page {
   data: Object;
   private _filters: Object = {};
   constructor(data) {
     this.data = data;
-    this.addFilter(exqCmpTypes.image, rabImgFilter);
+    this.addFilter(exqCmpTypes.image, rabImgFilter);  
     this.addFilter(exqCmpTypes["image-1"], rabBgFilter);
     this.addFilter(exqCmpTypes["text-1"], rabLinkFilter);
     this.addFilter(exqCmpTypes["text-2"], rabTextFilter);
@@ -36,6 +37,7 @@ export default class Page {
     this.addFilter(exqCmpTypes.map, rabMapFilter);
     this.addFilter(exqCmpTypes.praise, rabPraiseFilter);
     this.addFilter(exqCmpTypes.gselect, rabSelectFilter);
+    this.addFilter(exqCmpTypes.comment, rabCommentFilter);
   }
 
   private addFilter(type, filter) {
@@ -80,7 +82,9 @@ export default class Page {
       obj.cmpIndex = i;
       let filter = this._filters[obj.type];
       if(filter) {
-        promises.push(filter(obj, rabbit).then(res=>json.cmps[res.cmpIndex] = res))
+        promises.push(filter(obj, rabbit).then(res=>{
+          return json.cmps[res.cmpIndex] = res;
+        }))
       } else {
         console.log(`${obj.type} not fond filter`);
       }

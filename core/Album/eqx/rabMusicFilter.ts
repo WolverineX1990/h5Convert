@@ -11,6 +11,7 @@ export default function(data) {
   json['switchOn'] = true,
   json['src'] = data.src,
   json['loopPlay'] = true;
+  json.type = 'bgmusic';
   json.style = {
     borderColor: "#000",
     borderStyle: "solid",

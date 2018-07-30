@@ -16,15 +16,16 @@
 // convertpath();
 // eqxCrawler();
 // uploadTest();
-import fetch from 'node-fetch';
+// import fetch from 'node-fetch';
+import upload from './uploadTest';
 
-fetch('http://s1.eqxiu.com/eqs/page/127664568?code=88lFEvLI&time=1529308702000', { 
-  method: 'GET'
-}).then(res=>{
-  return res.json()
-}).then(res=>{
-  console.log(res);
-})
+// fetch('http://s1.eqxiu.com/eqs/page/127664568?code=88lFEvLI&time=1529308702000', { 
+//   method: 'GET'
+// }).then(res=>{
+//   return res.json()
+// }).then(res=>{
+//   console.log(res);
+// })
 
 // import { get } from './../core/request/index';
 // import * as fs from 'fs';
@@ -35,3 +36,6 @@ fetch('http://s1.eqxiu.com/eqs/page/127664568?code=88lFEvLI&time=1529308702000',
 //       console.log(1)
 //     })
 //   });
+
+
+upload();

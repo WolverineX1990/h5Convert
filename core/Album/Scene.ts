@@ -44,7 +44,12 @@ export default class Scene {
     return rabbit.setBgAudio(getBgAudio(this.data))
               .then(() => insertRabbitPages(rabbit, this.pages, this.data['pageMode']))
               .then(() => rabbit.save())
-              .then(res => setRabMeta(rabbit, this.data));
+              .then(res => {
+                if(!res.success) {
+                  console.log(res);
+                }
+                return setRabMeta(rabbit, this.data)
+              });
   }
 }
 

@@ -1,4 +1,5 @@
-import { post as needlePost } from 'needle';
+// import { post as needlePost } from 'needle';
+import needlePost from './../utils/needle.ext';
 import RabbitUser from './../user/RabbitUser';
 import { createRabAlbum, getUploadToken, uploadMusic, upload, publishTpl,saveRabAlbum } from './../api/service';
 import RABPAGE from './../const/RABPAGE';
@@ -168,14 +169,26 @@ function uploadRes(token, url, type) {
         filename: param.fileName,
         content_type: param.contentType
       };
-      needlePost(token.url, data, {multipart: true}, function(err, resp, body) {
-        if (err) {
-          console.log(param.fileName+'###'+token.url+'###'+url);
-          throw new Error(JSON.stringify(err));
-        } else {
-          resolve(token);
-        }
-      });
+      let reg = /^http/;
+      if (!reg.test(token.url)) {
+        token.url = `http:${token.url}`;
+      }
+      needlePost(token.url, data)
+            .then(()=> {
+              resolve(token); 
+            }, () => {
+              console.log(param.fileName+'###'+token.url+'###'+url);
+              throw new Error('upload');
+            })
+      // needlePost(token.url, data, {multipart: true}, function(err, resp, body) {
+      //   if (err) {
+      //     console.log(param.fileName+'###'+token.url+'###'+url);
+      //     // console.log(res);
+      //     throw new Error(JSON.stringify(err));
+      //   } else {
+      //     resolve(token);
+      //   }
+      // });
     });
   });
   return promise;

@@ -11,7 +11,7 @@ class Pool {
   private _emitter: EventEmitter;
   constructor() {
     this._emitter = new EventEmitter();
-    this._emitter.setMaxListeners(30);
+    this._emitter.setMaxListeners(100);
   }
 
   hasImgKey(key: string) {

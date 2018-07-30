@@ -10,5 +10,6 @@ export default function(data) {
   };
   json['layout'] = 'landscape';
   json.style['height'] = 'auto';
+  json.type = 'praise';
   return Promise.resolve(json);
 }

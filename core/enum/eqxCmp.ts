@@ -14,9 +14,9 @@ enum types {
   'text-1'= 'l',
   'text-2'= 7,
   onecall= 8,
-  
   praise= 'i',
-  gselect= 'z'
+  gselect= 'z',
+  comment= 'b'
 }
 
 export default types;

@@ -14,7 +14,6 @@ export default function(data) {
 		toggle: '',
 		type: 'link'
 	}];
-	let types = json.type.split('-');
-  json.type = types[0];
+  json.type = 'text';
   return Promise.resolve(json);
 }

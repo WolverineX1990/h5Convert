@@ -43,6 +43,9 @@ export default class Rabbit {
   createAlbum() {
     return createRabAlbum(RABPAGE, this._httpHeader)
             .then(res => {
+              if (!res.success) {
+                throw new Error(res.errormsg);
+              }
               this.data = res.data;
               return this;
             });
@@ -110,7 +113,7 @@ function getUpParam(token) {
       bucket: token.xparams.bucket,
       key: token.key,
       keyprev: token.xparams.keyprev,
-      name: 'file',
+      name: token.key.replace('mp3/', ''),
       path: token.path,
       server: token.xparams.server,
       size: 100,

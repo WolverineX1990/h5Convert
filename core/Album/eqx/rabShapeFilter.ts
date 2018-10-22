@@ -4,13 +4,13 @@ import Rabbit from "../Rabbit";
 
 export default function(data, rabbit: Rabbit) {
   let json = getJson(data);
-  json['fill'] = [];
+  json['fills'] = [];
   json.type = 'shape';
 
   if(data.properties && data.properties.items) {
     var items = data.properties.items;
     for (var i = 0; i < items.length; i++) {
-      json['fill'].push(items[i].fill);
+      json['fills'].push(items[i].fill);
     }
   }
 

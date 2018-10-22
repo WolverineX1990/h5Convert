@@ -28,12 +28,19 @@ export default class Scene {
                   throw new Error('Class:Scene->method:getViewData fail');
                 }
                 this.pages = json['list'];
+                // this.pages.splice(4);
+                // let len = JSON.stringify(this.pages).length;
+                // if (len > 310000) {
+                //   throw new Error('json too large!');
+                // }
+                // console.log('len:'+len);
                 return this;
               });
   }
 
   toRabbit(rabbit: Rabbit) {
-    rabbit.data['name'] = this.data['name'];
+    rabbit.data['name'] = this.data['name'] + '-复制';
+    console.log(this.data['name']);
     rabbit.data['desc'] = this.data['description'];
     if(this.data['pageMode'] == 6) {
 			rabbit.data['in'] = 'cvbe';
@@ -43,6 +50,7 @@ export default class Scene {
     
     return rabbit.setBgAudio(getBgAudio(this.data))
               .then(() => insertRabbitPages(rabbit, this.pages, this.data['pageMode']))
+              .then(() => filterEmpty(rabbit.data['pages']))
               .then(() => rabbit.save())
               .then(res => {
                 if(!res.success) {
@@ -81,6 +89,14 @@ function getBgAudio(data: Object): string {
   }
 
   return audio;
+}
+
+function filterEmpty(pages) {
+  pages.forEach(page => {
+    page.cmps = page.cmps.filter(comp => !!comp);
+  });
+
+  return pages;
 }
 
 function setRabMeta(rabbit: Rabbit, eqxMeta) {

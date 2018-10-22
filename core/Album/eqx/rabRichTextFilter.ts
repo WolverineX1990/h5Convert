@@ -25,22 +25,23 @@ function getText(text) {
 			let reg1 = /style="([^"]*)/;
 			if(reg1.test(ss)) {
 			  	let mm = ss.match(reg1)[1];
-			  	let ss1 = ss.replace(mm, mm + ';padding:7px 15px;');
+			  	let ss1 = ss.replace(mm, mm + ';padding:5px 7px;');
 			  	ss = text.replace(ss, ss1);
 			} else {
-				let append = ' style="padding:7px 15px;"'
+				let append = ' style="padding:5px 7px;"'
 				ss = text.replace(ss, ss + append);
 			}
 		} else {
-			ss = '<div style="padding:7px 15px;">' + text +'</div>';
+			ss = '<div style="padding:5px 7px;">' + text +'</div>';
 		}	
 	} else {
-		ss = '<div style="padding:7px 15px;">' + text +'</div>';
+		ss = '<div style="padding:5px 7px;">' + text +'</div>';
 	}
 
 	ss = ss.replace(/秀秀/g,'我们');
 	ss = ss.replace(/中网易企秀/g,'XXX');
 	ss = ss.replace(/易企秀/g,'兔展');
+	ss = ss.replace(/一起秀/g,'兔展');
 	ss = ss.replace(/www.eqxiu.com/, 'www.rabbit.com');
 	
 	return ss;

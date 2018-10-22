@@ -107,7 +107,8 @@ function getStyle(css, type) {
   if(css.borderStyle && css.borderWidth && css.borderColor) {
 		style['border-style'] = css.borderStyle;
 		style['border-color'] = css.borderColor;
-		style['border-width'] = css.borderWidth;
+    style['border-width'] = css.borderWidth;
+    // console.log(style)
 	}
 
 	if(css.fontSize) {

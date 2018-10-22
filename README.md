@@ -17,7 +17,7 @@ maka复制 (暂时不做)
 兔展->maka (暂时不做)
 
 ===================================================
-
+svg相关
 https://sanwen8.cn/p/71874Bh.html
 
 
@@ -32,8 +32,8 @@ var options = {
     db_name: "myblog"
 };
 
-
-http://www.cnblogs.com/qintangtao/archive/2013/03/01/2938887.html\
+农历
+http://www.cnblogs.com/qintangtao/archive/2013/03/01/2938887.html
 
 
 性能优化
@@ -49,4 +49,3 @@ InvalidArgument有可能是是needle的问题
 
 https://juejin.im/post/5afb8d63f265da0b9c10cce5?utm_source=gold_browser_extension#heading-0
 
-https://jingyan.baidu.com/article/b7001fe1dec5cf0e7382dd6f.html

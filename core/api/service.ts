@@ -20,9 +20,11 @@ export function createRabAlbum(data, headers) {
 }
 
 export function saveRabAlbum(data, headers) {
+	let json = JSON.stringify(data);
+	// console.log('len:'+json.length);
 	return fetch(editServerHost + 'api/app/' + data.id, { 
-		method: 'POST',
-		body: JSON.stringify(data),
+		method: 'PUT',
+		body: json,
 		headers: headers,
 	}).then(res => res.json());
 }
@@ -61,7 +63,7 @@ export function upload(data, headers) {
 
 export function publishTpl(data, headers) {
 	return fetch(editServerHost + 'api/app/publish/ ' + data.id, { 
-		method: 'POST',
+		method: 'PUT',
 		body: JSON.stringify(data),
 		headers: headers,
 	}).then(res => res.json());

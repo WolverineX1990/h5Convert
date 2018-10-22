@@ -3,7 +3,7 @@ import Rabbit from "../Rabbit";
 
 export default function(data, rabbit: Rabbit) {
   let json = getJson(data);
-  json['text'] = data.properties.title;
+  json['label'] = data.properties.title;
 	json['message'] = data.properties.text;
   json.style['text-align'] = 'center';
   let types = json.type.split('-');

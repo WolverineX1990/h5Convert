@@ -14,6 +14,7 @@ import rabBgFilter from './rabBgFilter';
 import rabRichTextFilter from './rabRichTextFilter';
 import rabLinkFilter from './rabLinkFilter';
 import rabCommentFilter from './rabCommentFilter';
+import rabWxHeadFilter from './rabWxHeadFilter';
 
 export default class Page {
   data: Object;
@@ -24,20 +25,22 @@ export default class Page {
     this.addFilter(exqCmpTypes["image-1"], rabBgFilter);
     this.addFilter(exqCmpTypes["text-1"], rabLinkFilter);
     this.addFilter(exqCmpTypes["text-2"], rabTextFilter);
+    this.addFilter(exqCmpTypes.wxnickname, rabTextFilter);
     this.addFilter(exqCmpTypes.text, rabRichTextFilter);
-    this.addFilter(exqCmpTypes.ginput, rabInputFilter);
-    this.addFilter(exqCmpTypes["ginput-"], rabInputFilter);
-    this.addFilter(exqCmpTypes["ginput-email"], rabInputFilter);
-    this.addFilter(exqCmpTypes["ginput-name"], rabInputFilter);
-    this.addFilter(exqCmpTypes["ginput-tel"], rabInputFilter);
+    this.addFilter(exqCmpTypes.input, rabInputFilter);
+    this.addFilter(exqCmpTypes["input-"], rabInputFilter);
+    this.addFilter(exqCmpTypes["input-email"], rabInputFilter);
+    this.addFilter(exqCmpTypes["input-name"], rabInputFilter);
+    this.addFilter(exqCmpTypes["input-tel"], rabInputFilter);
     this.addFilter(exqCmpTypes.onecall, rabOnecallFilter);
     this.addFilter(exqCmpTypes.shape, rabShapeFilter);
-    this.addFilter(exqCmpTypes.gsubmit, rabSubmitFilter);
-    this.addFilter(exqCmpTypes["gsubmit-"], rabSubmitFilter);
+    this.addFilter(exqCmpTypes.submit, rabSubmitFilter);
+    this.addFilter(exqCmpTypes["submit-"], rabSubmitFilter);
     this.addFilter(exqCmpTypes.map, rabMapFilter);
     this.addFilter(exqCmpTypes.praise, rabPraiseFilter);
-    this.addFilter(exqCmpTypes.gselect, rabSelectFilter);
+    this.addFilter(exqCmpTypes.select, rabSelectFilter);
     this.addFilter(exqCmpTypes.comment, rabCommentFilter);
+    this.addFilter(exqCmpTypes.wxportrait, rabWxHeadFilter);
   }
 
   private addFilter(type, filter) {
@@ -48,6 +51,10 @@ export default class Page {
     let rabbitData = rabbit.data;
     let json = {
       appId: rabbitData['id'],
+      id: `page_${row + 1}`,
+      formatVersion: '2.0',
+      height: 504,
+      width: 320,
       row,
       col: 0,
       in: null,
@@ -60,15 +67,15 @@ export default class Page {
       cmps: []
     };
 
-    if(rabbitData['bgmusic'] && row === 0) {
-      json.cmps.push(rabMusicFilter(rabbitData['bgmusic']));
-    }
-
     let elements = this.data['elements'].sort((a, b)=>{
       let aIndex = a.css.zIndex;
       let bIndex = b.css.zIndex;
       return aIndex - bIndex;
     });
+
+    if(rabbitData['bgmusic'] && row === 0) {
+      json.cmps[elements.length] = rabMusicFilter(rabbitData['bgmusic']);
+    }
 
     let promises = [];
     for(let i = 0;i<elements.length;i++) {
@@ -86,7 +93,7 @@ export default class Page {
           return json.cmps[res.cmpIndex] = res;
         }))
       } else {
-        console.log(`${obj.type} not fond filter`);
+        console.log(`page: ${row} cmps: ${i} ${obj.type} not fond filter`);
       }
     }
 

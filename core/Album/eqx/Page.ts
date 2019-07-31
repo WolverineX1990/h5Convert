@@ -59,9 +59,9 @@ export default class Page {
       col: 0,
       in: null,
       out: null,
-      bgCol: '#fff',
+      bgColor: '#fff',
       bgImage: null,
-      bgServer: null,
+      bgServer: 0,
       bgLeft: 0,
       bgTop: 0,
       cmps: []
@@ -81,7 +81,7 @@ export default class Page {
     for(let i = 0;i<elements.length;i++) {
       let obj = elements[i];
       if(obj.type == exqCmpTypes["image-1"] && obj.properties.bgColor) {
-        json['bgCol'] = obj.properties.bgColor;
+        json['bgColor'] = obj.properties.bgColor;
         elements.splice(i, 1);
         i--;
         continue;

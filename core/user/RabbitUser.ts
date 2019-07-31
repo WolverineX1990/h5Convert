@@ -38,11 +38,6 @@ class RabbitUser extends User {
 				Cookie: this.cookie.join('; ')
 			},
 		}))
-		// .then(() => fetch(CONFIG.editServerHost + 'api/user/newinfo', {
-		// 	headers: {
-		// 		Cookie: this.cookie.join('; ')
-		// 	},
-		// }))
 		.then(res => {
 			this.cookie.push(res.headers.get('set-cookie'));
 			return res.json();

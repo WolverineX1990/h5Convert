@@ -1,10 +1,13 @@
 // import { post as needlePost } from 'needle';
 import needlePost from './../utils/needle.ext';
 import RabbitUser from './../user/RabbitUser';
-import { createRabAlbum, getUploadToken, uploadMusic, upload, publishTpl,saveRabAlbum } from './../api/service';
+import { createRabAlbum, getUploadToken, uploadMusic, upload, publishTpl, saveRabAlbum } from './../api/service';
 import RABPAGE from './../const/RABPAGE';
 import CONFIG from './../const/CONFIG';
 import { getResource } from './../utils/index';
+import { load as LoadHtml } from 'cheerio';
+import { parse as urlParse } from 'url';
+import { get as httpGet } from 'http';
 
 enum FileType {
   Music= 'MUSIC',
@@ -39,6 +42,19 @@ export default class Rabbit {
     let strict = this.data['gather'].strict;
     strict[id] = text;
   }
+
+  getCsrfToken () {
+    return getHtml(CONFIG.editServerHost, this._httpHeader)
+            .then(res => {
+              let $ = LoadHtml(res['data']);
+              let token = $('meta[name="csrf-token"]');
+              let cookies = res['cookie'];
+              let cookie = cookies.find(c => c.indexOf('rp.csrf') > -1);
+              this._httpHeader['Cookie'] += ';' +cookie; 
+              this._httpHeader['X-CSRF-Token'] = token[0].attribs.content;
+              return this;
+            });
+  }
   
   createAlbum() {
     return createRabAlbum(RABPAGE, this._httpHeader)
@@ -63,7 +79,7 @@ export default class Rabbit {
     if(!audioPath) {
       return Promise.resolve();
     }
-    return getUploadToken(FileType.Music, true, this._httpHeader)
+    return getUploadToken(FileType.Music, true, this._httpHeader, '[{"type":"audio/mp3","size":140024}]')
             .then(res => uploadRes(res.data[0], audioPath, FileType.Music))
             .then(token => {
               return uploadMusic(getUpParam(token), this._httpHeader).then(json=>{
@@ -81,7 +97,7 @@ export default class Rabbit {
   }
 
   setCover(imgPath: string) {
-    return getUploadToken(FileType.Svg, false, this._httpHeader)
+    return getUploadToken(FileType.Svg, false, this._httpHeader, '[{"type":"image/png","size":140024}]')
             .then(res => uploadRes(res.data[0], imgPath, FileType.Image))
             .then(token => {
               return upload(getUpParam(token), this._httpHeader).then(json=>{
@@ -97,12 +113,12 @@ export default class Rabbit {
   }
 
   uploadImg(filePath: string) {
-    return getUploadToken(FileType.Image, true, this._httpHeader)
+    return getUploadToken(FileType.Image, true, this._httpHeader, '[{"type":"image/png","size":140024}]')
               .then(res => uploadRes(res.data[0], filePath, FileType.Image))
   }
 
   uploadSvg(filePath: string) {
-    return getUploadToken(FileType.Svg, false, this._httpHeader)
+    return getUploadToken(FileType.Svg, false, this._httpHeader, '[{"type":"image/png","size":140024}]')
               .then(res => uploadRes(res.data[0], filePath, FileType.Svg))
   }
 }
@@ -195,4 +211,31 @@ function uploadRes(token, url, type) {
     });
   });
   return promise;
+}
+
+function getHtml(targetUrl: string, headers) {
+  let promise: Promise<Object> = new Promise((resolve, reject) => {
+    let param = urlParse(targetUrl);
+    let options = {
+      host: param.host,
+      path: param.path,
+      headers
+    };
+    var req = httpGet(options, function (response) {
+      response.setEncoding('utf-8');  //二进制binary
+      let data: string = '';
+      response.on('data', function (res) {    //加载到内存
+        data += res;
+      }).on('end', function () {
+        resolve({
+          data: data,
+          cookie: response.headers['set-cookie']
+        });
+      });
+    });
+    req.on('error', function(err) {
+      reject(err);
+    });
+	});
+	return promise;
 }

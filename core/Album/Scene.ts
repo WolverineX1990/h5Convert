@@ -3,6 +3,7 @@ import { getViewData } from './../api/service';
 import Rabbit from './Rabbit';
 import CONFIG from './../const/CONFIG';
 import Page from './eqx/Page';
+import * as crypto from 'crypto';
 
 /**
  * @description 易企秀场景对象
@@ -24,16 +25,38 @@ export default class Scene {
                 return getViewData(this.data['id'], this.data['code'], this.data['publishTime']);
               })
               .then(json => {
+                console.log(json)
+                const obj = json.obj;
+                let str = null;
+                let str3 = null;
+                let iv = null;
+                try {
+                  let str1 = obj.substring(0, 19);
+                  let str2 = obj.substring(19 + 16);
+                  str3 = obj.substring(19, 19 + 16);
+                  iv = str3;
+                  str = str1 + str2;
+                  let cipherChunks = [];
+                  let decipher = crypto.createDecipheriv('aes-128-cfb', str3, iv);
+                  decipher.setAutoPadding(false);
+                  cipherChunks.push(decipher.update(str, 'base64', 'utf8'));
+                  this.pages  = JSON.parse(cipherChunks.join(''));
+      
+                } catch(err) {
+                  str = obj.substring(0, obj.length - 16);
+                  str3 = obj.substring(obj.length - 16);
+                  iv = str3;
+                  let cipherChunks = [];
+                  let decipher = crypto.createDecipheriv('aes-128-cfb', str3, iv);
+                  decipher.setAutoPadding(false);
+                  cipherChunks.push(decipher.update(str, 'base64', 'utf8'));
+                  this.pages  = JSON.parse(cipherChunks.join(''));
+                }
+
                 if(!json['success']) {
                   throw new Error('Class:Scene->method:getViewData fail');
                 }
-                this.pages = json['list'];
-                // this.pages.splice(4);
-                // let len = JSON.stringify(this.pages).length;
-                // if (len > 310000) {
-                //   throw new Error('json too large!');
-                // }
-                // console.log('len:'+len);
+                
                 return this;
               });
   }

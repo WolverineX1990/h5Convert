@@ -1,4 +1,4 @@
-import { get as httpGet } from 'http'
+import { get as httpGet } from 'http';
 import { parse as urlParse } from 'url';
 import { load as LoadHtml } from 'cheerio';
 

@@ -4,7 +4,7 @@ import Scene from './core/Album/Scene';
 import Rabbit from './core/Album/Rabbit';
 
 //http://h5.eqxiu.com/s/88lFEvLI
-let eqxUrl:string = 'https://h5.eqxiu.com/s/ULu4cp3N';
+let eqxUrl:string = 'http://h5.eqxiu.com/s/ZE6XgdjS';
 let user: RabbitUser = new RabbitUser(CONFIG.userName, CONFIG.userPwd);
 let scene: Scene = new Scene(eqxUrl);
 let promise = Promise.all([scene.loadData(), user.login()]);
@@ -12,7 +12,8 @@ let promise = Promise.all([scene.loadData(), user.login()]);
 promise.then(() => {
     let rabbit: Rabbit = new Rabbit();
     rabbit.user = user;
-    return rabbit.createAlbum();
+    return rabbit.getCsrfToken();
   })
+  .then(rabbit => rabbit.createAlbum())
   .then(rabbit => scene.toRabbit(rabbit))
   .then(res => console.log('success'));

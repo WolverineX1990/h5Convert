@@ -61,7 +61,8 @@ export default class Page {
       out: null,
       bgColor: '#fff',
       bgImage: null,
-      bgServer: 0,
+      bgServer: '',
+      bgImageType: 0,
       bgLeft: 0,
       bgTop: 0,
       cmps: []

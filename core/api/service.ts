@@ -80,3 +80,11 @@ export function publishTpl(data, headers) {
 		headers: headers,
 	}).then(res => res.json());
 }
+
+export function saveApp(data, headers) {
+	return fetch(severHost + 'api/workbench/marketing/myapp/saveApp', { 
+		method: 'POST',
+		body: JSON.stringify(data),
+		headers: headers,
+	}).then(res => res.json());
+}

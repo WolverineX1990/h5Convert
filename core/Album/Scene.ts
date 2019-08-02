@@ -27,7 +27,6 @@ export default class Scene {
       this.data = eval("("+res+")");
       return getViewData(this.data['id'], this.data['code'], this.data['publishTime'], cookie.join('; '));
     }).then(json => {
-      console.log(json)
       const obj = json.obj;
       let str = null;
       let str3 = null;
@@ -133,8 +132,9 @@ function setRabMeta(rabbit: Rabbit, eqxMeta) {
 		if(!reg.test(cover)) {
 			cover = CONFIG.eqxReSHOST + cover;
 		}
-		return rabbit.setCover(cover)
-							.then(() => rabbit.publish());
+    return rabbit.setCover(cover)
+              .then(() => rabbit.publish())
+              .then(() => rabbit.saveApp());
   } else {
     return rabbit.publish();
   }

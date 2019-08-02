@@ -1,7 +1,7 @@
 // import { post as needlePost } from 'needle';
 import needlePost from './../utils/needle.ext';
 import RabbitUser from './../user/RabbitUser';
-import { createRabAlbum, getUploadToken, uploadMusic, upload, publishTpl, saveRabAlbum } from './../api/service';
+import { createRabAlbum, getUploadToken, uploadMusic, upload, publishTpl, saveRabAlbum, saveApp } from './../api/service';
 import RABPAGE from './../const/RABPAGE';
 import CONFIG from './../const/CONFIG';
 import { getResource } from './../utils/index';
@@ -71,6 +71,18 @@ export default class Rabbit {
     return saveRabAlbum(this.data, this._httpHeader);
   }
 
+  saveApp () {
+    return saveApp({
+      appId: this.data['id'],
+      appName: this.data['name'],
+      brandType: 3,
+      imgPath: this.data['imgPath'],
+      imgurl: this.data['imgurl'],
+      desc: this.data['desc'],
+
+    }, this._httpHeader);
+  }
+
   publish() {
 		return publishTpl(this.data, this._httpHeader);
 	}
@@ -102,10 +114,10 @@ export default class Rabbit {
             .then(token => {
               return upload(getUpParam(token), this._httpHeader).then(json=>{
                 var data = json.data;
-                this.data['imgKey'] = token.key;
-			          this.data['imgServer'] = token.xparams.server;
-                this.data['imgId'] = data.id;
-                this.data['imgBucket'] = token.xparams.bucket;
+                // this.data['imgKey'] = token.key;
+			          // this.data['imgServer'] = token.xparams.server;
+                this.data['imgurl'] = data.id;
+                // this.data['imgBucket'] = token.xparams.bucket;
                 this.data['imgPath'] = data.path;
                 return this;
               });

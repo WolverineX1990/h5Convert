@@ -5,7 +5,7 @@ const CONFIG = {
 	severHost: 'https://www.rabbitpre.com/',
 	editServerHost: 'https://editor.rabbitpre.com/',
 	loginUrl: 'https://passport.rabbitpre.com/api/sso/login',
-	eqxS1Host: 'http://s1-cdn.eqxiu.com/',
+	eqxS1Host: 'http://s1.eqxiu.com/',
 	eqxReSHOST: 'http://res.eqh5.com/'
 };
 

@@ -64,7 +64,6 @@ export default class Scene {
 
   toRabbit(rabbit: Rabbit) {
     rabbit.data['name'] = this.data['name'] + '-复制';
-    console.log(this.data['name']);
     rabbit.data['desc'] = this.data['description'];
     if(this.data['pageMode'] == 6) {
 			rabbit.data['in'] = 'cvbe';

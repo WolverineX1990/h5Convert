@@ -17,10 +17,10 @@ export default function(data, rabbit: Rabbit) {
   var url = data.properties.src;
 
   if(url == 'group1/M00/B1/A3/yq0KXFZysi-ACYaKAAACDQH4Nes625.svg') {
-    json['src'] = 'http://wscdn.rabbitpre.com/3fe3893e-11fb-474b-b501-c753e922a3a0-3161';
+    json['src'] = 'https://lxcdn.rabbitpre.com/3fe3893e-11fb-474b-b501-c753e922a3a0-3161';
     return Promise.resolve(json);
   } else if(url == 'group1/M00/B1/A3/yq0KXFZysi2AWB5GAAACGXEBTuA328.svg') {
-    json['src'] = 'http://wscdn.rabbitpre.com/e77a9116-c5a4-4f28-bbce-5fbc40c75432-6656';
+    json['src'] = 'https://lxcdn.rabbitpre.com/e77a9116-c5a4-4f28-bbce-5fbc40c75432-6656';
     return Promise.resolve(json);
   }
 

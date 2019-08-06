@@ -50,7 +50,6 @@ export function getUploadToken(type: string, isUserFile: Boolean, headers, files
 		isUserFile: isUserFile,
 		userfolder: -1
 	};
-	console.log(editServerHost + 'api/upload/token?' + stringify(data))
 	return fetch(editServerHost + 'api/upload/token?' + stringify(data), { 
 		method: 'GET',
 		headers,

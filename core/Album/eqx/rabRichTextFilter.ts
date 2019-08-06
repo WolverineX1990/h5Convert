@@ -4,7 +4,7 @@ import { load as loadHtml } from 'cheerio'
 export default function(data) {
   let json = getJson(data);
   json['isRichText'] = true;
-  json['text'] = getText(data.content);
+	json['text'] = getText(data.content);
   json.style['height'] = 'auto';
   json.style['font-family'] = '黑体';
 	let reg = /font-family:[^\:]*?\;/;

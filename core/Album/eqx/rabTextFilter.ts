@@ -2,7 +2,6 @@ import getJson from "./RabCmp";
 
 export default function(data) {
 	let json = getJson(data);
-	delete json.style['line-height'];
 	json.style['lineHeight'] = getLineHeight(data.css);
 	json.style['height'] = 'auto';
 	json['isRichText'] = true;

@@ -83,7 +83,7 @@ function getStyle(css, type) {
   };
 
   if(css.lineHeight && type!=2) {
-		style['line-height'] = css.lineHeight;
+		style['lineHeight'] = css.lineHeight;
 	}
   
   if(css.textAlign) {
@@ -112,7 +112,7 @@ function getStyle(css, type) {
 	}
 
 	if(css.fontSize) {
-		style['font-size'] = css.fontSize;
+		style['fontSize'] = css.fontSize;
   }
   
   return style;

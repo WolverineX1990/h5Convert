@@ -6,7 +6,7 @@ export default function(data) {
 	json.style['height'] = 'auto';
 	json['isRichText'] = true;
 	let ss = data.content;
-	ss = ss.replace(/&nbsp;/g,'我们');
+	ss = ss.replace(/&nbsp;/g,' ');
 	json.text = ss;
 	let types = json.type.split('-');
   json.type = types[0];

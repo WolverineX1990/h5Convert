@@ -38,7 +38,7 @@ function getText(text) {
 		ss = '<div style="padding:5px 7px;">' + text +'</div>';
 	}
 
-	ss = ss.replace(/秀秀/g,'我们');
+	ss = ss.replace(/秀秀/g,'兔展');
 	ss = ss.replace(/中网易企秀/g,'XXX');
 	ss = ss.replace(/易企秀/g,'兔展');
 	ss = ss.replace(/一起秀/g,'兔展');

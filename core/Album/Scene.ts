@@ -24,6 +24,7 @@ export default class Scene {
       cookie = res['cookie'] || [];
       return loadSuc(res['data']);
     }).then(res => {
+      res = (res + '').replace(/:,/g, ':"",');
       this.data = eval("("+res+")");
       return getViewData(this.data['id'], this.data['code'], this.data['publishTime'], cookie.join('; '));
     }).then(json => {

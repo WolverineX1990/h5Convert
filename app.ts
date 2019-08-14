@@ -4,7 +4,7 @@ import Scene from './core/Album/Scene';
 import Rabbit from './core/Album/Rabbit';
 
 //http://h5.eqxiu.com/s/88lFEvLI
-let eqxUrl:string = 'http://h5.eqxiu.com/s/vV7A8hM0';
+let eqxUrl:string = 'http://h5.eqxiu.com/s/Z6nf2BkH';
 let user: RabbitUser = new RabbitUser(CONFIG.userName, CONFIG.userPwd);
 let scene: Scene = new Scene(eqxUrl);
 let promise = Promise.all([scene.loadData(), user.login()]);

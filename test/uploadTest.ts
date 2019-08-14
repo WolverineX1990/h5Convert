@@ -18,7 +18,7 @@ function upload() {
         Cookie: user.cookie.join('; '),
         'Content-Type': 'application/json'
       };
-      return getUploadToken('IMAGE', true, header)
+      return getUploadToken('IMAGE', true, header, '[{"type":"image/png","size":140024}]')
               .then(res=> {
                 let token = res.data[0];
                 // http.request(imgpath, function(res) {
@@ -55,18 +55,11 @@ function upload() {
 function up(url, data) {
   let reg = /^http/;
   if (!reg.test(url)) {
-    url = `http:${url}`;
+    url = `https:${url}`;
   }
   let form = new FormData();
   Object.keys(data).forEach(key => {
-    // if (key === 'file') {
-    //   form.append(key, data[key], {
-    //     filename: 'upload.png',
-    //     contentType: 'image/png'
-    //   });
-    // } else {
       form.append(key, data[key]);
-    // }
   });
 
   // console.log(data);

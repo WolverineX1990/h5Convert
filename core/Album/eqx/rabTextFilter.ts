@@ -7,6 +7,11 @@ export default function(data) {
 	json['isRichText'] = true;
 	let ss = data.content;
 	ss = ss.replace(/&nbsp;/g,' ');
+	ss = ss.replace(/秀秀/g,'兔展');
+	ss = ss.replace(/中网易企秀/g,'XXX');
+	ss = ss.replace(/易企秀/g,'兔展');
+	ss = ss.replace(/一起秀/g,'兔展');
+	ss = ss.replace(/www.eqxiu.com/, 'www.rabbit.com');
 	json.text = ss;
 	let types = json.type.split('-');
   json.type = types[0];

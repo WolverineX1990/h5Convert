@@ -65,7 +65,7 @@ function loginSuccess() {
 				var url = 'http://wscdn.rabbitpre.com/fdf5a06d-e600-4195-a580-4ec3899251fa-7285';
 				utils.getResource(url).then(res=> {
 					data.file = {
-						buffer: new Buffer(res, 'binary'),
+						buffer: Buffer.from(res, 'binary'),
 					    filename: 'a.jpg',
 					    // content_type: 'application/svg'
 					    // content_type: 'application/octet-stream'

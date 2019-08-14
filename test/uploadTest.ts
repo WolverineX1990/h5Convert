@@ -42,7 +42,7 @@ function upload() {
                     //   filename: 'upload.png',
                     //   content_type: 'image/png'
                     // };
-                    data['file'] = new Buffer(res, 'binary');
+                    data['file'] = Buffer.from(res, 'binary');
                     up(token.url, data);
                     console.log(token.path);
                   // });

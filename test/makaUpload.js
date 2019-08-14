@@ -13,7 +13,7 @@ function loginSuccess() {
 		var ossSts2 = JSON.parse(res).data;
 		console.log(ossSts2)
 		var string = '{test:"中文"}';
-		var binary = new Buffer(string, 'utf8');
+		var binary = Buffer.from(string, 'utf8');
 		// var path = '/' + ossSts2.uploadPath +'template/fff/'+ randomStr() +'.json';
 		// var path = '/shapeSVG/svg/Default/SVG/'+ randomStr() +'.json';
 		var path = '/' + ossSts2.uploadPath +'shapeSVG/'+ randomStr() +'.json';

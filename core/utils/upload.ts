@@ -22,7 +22,10 @@ function noloop(res) {
 function uploadExt(url, data) {
   return upload(url, data)
                 // .then(noloop, (err)=> console.log(err))
-            .then(noloop, ()=>upload(url, data))
+            .then(noloop, (err)=>{
+              console.log(err);
+              return upload(url, data);
+            })
             .then(noloop, ()=>upload(url, data));
 }
 

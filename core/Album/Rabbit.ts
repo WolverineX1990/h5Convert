@@ -56,6 +56,19 @@ export default class Rabbit {
               return this;
             });
   }
+
+  getCsrfToken1 (id) {
+    return getHtml(CONFIG.homeHost + 'marketing/myapp/?appid='+ id, this._httpHeader)
+            .then(res => {
+              let $ = LoadHtml(res['data']);
+              let token = $('meta[name="csrf-token"]');
+              let cookies = res['cookie'];
+              let cookie = cookies.find(c => c.indexOf('rp.csrf') > -1);
+              this._httpHeader['Cookie'] += ';' +cookie; 
+              this._httpHeader['X-CSRF-Token'] = token[0].attribs.content;
+              return this;
+            });
+  }
   
   createAlbum() {
     return createRabAlbum(RABPAGE, this._httpHeader)
@@ -201,6 +214,7 @@ function uploadRes(token, url, type) {
       //   filename: param.fileName,
       //   content_type: param.contentType
       // };
+      // console.log('#########')
       data['file'] = res;
       let reg = /^http/;
       if (!reg.test(token.url)) {

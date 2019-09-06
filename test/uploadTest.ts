@@ -21,7 +21,6 @@ function upload() {
       return getUploadToken('IMAGE', true, header, '[{"type":"image/png","size":140024}]')
               .then(res=> {
                 let token = res.data[0];
-                // http.request(imgpath, function(res) {
                   return getResource(imgpath).then(res => {
                     let data = {
                       'OSSAccessKeyId': token.accessKey,
@@ -37,11 +36,6 @@ function upload() {
                       'x-oss-meta-server': token.xparams.server
                     };
   
-                    // data['file'] = {
-                    //   buffer: new Buffer(res, 'binary'),
-                    //   filename: 'upload.png',
-                    //   content_type: 'image/png'
-                    // };
                     data['file'] = Buffer.from(res, 'binary');
                     up(token.url, data);
                     console.log(token.path);
@@ -66,7 +60,9 @@ function up(url, data) {
 
   fetch(url, { method: 'POST', body: form })
     // .then(res => res.json())
-    .then(json => console.log('success'));
+    .then(json => {
+      // console.log(json)
+    });
 }
 
 export default upload;

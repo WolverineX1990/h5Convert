@@ -134,6 +134,7 @@ function setRabMeta(rabbit: Rabbit, eqxMeta) {
 		}
     return rabbit.setCover(cover)
               .then(() => rabbit.publish())
+              .then(() => rabbit.getCsrfToken1(rabbit.data['id']))
               .then(() => rabbit.saveApp());
   } else {
     return rabbit.publish();

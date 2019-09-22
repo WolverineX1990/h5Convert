@@ -152,7 +152,12 @@ export default class Rabbit {
                 file = Buffer.from(res, 'binary');
                 return getUploadToken1(FileType.Image, true, this._httpHeader, '[{"type":"image/png","size":' + file.length + '}]')
               })
-              .then(res => uploadRes(res.data[0], file, FileType.Image))
+              .then(res => {
+                if (!res.success) {
+                  console.log(res);
+                }
+                return uploadRes(res.data[0], file, FileType.Image)
+              })
   }
 
   uploadSvg(filePath: string) {

@@ -109,7 +109,9 @@ export default class Rabbit {
     return getResource(audioPath).then(res => {
               file = Buffer.from(res, 'binary');
               return getUploadToken1(FileType.Music, true, this._httpHeader, '[{"type":"audio/mp3","size":'+file.length+'}]')
-            }).then(res => uploadRes(res.data[0], file, FileType.Music))
+            }).then(res => {
+              return uploadRes(res.data[0], file, FileType.Music)
+            })
             .then(token => {
               return uploadMusic(getUpParam(token), this._httpHeader).then(json=>{
                 this.data['bgmusic'] = {
@@ -130,16 +132,13 @@ export default class Rabbit {
     return getResource(imgPath)
             .then(res => {
               file = Buffer.from(res, 'binary');
-              return getUploadToken1(FileType.Svg, false, this._httpHeader, '[{"type":"image/png","size":' + file.length +'}]')
+              return getUploadToken1(FileType.Image, false, this._httpHeader, '[{"type":"image/png","size":' + file.length +'}]')
             })
-            .then(res => uploadRes(res.data[0], imgPath, FileType.Image))
+            .then(res => uploadRes(res.data[0], file, FileType.Image))
             .then(token => {
               return upload(getUpParam(token), this._httpHeader).then(json=>{
                 var data = json.data;
-                // this.data['imgKey'] = token.key;
-			          // this.data['imgServer'] = token.xparams.server;
                 this.data['imgurl'] = data.id;
-                // this.data['imgBucket'] = token.xparams.bucket;
                 this.data['imgPath'] = data.path;
                 return this;
               });
@@ -153,7 +152,7 @@ export default class Rabbit {
                 file = Buffer.from(res, 'binary');
                 return getUploadToken1(FileType.Image, true, this._httpHeader, '[{"type":"image/png","size":' + file.length + '}]')
               })
-              .then(res => uploadRes(res.data[0], filePath, FileType.Image))
+              .then(res => uploadRes(res.data[0], file, FileType.Image))
   }
 
   uploadSvg(filePath: string) {
@@ -161,9 +160,9 @@ export default class Rabbit {
     return getResource(filePath)
               .then(res => {
                 file = Buffer.from(res, 'binary');
-                return getUploadToken1(FileType.Image, true, this._httpHeader, '[{"type":"image/png","size":' + file.length + '}]')
+                return getUploadToken1(FileType.Image, true, this._httpHeader, '[{"type":"image/svg xml","size":' + file.length + '}]')
               })
-              .then(res => uploadRes(res.data[0], filePath, FileType.Svg))
+              .then(res => uploadRes(res.data[0], file, FileType.Svg))
   }
 }
 
@@ -196,7 +195,7 @@ function getFileParam(type) {
     contentType = 'image/png';
   } else if(type == FileType.Svg) {
     fileName = 'upload.svg';
-    contentType = 'application/octet-stream';
+    contentType = 'image/svg xml';
   }
 
   if(!fileName) {
@@ -209,39 +208,37 @@ function getFileParam(type) {
   }
 }
 
-function uploadRes(token, url, type) {
-    return getResource(url).then(res => {
-      let param = getFileParam(type);
-      let file = Buffer.from(res, 'binary');
-      let data: any = {
-        'x-cos-security-token': token.token,
-        'Signature': token.signature,
-        'key': token.key,
-        'Content-Type': 'image/png',
-        'Content-Length': file.length
-      };
+function uploadRes(token, file, type) {
+  let param = getFileParam(type);
+  let data: any = {
+    'x-cos-security-token': token.token,
+    'Signature': token.signature,
+    'key': token.key,
+    'Content-Type': param.contentType,
+    'Content-Length': file.length
+  };
 
-      data.file = {
-        buffer: file,
-        filename: param.fileName,
-        content_type: param.contentType
-      };
-      let reg = /^http/;
-      if (!reg.test(token.url)) {
-        token.url = `https:${token.url}`;
-      }
+  data.file = {
+    buffer: file,
+    filename: param.fileName,
+    content_type: param.contentType
+  };
+  let reg = /^http/;
+  if (!reg.test(token.url)) {
+    token.url = `https:${token.url}`;
+  }
 
-      // return uploadExt(token.url, data).then(() => {
-      //   return token;
-      // });
-    return needlePost(token.url, data)
-            .then(()=> {
-              return token;
-            }, () => {
-              console.log(param.fileName+'###'+token.url+'###'+url);
-              throw new Error('upload');
-            });
-    });
+  // return uploadExt(token.url, data).then(() => {
+  //   return token;
+  // });
+  // console.log(token.path);
+  return needlePost(token.url, data)
+          .then(()=> {
+            return token;
+          }, () => {
+            console.log(param.fileName+'###'+token.url+'###');
+            throw new Error('upload');
+          });
 }
 
 function getHtml(targetUrl: string, headers) {

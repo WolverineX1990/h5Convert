@@ -8,7 +8,7 @@ import { getUploadToken1 } from './../core/api/service';
 import { getResource } from './../core/utils/index';
 var needle = require('needle');
 
-let imgpath = 'http://res.eqh5.com/o_1cj8ao2521h8t1f0o837j3sae614.png';
+let imgpath = 'http://res1.eqh5.com/group1/M00/B1/A3/yq0KXFZysi-ACYaKAAACDQH4Nes625.svg';
 
 function upload() {
   let user = new RabbitUser(CONFIG.userName, CONFIG.userPwd);
@@ -19,45 +19,30 @@ function upload() {
         Cookie: user.cookie.join('; '),
         'Content-Type': 'application/json'
       };
-      return getUploadToken1('IMAGE', true, header, '[{"type":"image/png","size":24756}]')
-              .then(res=> {
-                let token = res.data[0];
-                // console.log(res)
-                  return getResource(imgpath).then(res => {
-                    let file = Buffer.from(res, 'binary');
+      let file;
+      return getResource(imgpath).then(res => {
+        file = Buffer.from(res, 'binary');
+        return getUploadToken1('IMAGE', false, header, '[{"type":"image/svg xml","size":'+file.length+'}]');
+      }).then(res=> {
+          console.log(res)
+          let token = res.data[0];
+          let data: any = {
+            'x-cos-security-token': token.token,
+            'Signature': token.signature,
+            'key': token.key,
+            'Content-Type': 'image/svg xml',
+            'Content-Length': file.length
+          };
 
-                    // data.file = {
-                    //   buffer: new Buffer(res, 'binary'),
-                    //     filename: fileName,
-                    //     content_type: contentType
-                    // };
-                    let data: any = {
-                      'x-cos-security-token': token.token,
-                      'Signature': token.signature,
-                      'key': token.key,
-                      'Content-Type': 'image/png',
-                      'Content-Length': file.length
-                      // 'x-oss-meta-type': token.xparams.type,
-                      // 'x-oss-meta-keyprev': token.xparams.keyprev,
-                      // 'x-oss-meta-userid': token.xparams.userid,
-                      // 'x-oss-meta-userfolder': token.xparams.userfolder,
-                      // 'x-oss-meta-bucket': token.xparams.bucket,
-                      // 'x-oss-meta-server': token.xparams.server
-                    };
+          data.file = {
+            buffer: file,
+            fileName: 'a.png',
+            content_type: 'image/png'
+          }
 
-                    console.log(data)
-
-                    data.file = {
-                      buffer: file,
-                      fileName: 'a.png',
-                      content_type: 'image/png'
-                    }
-  
-                    up1(token.url, data);
-                    console.log(token.path);
-                  // });
-                });
-              });
+          up1(token.url, data);
+          console.log(token.path);        
+      });
     })
 }
 
@@ -69,12 +54,7 @@ function up1 (url, data) {
   });
 }
 
-// q-sign-algorithm=sha1&q-ak=AKID8q9oQIVys2ojRDB19DOAL3ty5Qcwj4bl&q-sign-time=1569142107;1569143007&q-key-time=1569142107;1569143007&q-header-list=content-length;content-type&q-url-param-list=&q-signature=9c61448cdf2c7cf445888cd83c678997c28497e5
-// q-sign-algorithm=sha1&q-ak=AKID8q9oQIVys2ojRDB19DOAL3ty5Qcwj4bl&q-sign-time=1569142107;1569143007&q-key-time=1569142107;1569143007&q-header-list=content-length;content-type&q-url-param-list=&q-signature=9c61448cdf2c7cf445888cd83c678997c28497e5
-
-// q-sign-algorithm=sha1&q-ak=AKIDKSTXd8I6HrXt35DYNLSPtwutj3jkAVl4&q-sign-time=1569156594;1569157494&q-key-time=1569156594;1569157494&q-header-list=content-length;content-type&q-url-param-list=&q-signature=908a68c0b95e464c2b53e775ee55f9ecbd7610b8
 function up(url, data) {
-  // console.log(data)
   let reg = /^http/;
   if (!reg.test(url)) {
     url = `https:${url}`;

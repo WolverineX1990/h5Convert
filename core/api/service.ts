@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 import { stringify } from 'querystring';
 import CONFIG from './../const/CONFIG';
 
-const { editServerHost, severHost } = CONFIG;
+const { editServerHost, severHost, uploadHOST } = CONFIG;
 
 export function getViewData(sceneId: string, sceneCode: string, publishTime: string, cookie): Promise<any> {
 	let url = `${CONFIG.eqxS1Host}eqs/s/page/${sceneId}?code=${sceneCode}&time=${publishTime}`;
@@ -51,6 +51,22 @@ export function getUploadToken(type: string, isUserFile: Boolean, headers, files
 		userfolder: -1
 	};
 	return fetch(editServerHost + 'api/upload/token?' + stringify(data), { 
+		method: 'GET',
+		headers,
+	}).then(res => res.json());
+}
+
+export function getUploadToken1(type: string, isUserFile: Boolean, headers, files: string) {
+	let data = {
+		files,
+		type,
+		server: 'T',
+		needCallback: true,
+		isUserFile: isUserFile,
+		userfolder: -1
+	};
+	var url = uploadHOST + 'api/upload/token?' + stringify(data);
+	return fetch(url, { 
 		method: 'GET',
 		headers,
 	}).then(res => res.json());

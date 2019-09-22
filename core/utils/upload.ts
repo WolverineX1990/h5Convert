@@ -15,7 +15,7 @@ function upload(url, data) {
 }
 
 function noloop(res) {
-  // console.log('ttt', res);
+  console.log('ttt', res);
   // return res.json();
 }
 

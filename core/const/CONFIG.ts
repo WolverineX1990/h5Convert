@@ -8,6 +8,7 @@ const CONFIG = {
 	homeHost: 'https://home.rabbitpre.com/',
 	loginUrl: 'https://passport.rabbitpre.com/api/sso/login',
 	eqxS1Host: 'http://s1.eqxiu.com/',
+	uploadHOST: 'http://bws.rabbitpre.com/',
 	eqxReSHOST: 'http://res.eqh5.com/'
 };
 

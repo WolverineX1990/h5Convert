@@ -1,8 +1,8 @@
 // import { post as needlePost } from 'needle';
-// import needlePost from './../utils/needle.ext';
+import needlePost from './../utils/needle.ext';
 import uploadExt from './../utils/upload';
 import RabbitUser from './../user/RabbitUser';
-import { createRabAlbum, getUploadToken, uploadMusic, upload, publishTpl, saveRabAlbum, saveApp } from './../api/service';
+import { createRabAlbum, getUploadToken1, uploadMusic, upload, publishTpl, saveRabAlbum, saveApp } from './../api/service';
 import RABPAGE from './../const/RABPAGE';
 import CONFIG from './../const/CONFIG';
 import { getResource } from './../utils/index';
@@ -105,8 +105,11 @@ export default class Rabbit {
     if(!audioPath) {
       return Promise.resolve();
     }
-    return getUploadToken(FileType.Music, true, this._httpHeader, '[{"type":"audio/mp3","size":140024}]')
-            .then(res => uploadRes(res.data[0], audioPath, FileType.Music))
+    let file;
+    return getResource(audioPath).then(res => {
+              file = Buffer.from(res, 'binary');
+              return getUploadToken1(FileType.Music, true, this._httpHeader, '[{"type":"audio/mp3","size":'+file.length+'}]')
+            }).then(res => uploadRes(res.data[0], file, FileType.Music))
             .then(token => {
               return uploadMusic(getUpParam(token), this._httpHeader).then(json=>{
                 this.data['bgmusic'] = {
@@ -123,7 +126,12 @@ export default class Rabbit {
   }
 
   setCover(imgPath: string) {
-    return getUploadToken(FileType.Svg, false, this._httpHeader, '[{"type":"image/png","size":140024}]')
+    let file;
+    return getResource(imgPath)
+            .then(res => {
+              file = Buffer.from(res, 'binary');
+              return getUploadToken1(FileType.Svg, false, this._httpHeader, '[{"type":"image/png","size":' + file.length +'}]')
+            })
             .then(res => uploadRes(res.data[0], imgPath, FileType.Image))
             .then(token => {
               return upload(getUpParam(token), this._httpHeader).then(json=>{
@@ -139,12 +147,22 @@ export default class Rabbit {
   }
 
   uploadImg(filePath: string) {
-    return getUploadToken(FileType.Image, true, this._httpHeader, '[{"type":"image/png","size":140024}]')
+    let file;
+    return getResource(filePath)
+              .then(res => {
+                file = Buffer.from(res, 'binary');
+                return getUploadToken1(FileType.Image, true, this._httpHeader, '[{"type":"image/png","size":' + file.length + '}]')
+              })
               .then(res => uploadRes(res.data[0], filePath, FileType.Image))
   }
 
   uploadSvg(filePath: string) {
-    return getUploadToken(FileType.Svg, false, this._httpHeader, '[{"type":"image/png","size":140024}]')
+    let file;
+    return getResource(filePath)
+              .then(res => {
+                file = Buffer.from(res, 'binary');
+                return getUploadToken1(FileType.Image, true, this._httpHeader, '[{"type":"image/png","size":' + file.length + '}]')
+              })
               .then(res => uploadRes(res.data[0], filePath, FileType.Svg))
   }
 }
@@ -192,48 +210,38 @@ function getFileParam(type) {
 }
 
 function uploadRes(token, url, type) {
-  // let promise = new Promise((resolve, reject) => {
     return getResource(url).then(res => {
       let param = getFileParam(type);
-      var data = {
-        'OSSAccessKeyId': token.accessKey,
-        'policy': token.policy,
-        'signature': token.signature,
+      let file = Buffer.from(res, 'binary');
+      let data: any = {
+        'x-cos-security-token': token.token,
+        'Signature': token.signature,
         'key': token.key,
-        'Content-Type': param.contentType,
-        'x-oss-meta-type': token.xparams.type,
-        'x-oss-meta-keyprev': token.xparams.keyprev,
-        'x-oss-meta-userid': token.xparams.userid,
-        'x-oss-meta-userfolder': token.xparams.userfolder,
-        'x-oss-meta-bucket': token.xparams.bucket,
-        'x-oss-meta-server': token.xparams.server
+        'Content-Type': 'image/png',
+        'Content-Length': file.length
       };
 
-      // data['file'] = {
-      //   buffer: new Buffer(res, 'binary'),
-      //   filename: param.fileName,
-      //   content_type: param.contentType
-      // };
-      // console.log('#########')
-      data['file'] = res;
+      data.file = {
+        buffer: file,
+        filename: param.fileName,
+        content_type: param.contentType
+      };
       let reg = /^http/;
       if (!reg.test(token.url)) {
         token.url = `https:${token.url}`;
       }
 
-      return uploadExt(token.url, data).then(() => {
-        return token;
-      });
-      // needlePost(token.url, data)
-      //       .then(()=> {
-      //         resolve(token); 
-      //       }, () => {
-      //         console.log(param.fileName+'###'+token.url+'###'+url);
-      //         throw new Error('upload');
-      //       });
+      // return uploadExt(token.url, data).then(() => {
+      //   return token;
+      // });
+    return needlePost(token.url, data)
+            .then(()=> {
+              return token;
+            }, () => {
+              console.log(param.fileName+'###'+token.url+'###'+url);
+              throw new Error('upload');
+            });
     });
-  // });
-  // return promise;
 }
 
 function getHtml(targetUrl: string, headers) {

@@ -104,11 +104,20 @@ function insertRabbitPages(rabbit: Rabbit, pages: Array<Object>, pageMode: strin
 
 function getBgAudio(data: Object): string {
   let audio;
-  if(data['bgAudio'] && data['bgAudio'].url) {
-    audio = data['bgAudio'].url;
-    let reg = /^http/;
-    if(!reg.test(audio)) {
-      audio = CONFIG.eqxReSHOST + audio;
+  if(data['bgAudio']) {
+    let bgAudio;
+    if (typeof data['bgAudio'] == 'string') {
+      bgAudio = JSON.parse(data['bgAudio']);
+    } else {
+      bgAudio = data['bgAudio'];
+    }
+
+    if (bgAudio.url) {
+      audio = data['bgAudio'].url;
+      let reg = /^http/;
+      if(!reg.test(audio)) {
+        audio = CONFIG.eqxReSHOST + audio;
+      }
     }
   }
 

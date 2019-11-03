@@ -18,6 +18,9 @@
 // uploadTest();
 // import fetch from 'node-fetch';
 import upload from './uploadTest';
+import { getResource } from './../core/utils/index';
+
+getResource('http://res.eqh5.com/o_1dce6ogva6s1925q1d1mgvifu9.mp3').then(res => console.log(res))
 
 // fetch('http://s1.eqxiu.com/eqs/page/127664568?code=88lFEvLI&time=1529308702000', { 
 //   method: 'GET'
@@ -38,4 +41,4 @@ import upload from './uploadTest';
 //   });
 
 
-upload();
+// upload();

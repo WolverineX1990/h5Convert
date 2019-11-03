@@ -4,6 +4,7 @@ const CONFIG = {
 	userPwd: '19900325x',
 	origin: 'https://editor.rabbitpre.com',
 	severHost: 'https://www.rabbitpre.com/',
+	userHost: 'https://user.rabbitpre.com/',
 	editServerHost: 'https://editor.rabbitpre.com/',
 	homeHost: 'https://home.rabbitpre.com/',
 	loginUrl: 'https://passport.rabbitpre.com/api/sso/login',

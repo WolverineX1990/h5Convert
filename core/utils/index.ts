@@ -1,6 +1,7 @@
 import { get as httpGet } from 'http';
 import { parse as urlParse } from 'url';
 import { load as LoadHtml } from 'cheerio';
+import * as zlib from 'zlib';
 
 export function getHtml(targetUrl: string) {
 	let promise: Promise<Object> = new Promise((resolve, reject) => {
@@ -13,12 +14,21 @@ export function getHtml(targetUrl: string) {
 			}
 		};
         var req = httpGet(options, function (response) {
+            let isGzip = false;
+            if (response.headers['content-encoding']) {
+                isGzip = response.headers['content-encoding'].indexOf('gzip') != -1;
+            }
+            
 		    response.setEncoding('utf-8');  //二进制binary
             let data: string = '';
             // console.log(response.statusCode);
 		    response.on('data', function (res) {    //加载到内存
                 data += res;
             }).on('end', function () {
+                if (isGzip) {
+                    data = zlib.unzipSync(data).toString();
+                }
+                
                 resolve({
                     data: data,
                     cookie: response.headers['set-cookie']

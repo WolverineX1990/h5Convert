@@ -5,7 +5,7 @@ export default function(data) {
   json['autoPlay'] = true;
   // json['musicBucket'] = data.musicBucket,
 	// json['musicKey'] = data.musicKey,
-  // json['musicName'] = data.musicName,
+  json['musicName'] = data.musicKey.replace('mp3/', ''),
   // json['musicServer'] = data.musicServer,
   json['musickId'] = data.musickId,
   json['switchOn'] = true,

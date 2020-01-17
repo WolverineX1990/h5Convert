@@ -113,7 +113,7 @@ function getBgAudio(data: Object): string {
     }
 
     if (bgAudio.url) {
-      audio = data['bgAudio'].url;
+      audio = bgAudio.url;
       let reg = /^http/;
       if(!reg.test(audio)) {
         audio = CONFIG.eqxReSHOST + audio;

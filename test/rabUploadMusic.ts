@@ -8,11 +8,11 @@ import { getUploadToken1 } from './../core/api/service';
 import { getResource } from './../core/utils/index';
 var needle = require('needle');
 
-let imgpath = 'http://h5.eqxiu.com/s/iFlxHjA1'//'http://res.eqh5.com/o_1dce6ogva6s1925q1d1mgvifu9.mp3';
+let imgpath = 'http://tc.tingmall.com/content/31/946/31946175-MP3-128K-FTD.mp3?sign=LH/9FTI3V58PBawAnWp1MPOwf7ZhPTEwMDM5ODY3Jms9QUtJRE1Fdm53SXdwNFlqUlU1NHhxd3VLQlRYMExOOWdJVFNRJmU9MTU4MTAxNjM4MiZ0PTE1ODEwMTA5ODImcj01Njk0ODMyNCZmPS9jb250ZW50LzMxLzk0Ni8zMTk0NjE3NS1NUDMtMTI4Sy1GVEQubXAzJmI9dWx0aW1hdGU=&transDeliveryCode=YQ@0@1581010982@S@b7dce0cc4cc3af23'//'http://res.eqh5.com/o_1dce6ogva6s1925q1d1mgvifu9.mp3';
 
 function upload() {
 
-  getResource(imgpath).then(res => {
+  getResource(imgpath, 'http://h5.eqxiu.com/s/TjHFUce4').then(res => {
     console.log(res)
     
   })

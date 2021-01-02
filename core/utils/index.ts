@@ -1,45 +1,31 @@
 import { get as httpGet } from 'http';
 import { parse as urlParse } from 'url';
 import { load as LoadHtml } from 'cheerio';
+import * as request from 'request';
 import * as zlib from 'zlib';
+import UA from './../const/CONFIG';
 
 export function getHtml(targetUrl: string) {
-	let promise: Promise<Object> = new Promise((resolve, reject) => {
-		let param = urlParse(targetUrl);
-		let options = {
-			host: param.host,
-			path: param.path,
-			headers: {
-				'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
+    let promise: Promise<Object> = new Promise((resolve, reject) => {
+        request({
+            url: targetUrl,
+            gzip: true,
+            headers: {
+				'User-Agent': UA
 			}
-		};
-        var req = httpGet(options, function (response) {
-            let isGzip = false;
-            if (response.headers['content-encoding']) {
-                isGzip = response.headers['content-encoding'].indexOf('gzip') != -1;
-            }
-            
-		    response.setEncoding('utf-8');  //二进制binary
-            let data: string = '';
-            // console.log(response.statusCode);
-		    response.on('data', function (res) {    //加载到内存
-                data += res;
-            }).on('end', function () {
-                if (isGzip) {
-                    data = zlib.unzipSync(data).toString();
-                }
-                
+        }, function(err, response, body) {
+            if (err) {
+                reject(err)
+            } else {
                 resolve({
-                    data: data,
+                    data: body,
                     cookie: response.headers['set-cookie']
                 });
+            }
         });
-		});
-		req.on('error', function(err) {
-            reject(err);
-        });
-	});
-	return promise;
+    });
+    
+    return promise;
 }
 
 export function getPageData(html: string, dataReg: RegExp) {

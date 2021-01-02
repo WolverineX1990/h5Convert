@@ -5,15 +5,20 @@ import Rabbit from './core/Album/Rabbit';
 
 //http://h5.eqxiu.com/s/88lFEvLI
 let eqxUrl:string = 'http://h5.eqxiu.com/s/gxYe9uUU';
-let user: RabbitUser = new RabbitUser(CONFIG.userName, CONFIG.userPwd);
-let scene: Scene = new Scene(eqxUrl);
-let promise = Promise.all([scene.loadData(), user.login()]);
 
-promise.then(() => {
-    let rabbit: Rabbit = new Rabbit();
-    rabbit.user = user;
-    return rabbit.getCsrfToken();
-  })
-  .then(rabbit => rabbit.createAlbum())
-  .then(rabbit => scene.toRabbit(rabbit))
-  .then(res => console.log('success'));
+async function main() {
+  let user: RabbitUser = new RabbitUser(CONFIG.userName, CONFIG.userPwd);
+  let scene: Scene = new Scene(eqxUrl);
+  await scene.loadData();
+  await user.login();
+
+  let rabbit: Rabbit = new Rabbit();
+  rabbit.user = user;
+  
+  await rabbit.getCsrfToken();
+  await rabbit.createAlbum();
+  await scene.toRabbit(rabbit);
+  console.log('success');
+}
+
+main();

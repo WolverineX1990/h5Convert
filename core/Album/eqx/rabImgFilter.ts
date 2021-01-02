@@ -19,6 +19,10 @@ export default function(data, rabbit: Rabbit) {
     height: json.style['height']
   };
 
+  json['filter'] = '';
+
+  json['filterImage'] = {};
+
   json['fullSize'] = {
     width: json.style['width'],
     height: json.style['height']

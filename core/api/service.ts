@@ -34,6 +34,7 @@ export function getXsrf (headers) {
 export function saveRabAlbum(data, headers) {
 	data['forceUpdate'] = false;
 	let json = JSON.stringify(data);
+	console.log(json)
 	return fetch(editServerHost + 'api/app/' + data.id, { 
 		method: 'PUT',
 		body: json,

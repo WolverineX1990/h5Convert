@@ -18,49 +18,45 @@ export default class Scene {
     this.dataUrl = url;
   }
 
-  loadData(): Promise<Scene> {
-    let cookie;
-    return getHtml(this.dataUrl).then(res => {
-      cookie = res['cookie'] || [];
-      return loadSuc(res['data']);
-    }).then(res => {
-      res = (res + '').replace(/:,/g, ':"",');
-      this.data = eval("("+res+")");
-      return getViewData(this.data['id'], this.data['code'], this.data['publishTime'], cookie.join('; '));
-    }).then(json => {
-      const obj = json.obj;
-      let str = null;
-      let str3 = null;
-      let iv = null;
-      try {
-        let str1 = obj.substring(0, 19);
-        let str2 = obj.substring(19 + 16);
-        str3 = obj.substring(19, 19 + 16);
-        iv = str3;
-        str = str1 + str2;
-        let cipherChunks = [];
-        let decipher = crypto.createDecipheriv('aes-128-cfb', str3, iv);
-        decipher.setAutoPadding(false);
-        cipherChunks.push(decipher.update(str, 'base64', 'utf8'));
-        this.pages  = JSON.parse(cipherChunks.join(''));
+  async loadData() {
+    let cookieRes = await getHtml(this.dataUrl);
+    let cookie = cookieRes['cookie'] || [];
+    let res = await loadSuc(cookieRes['data']);
+    res = (res + '').replace(/:,/g, ':"",');
+    this.data = eval("("+res+")");
+    let json = await getViewData(this.data['id'], this.data['code'], this.data['publishTime'], cookie.join('; '));
+    let obj = json.obj;
+    let str = null;
+    let str3 = null;
+    let iv = null;
+    try {
+      let str1 = obj.substring(0, 19);
+      let str2 = obj.substring(19 + 16);
+      str3 = obj.substring(19, 19 + 16);
+      iv = str3;
+      str = str1 + str2;
+      let cipherChunks = [];
+      let decipher = crypto.createDecipheriv('aes-128-cfb', str3, iv);
+      decipher.setAutoPadding(false);
+      cipherChunks.push(decipher.update(str, 'base64', 'utf8'));
+      this.pages  = JSON.parse(cipherChunks.join(''));
 
-      } catch(err) {
-        str = obj.substring(0, obj.length - 16);
-        str3 = obj.substring(obj.length - 16);
-        iv = str3;
-        let cipherChunks = [];
-        let decipher = crypto.createDecipheriv('aes-128-cfb', str3, iv);
-        decipher.setAutoPadding(false);
-        cipherChunks.push(decipher.update(str, 'base64', 'utf8'));
-        this.pages  = JSON.parse(cipherChunks.join(''));
-      }
+    } catch(err) {
+      str = obj.substring(0, obj.length - 16);
+      str3 = obj.substring(obj.length - 16);
+      iv = str3;
+      let cipherChunks = [];
+      let decipher = crypto.createDecipheriv('aes-128-cfb', str3, iv);
+      decipher.setAutoPadding(false);
+      cipherChunks.push(decipher.update(str, 'base64', 'utf8'));
+      this.pages  = JSON.parse(cipherChunks.join(''));
+    }
 
-      if(!json['success']) {
-        throw new Error('Class:Scene->method:getViewData fail');
-      }
-      
-      return this;
-    });
+    if(!json['success']) {
+      throw new Error('Class:Scene->method:getViewData fail');
+    }
+
+    return this;
   }
 
   toRabbit(rabbit: Rabbit) {

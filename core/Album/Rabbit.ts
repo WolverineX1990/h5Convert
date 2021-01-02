@@ -4,11 +4,12 @@ import uploadExt from './../utils/upload';
 import RabbitUser from './../user/RabbitUser';
 import { createRabAlbum, getUploadToken1, uploadMusic, upload, publishTpl, saveRabAlbum, saveApp } from './../api/service';
 import RABPAGE from './../const/RABPAGE';
-import CONFIG from './../const/CONFIG';
+import CONFIG, { UA } from './../const/CONFIG';
 import { getResource } from './../utils/index';
 import { load as LoadHtml } from 'cheerio';
 import { parse as urlParse } from 'url';
 import { get as httpGet } from 'http';
+import * as request from 'request';
 
 enum FileType {
   Music= 'MUSIC',
@@ -31,6 +32,7 @@ export default class Rabbit {
     this._httpHeader = {
       Origin: CONFIG.origin, 
       Cookie: user.cookie.join('; '),
+      'User-Agent': UA,
       'Content-Type': 'application/json'
     };
   }
@@ -248,27 +250,20 @@ function uploadRes(token, file, type) {
 
 function getHtml(targetUrl: string, headers) {
   let promise: Promise<Object> = new Promise((resolve, reject) => {
-    let param = urlParse(targetUrl);
-    let options = {
-      host: param.host,
-      path: param.path,
-      headers
-    };
-    var req = httpGet(options, function (response) {
-      response.setEncoding('utf-8');  //二进制binary
-      let data: string = '';
-      response.on('data', function (res) {    //加载到内存
-        data += res;
-      }).on('end', function () {
-        resolve({
-          data: data,
-          cookie: response.headers['set-cookie']
-        });
+      request({
+          url: targetUrl,
+          headers
+      }, function(err, response, body) {
+          if (err) {
+              reject(err)
+          } else {
+              resolve({
+                  data: body,
+                  cookie: response.headers['set-cookie']
+              });
+          }
       });
-    });
-    req.on('error', function(err) {
-      reject(err);
-    });
-	});
-	return promise;
+  });
+
+  return promise;
 }
